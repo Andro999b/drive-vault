@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import ListHeader from '../components/ListHeader';
 
 @connect(
     (state) => ({
@@ -12,7 +13,7 @@ class ListView extends Component {
     };
 
     static propTypes = {
-        keystore: PropTypes.array
+        keystore: PropTypes.object
     }
 
     componentWillMount() {
@@ -27,7 +28,7 @@ class ListView extends Component {
     render() {
         return (
             <div>
-                list
+                <ListHeader/>
             </div>
         );
     }

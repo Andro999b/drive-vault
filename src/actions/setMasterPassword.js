@@ -23,7 +23,7 @@ export const setMasterPasswordAndShowList = (password) => (dispatch, getState) =
     } else {
         //TODO: check password securety
 
-        dispatch(setKeystore([], rsa));
+        dispatch(setKeystore({}, rsa));
         history.push('list');
     }
 };
