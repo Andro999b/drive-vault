@@ -23,7 +23,7 @@ module.exports = {
   "rules": {
     "strict": ["error", "global"],
     "no-unused-vars": ["warn", { "vars": "all", "args": "all", "caughtErrors": "none" }],
-    "no-console": ["error", { allow: ["warn", "error"] }],
+    "no-console": ["warn", { allow: ["warn", "error"] }],
     "camelcase": ["error", { "properties": "always" }],
     "consistent-return": "error",
     "arrow-spacing": "error",

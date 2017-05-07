@@ -1,14 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 
 import Drawer from 'material-ui/Drawer';
-import IconButton from 'material-ui/IconButton';
 import ContentAddIcon from 'material-ui/svg-icons/content/add';
-import ActionDeleteIcon from 'material-ui/svg-icons/action/delete';
-import { ListItem } from 'material-ui/List';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
+import GroupsList from './GroupsList';
 
-class ListHeader extends Component {
+class ListViewHeader extends Component {
     static propTypes = {
 
     };
@@ -37,27 +35,11 @@ class ListHeader extends Component {
                     docked={false}
                     onRequestChange={(open) => this.setState({ groupsMenu: open })}
                 >
-                    <div>
-                        <ListItem
-                            primaryText="All groups"
-                            rightIconButton={
-                                <IconButton>
-                                    <ActionDeleteIcon/>
-                                </IconButton>
-                            }
-                        />
-                    </div>
-                    <FlatButton
-                        label="New group"
-                        fullWidth
-                        style={{
-                            position: 'absolute',
-                            bottom: 0
-                        }} />
+                    <GroupsList/>
                 </Drawer>
             </div>
         );
     }
 }
 
-export default ListHeader;
+export default ListViewHeader;
