@@ -26,7 +26,7 @@ class ListViewHeader extends Component {
         return (
             <div>
                 <AppBar
-                    title="All groups"
+                    title="All credentials"
                     onLeftIconButtonTouchTap={this.toggleGroupMenu}
                     iconElementRight={<FlatButton label="New" icon={<ContentAddIcon />} />}
                 />

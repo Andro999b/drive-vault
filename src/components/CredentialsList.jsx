@@ -11,7 +11,7 @@ class CredentialList extends Component {
     render() {
         return (
             <List>
-                <Credential/>
+                <Credential credential={{name: 'test', value: 'test value'}}/>
             </List>
         );
     }

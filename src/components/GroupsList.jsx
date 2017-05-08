@@ -1,23 +1,16 @@
 import React, { Component } from 'react';
-
-import IconButton from 'material-ui/IconButton';
-import ActionDeleteIcon from 'material-ui/svg-icons/action/delete';
 import { ListItem } from 'material-ui/List';
 import FlatButton from 'material-ui/FlatButton';
+import Group from './Group';
+import RemoveGroup from './RemoveGroup';
 
 class GroupsList extends Component {
     render() {
         return (
             <div>
                 <div>
-                    <ListItem
-                        primaryText="All groups"
-                        rightIconButton={
-                            <IconButton>
-                                <ActionDeleteIcon />
-                            </IconButton>
-                        }
-                    />
+                    <ListItem primaryText="All credentials"/>
+                    <Group name="Test group"/>
                 </div>
                 <FlatButton
                     label="New group"
@@ -26,6 +19,7 @@ class GroupsList extends Component {
                         position: 'absolute',
                         bottom: 0
                     }} />
+                <RemoveGroup/>
             </div>
         );
     }
