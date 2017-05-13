@@ -1,7 +1,7 @@
 import { createAction } from 'redux-actions';
 import { getPasswordRSAKey, decrypt } from '../crypt';
 import { hashHistory as history } from 'react-router';
-import setKeystore from './setKeystore';
+import setDbInited from './setDbInited';
 
 export const setMasterPasswordError = createAction('SET_MASTER_PASSWORD_ERROR', (error) => error);
 export const setMasterPasswordAndShowList = (password) => (dispatch, getState) => {
@@ -15,7 +15,7 @@ export const setMasterPasswordAndShowList = (password) => (dispatch, getState) =
     if(encryptedData) {
         try {
             const keystore = decrypt(encryptedData, rsa);
-            dispatch(setKeystore(keystore, rsa));
+            dispatch(setDbInited());
         } catch (e) {
             dispatch(setMasterPasswordError('Wrong master password'));
             return;
@@ -23,7 +23,7 @@ export const setMasterPasswordAndShowList = (password) => (dispatch, getState) =
     } else {
         //TODO: check password securety
 
-        dispatch(setKeystore({}, rsa));
+        dispatch(setDbInited());
         history.push('list');
     }
 };

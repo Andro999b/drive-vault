@@ -57,6 +57,7 @@ class InitialView extends Component {
                 {authResult &&
                     <div>
                         <TextField
+                            autoFocus
                             fullWidth
                             value={password}
                             onKeyDown={this.onKeyDown.bind(this)}

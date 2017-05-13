@@ -2,6 +2,7 @@ import copyToClipboad from 'copy-to-clipboard';
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import { ListItem } from 'material-ui/List';
 import IconButton from 'material-ui/IconButton';
@@ -14,9 +15,23 @@ import MenuItem from 'material-ui/MenuItem';
 
 import { grey500 } from 'material-ui/styles/colors';
 
+import { showToast } from '../actions/toast';
+import { showCreateEditCredentialDialog, showRemoveCredentialDialog } from '../actions/dialogs';
+
+@connect(
+    null,
+    (dispatch) => ({
+        showToast: (msg) => dispatch(showToast(msg)),
+        showEditDialog: (credential) => dispatch(showCreateEditCredentialDialog(credential)),
+        showRemoveDialog: (credential) => dispatch(showRemoveCredentialDialog(credential))
+    })
+)
 class Credential extends Component {
     static propTypes = {
         credential: PropTypes.object.isRequired,
+        showToast: PropTypes.func.isRequired,
+        showEditDialog: PropTypes.func.isRequired,
+        showRemoveDialog: PropTypes.func.isRequired
     }
 
     constructor(props, context) {
@@ -29,14 +44,24 @@ class Credential extends Component {
 
     showValue = () => this.setState({showValue: true})
     hideValue = () => this.setState({showValue: false})
-    doCopyToClipboad = () => copyToClipboad(this.props.credential.value)
+    doCopyToClipboad = () => {
+        copyToClipboad(this.props.credential.value);
+        this.props.showToast('Value copied to clipboar');
+    }
     
     render() {
-        const {showValue} = this.state;
-        const {name, value} = this.props.credential;
+        const { showValue } = this.state;
+        const { credential, showEditDialog, showRemoveDialog } = this.props;
+        const { name, value } = credential;
 
         const leftIcon = (
-            <span onMouseDown={this.showValue} onMouseUp={this.hideValue} onTouchTap={(e) => e.stopPropagation()}>
+            <span 
+                onMouseDown={this.showValue}
+                onTouchStart={this.showValue}
+                onMouseUp={this.hideValue}
+                onMouseLeave={this.hideValue}
+                onTouchEnd={this.hideValue}
+                onTouchTap={(e) => e.stopPropagation()}>
                 {showValue? <ActionVisibilityOffIcon color={grey500}/> : <ActionVisibilityIcon color={grey500}/>}
             </span>
         );
@@ -50,8 +75,8 @@ class Credential extends Component {
                 >
                     <MoreVertIcon />
                 </IconButton>}>
-                <MenuItem>Edit</MenuItem>
-                <MenuItem>Remove</MenuItem>
+                <MenuItem onTouchTap={() => showEditDialog(credential)}>Edit</MenuItem>
+                <MenuItem onTouchTap={() => showRemoveDialog(credential)}>Remove</MenuItem>
                 <MenuItem onTouchTap={this.doCopyToClipboad}>Copy to clipboard</MenuItem>
             </IconMenu>
         );

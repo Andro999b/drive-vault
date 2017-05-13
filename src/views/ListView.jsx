@@ -1,14 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Snackbar from 'material-ui/Snackbar';
+
 import ListViewHeader from '../components/ListViewHeader';
 import CredentialsList from '../components/CredentialsList';
-import CredentialDialog from '../components/CredentialDialog';
-import RemoveCredential from '../components/RemoveCredential';
+import Toast from '../components/Toast';
 
 @connect(
     (state) => ({
-        keystore: state.keystore
+        dbInited: state.dbInited
     })
 )
 class ListView extends Component {
@@ -17,14 +16,14 @@ class ListView extends Component {
     };
 
     static propTypes = {
-        keystore: PropTypes.object
+        dbInited: PropTypes.bool
     }
 
     componentWillMount() {
-        const { keystore } = this.props;
+        const { dbInited } = this.props;
         const { router } = this.context;
 
-        if(!keystore) {
+        if(!dbInited) {
             router.push('/');
         }
     }
@@ -34,9 +33,7 @@ class ListView extends Component {
             <div>
                 <ListViewHeader/>
                 <CredentialsList/>
-                <CredentialDialog/>
-                <RemoveCredential/>
-                <Snackbar open={false} message="" autoHideDuration={3000}/>
+                <Toast/>
             </div>
         );
     }

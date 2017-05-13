@@ -52,8 +52,6 @@ module.exports = {
     "react/no-multi-comp": "warn",
     "react/no-set-state": "off",
     "react/prefer-es6-class": "warn",
-    "react/self-closing-comp": "warn",
-    "react/sort-comp": "warn",
-    "react/sort-prop-types": "warn",
+    "react/self-closing-comp": "warn"
   }
 };

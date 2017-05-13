@@ -1,7 +1,7 @@
 import auth from '../google/auth';
 
 import authResult from './authResult';
-import loadStorage from './loadStorage';
+import {loadStorage} from './storage';
 import setPasswordSalt from './setPasswordSalt';
 
 export default () => (dispatch) => 

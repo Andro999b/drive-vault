@@ -11,7 +11,7 @@ function download(id) {
     }).then((res) => res.body);
 }
 
-export default () => (dispath) => 
+export const loadStorage = () => (dispath) => 
     gapi.client.drive.files.list({
         q: `name = '${KEYSTORE_FILENAME}'`,
         fields: 'files(id,webContentLink)'

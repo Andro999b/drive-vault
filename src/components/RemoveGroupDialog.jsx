@@ -1,0 +1,42 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+import { connect } from 'react-redux';
+
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+
+import { hideRemoveGroupDialog } from '../actions/dialogs';
+
+@connect(
+    (state) => ({
+        group: state.removeGroup
+    }),
+    (dispatch) => ({
+        hideDialog: () => dispatch(hideRemoveGroupDialog())
+    })
+)
+class RemoveGroupDialog extends Component {
+    static propTypes = {
+        group: PropTypes.object,
+        hideDialog: PropTypes.func.isRequired
+    };
+
+    render() {
+        const { group, hideDialog } = this.props;
+        const name = group != null ? group.name : null;
+
+        const actions = [
+            <FlatButton key={0} onTouchTap={hideDialog} label="Cancel" primary />,
+            <FlatButton key={1} label="Remove" primary />,
+        ];
+
+        return (
+            <Dialog open={group != null} actions={actions} onRequestClose={hideDialog}>
+                Remove group {name} ? 
+            </Dialog>
+        );
+    }
+}
+
+export default RemoveGroupDialog;
