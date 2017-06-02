@@ -35,7 +35,8 @@ const config = {
       filename: 'index.html',
     }),
     new ExtractTextPlugin('styles.css')
-  ]
+  ],
+  node: { fs: 'empty' }
 };
 if (process.env.NODE_ENV === 'production') {
   //config.devtool = 'hidden-source-map';

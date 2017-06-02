@@ -33,7 +33,7 @@ module.exports = {
     "no-confusing-arrow": ["error", { "allowParens": false }],
     "no-constant-condition": "error",
     "no-labels": "error",
-    "no-multiple-empty-lines": ["error", { max: 1, maxEOF: 1 }],
+    "no-multiple-empty-lines": ["warn", { max: 1, maxEOF: 1 }],
     "func-style": "off",
     "quotes": [2, "single", { "avoidEscape": true, "allowTemplateLiterals": true }],
     "react/forbid-prop-types": ["error", { "forbid": ["any"] }],

@@ -6,28 +6,31 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
 import { hideRemoveCredentialDialog } from '../actions/dialogs';
+import removeCredential from '../actions/removeCredential';
 
 @connect(
     (state) => ({
         credential: state.removeCredential
     }),
     (dispatch) => ({
-        hideDialog: () => dispatch(hideRemoveCredentialDialog())
+        hideDialog: () => dispatch(hideRemoveCredentialDialog()),
+        removeCredential: (credential) => dispatch(removeCredential(credential))
     })
 )
 class RemoveCredentialDialog extends Component {
     static propTypes = {
         credential: PropTypes.object,
         hideDialog: PropTypes.func.isRequired,
+        removeCredential: PropTypes.func.isRequired,
     };
 
     render() {
-        const { credential, hideDialog } = this.props;
+        const { credential, hideDialog, removeCredential } = this.props;
         const name = credential? credential.name : null;
 
         const actions = [
             <FlatButton key={0} onTouchTap={hideDialog} label="Cancel" primary />,
-            <FlatButton key={1} label="Remove" primary />,
+            <FlatButton key={1} onTouchTap={() => removeCredential(credential)} label="Remove" primary />,
         ];
 
         return (

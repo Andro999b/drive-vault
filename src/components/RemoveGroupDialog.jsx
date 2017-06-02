@@ -7,28 +7,31 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
 import { hideRemoveGroupDialog } from '../actions/dialogs';
+import removeGroup from '../actions/removeGroup';
 
 @connect(
     (state) => ({
         group: state.removeGroup
     }),
     (dispatch) => ({
-        hideDialog: () => dispatch(hideRemoveGroupDialog())
+        hideDialog: () => dispatch(hideRemoveGroupDialog()),
+        removeGroup: (group) => dispatch(removeGroup(group))
     })
 )
 class RemoveGroupDialog extends Component {
     static propTypes = {
         group: PropTypes.object,
-        hideDialog: PropTypes.func.isRequired
+        hideDialog: PropTypes.func.isRequired,
+        removeGroup: PropTypes.func.isRequired,
     };
 
     render() {
-        const { group, hideDialog } = this.props;
+        const { group, hideDialog, removeGroup } = this.props;
         const name = group != null ? group.name : null;
 
         const actions = [
             <FlatButton key={0} onTouchTap={hideDialog} label="Cancel" primary />,
-            <FlatButton key={1} label="Remove" primary />,
+            <FlatButton key={1} onTouchTap={() => removeGroup(group)} label="Remove" primary />,
         ];
 
         return (

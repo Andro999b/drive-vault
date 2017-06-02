@@ -16,13 +16,13 @@ import MenuItem from 'material-ui/MenuItem';
 import { grey500 } from 'material-ui/styles/colors';
 
 import { showToast } from '../actions/toast';
-import { showCreateEditCredentialDialog, showRemoveCredentialDialog } from '../actions/dialogs';
+import { showSaveCredentialDialog, showRemoveCredentialDialog } from '../actions/dialogs';
 
 @connect(
     null,
     (dispatch) => ({
         showToast: (msg) => dispatch(showToast(msg)),
-        showEditDialog: (credential) => dispatch(showCreateEditCredentialDialog(credential)),
+        showEditDialog: (credential) => dispatch(showSaveCredentialDialog(credential)),
         showRemoveDialog: (credential) => dispatch(showRemoveCredentialDialog(credential))
     })
 )

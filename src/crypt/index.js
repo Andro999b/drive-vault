@@ -1,21 +1,18 @@
-/* global cryptico */
+import AES  from 'crypto-js/aes';
+import HmacSHA256 from 'crypto-js/hmac-sha256';
+import Utf8 from 'crypto-js/enc-utf8';
 
-export function getPasswordRSAKey(password, salt, bits = 1024) {
+export function createSecret(password, salt) {
     if(!password)
         throw new Error('Password must by not empty or null');
 
-    return cryptico.generateRSAKey(password + salt, bits);
+    return HmacSHA256(password, salt).toString();
 }
 
-export function decrypt(cipher, rsaKey) {
-    const result = cryptico.decrypt(cipher, rsaKey);
-
-    if(result.status == 'success')
-        return result.plaintext;
-
-    throw new Error('Fail to decrypt keystore: ', cipher, result);
+export function decrypt(cipher, secret) {
+    return AES.decrypt(cipher, secret).toString(Utf8);
 }
 
-export function encrypt(keystore, rsaKey) {
-    return cryptico.encript(keystore, cryptico.publicKeyString(rsaKey));
+export function encrypt(keystore, secret) {
+    return AES.encrypt(keystore, secret).toString();
 }

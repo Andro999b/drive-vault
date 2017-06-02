@@ -12,7 +12,9 @@ import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 
 import GroupsList from './GroupsList';
 
-import { showCreateEditCredentialDialog } from '../actions/dialogs';
+import { showSaveCredentialDialog } from '../actions/dialogs';
+import selectGroup from '../actions/selectGroup';
+import setNameFilter from '../actions/setNameFilter';
 
 import { white, grey500 } from 'material-ui/styles/colors';
 
@@ -21,30 +23,46 @@ import { white, grey500 } from 'material-ui/styles/colors';
         selectedGroup: state.selectedGroup
     }),
     (dispatch) => ({
-        showCreateDialog: () => dispatch(showCreateEditCredentialDialog())
+        showCreateDialog: () => dispatch(showSaveCredentialDialog()),
+        selectGroup: (group) => dispatch(selectGroup(group)),
+        setNameFilter: (name) => dispatch(setNameFilter(name))
     })
 )
 class ListViewHeader extends Component {
     static propTypes = {
         showCreateDialog: PropTypes.func.isRequired,
-        selectedGroup: PropTypes.object
+        selectedGroup: PropTypes.object,
+        selectGroup: PropTypes.func.isRequired,
+        setNameFilter: PropTypes.func.isRequired,
     };
 
     constructor(props) {
         super(props);
         this.state = {
             groupsMenu: false,
-            searchMode: false
+            searchMode: false,
+            nameFilter: ''
         };
     }
 
     toggleGroupMenu = () => this.setState({ groupsMenu: !this.state.groupsMenu });
     enterSearchMode = () => this.setState({ searchMode: true})
-    leaveSearchMode = () => this.setState({ searchMode: false})
+    leaveSearchMode = () => this.setState({ searchMode: false, nameFilter: ''})
+
+    onNameFilterChange(e) {
+        const nameFilter = e.target.value;
+        this.setState({nameFilter});
+        this.props.setNameFilter(nameFilter);
+    }
+
+    onSelectGroup(group) {
+        this.props.selectGroup(group);
+        this.setState({ groupsMenu: false });
+    }
 
     render() {
         const { showCreateDialog, selectedGroup } = this.props;
-        const { groupsMenu, searchMode } = this.state;
+        const { groupsMenu, searchMode, nameFilter } = this.state;
 
         const rightElement = (
             <div style={{marginRight: -8}}>
@@ -73,7 +91,9 @@ class ListViewHeader extends Component {
                     </div>
                     <TextField 
                         hintText="Search"
-                        name="searchbox" 
+                        name="searchbox"
+                        value={nameFilter}
+                        onChange={(e) => this.onNameFilterChange(e)} 
                         autoFocus 
                         fullWidth 
                         underlineShow={false}/>
@@ -94,7 +114,7 @@ class ListViewHeader extends Component {
                     docked={false}
                     onRequestChange={(open) => this.setState({ groupsMenu: open })}
                 >
-                    <GroupsList/>
+                    <GroupsList selectGroup={(group) => this.onSelectGroup(group)}/>
                 </Drawer>
             </div>
         );

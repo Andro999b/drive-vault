@@ -9,12 +9,12 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 
-import { showCreateEditGroupDialog, showRemoveGroupDialog } from '../actions/dialogs';
+import { showSaveGroupDialog, showRemoveGroupDialog } from '../actions/dialogs';
 
 @connect(
     null,
     (dispatch) => ({
-        showEditDialog: (group) => dispatch(showCreateEditGroupDialog(group)),
+        showEditDialog: (group) => dispatch(showSaveGroupDialog(group)),
         showRemoveDialog: (group) => dispatch(showRemoveGroupDialog(group))
     })
 )
@@ -22,11 +22,12 @@ class Group extends Component {
     static propTypes = {
         group: PropTypes.object.isRequired,
         showEditDialog: PropTypes.func.isRequired,
-        showRemoveDialog: PropTypes.func.isRequired
+        showRemoveDialog: PropTypes.func.isRequired,
+        selectGroup: PropTypes.func.isRequired
     };
 
     render() {
-        const { group, showEditDialog, showRemoveDialog } = this.props;
+        const { group, showEditDialog, showRemoveDialog, selectGroup } = this.props;
 
         const rightIconMenu = (
             <IconMenu iconButtonElement={
@@ -44,6 +45,7 @@ class Group extends Component {
 
         return (
             <ListItem
+                onTouchTap={() => selectGroup(group)}
                 primaryText={group.name}
                 rightIconButton={rightIconMenu}
             />

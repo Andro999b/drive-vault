@@ -8,31 +8,32 @@ import Group from './Group';
 import RemoveGroupDialog from './RemoveGroupDialog';
 import GroupDialog from './GroupDialog';
 
-import { showCreateEditGroupDialog } from '../actions/dialogs';
+import { showSaveGroupDialog } from '../actions/dialogs';
 
 @connect(
     (state) => ({
         groups: state.groups
     }),
     (dispatch) => ({
-        showCreateDialog: () => dispatch(showCreateEditGroupDialog())
+        showCreateDialog: () => dispatch(showSaveGroupDialog())
     })
 )
 class GroupsList extends Component {
     static propTypes ={
         showCreateDialog: PropTypes.func.isRequired,
         groups: PropTypes.array.isRequired,
+        selectGroup: PropTypes.func.isRequired
     }
 
     render() {
-        const { showCreateDialog, groups } = this.props;
+        const { showCreateDialog, selectGroup, groups } = this.props;
 
         return (
             <div>
                 <div>
-                    <ListItem primaryText="All credentials"/>
+                    <ListItem onTouchTap={() => selectGroup(null)} primaryText="All credentials"/>
                     {groups.map((group) => 
-                        <Group key={group.id} group={group}/>
+                        <Group key={group.id} group={group} selectGroup={selectGroup}/>
                     )}
                 </div>
                 <FlatButton

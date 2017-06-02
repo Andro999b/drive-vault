@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { setMasterPasswordAndShowList } from '../actions/setMasterPassword';
+import setMasterPassword from '../actions/setMasterPassword';
 
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -12,7 +12,7 @@ import RaisedButton from 'material-ui/RaisedButton';
         masterPasswordError: state.masterPasswordError
     }),
     (dispatch) => ({
-        setMasterPassword: (password) => dispatch(setMasterPasswordAndShowList(password))
+        setMasterPassword: (password) => dispatch(setMasterPassword(password))
     }) 
 )
 class InitialView extends Component {

@@ -1,21 +1,22 @@
 import { createAction } from 'redux-actions';
-import { getPasswordRSAKey, decrypt } from '../crypt';
+import { createSecret, decrypt} from '../crypt';
 import { hashHistory as history } from 'react-router';
-import setDbInited from './setDbInited';
+import initDatabase from './initDatabase';
 
-export const setMasterPasswordError = createAction('SET_MASTER_PASSWORD_ERROR', (error) => error);
-export const setMasterPasswordAndShowList = (password) => (dispatch, getState) => {
+const setMasterPasswordError = createAction('SET_MASTER_PASSWORD_ERROR', (error) => error);
+
+export default (password) => (dispatch, getState) => {
     if(!password)  {
         dispatch(setMasterPasswordError('Master password must be not empty'));
         return;
     }
 
-    const {encryptedData, salt} = getState();
-    const rsa = getPasswordRSAKey(password, salt);
-    if(encryptedData) {
+    const {fileData, salt} = getState();
+    const secret = createSecret(password, salt);
+    if(fileData) {
         try {
-            const keystore = decrypt(encryptedData, rsa);
-            dispatch(setDbInited());
+            const keystore = decrypt(fileData, secret);
+            dispatch(initDatabase(keystore, secret));
         } catch (e) {
             dispatch(setMasterPasswordError('Wrong master password'));
             return;
@@ -23,7 +24,7 @@ export const setMasterPasswordAndShowList = (password) => (dispatch, getState) =
     } else {
         //TODO: check password securety
 
-        dispatch(setDbInited());
-        history.push('list');
+        dispatch(initDatabase(null, secret));
     }
+    history.push('list');
 };
