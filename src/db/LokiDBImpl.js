@@ -120,6 +120,9 @@ class LokiDBImpl {
         }
     }
 
+    saveDatabase() {
+        this.db.saveDatabase();
+    }
 }
 
 export default LokiDBImpl;

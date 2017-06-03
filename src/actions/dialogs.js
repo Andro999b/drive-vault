@@ -8,3 +8,5 @@ export const hideRemoveGroupDialog = createAction('SET_REMOVE_GROUP', () => null
 export const hideSaveGroupDialog = createAction('SET_SAVE_GROUP', () => null);
 export const hideRemoveCredentialDialog = createAction('SET_REMOVE_CREDENTIAL', () => null);
 export const hideSaveCredentialDialog = createAction('SET_SAVE_CREDENTIAL', () => null);
+export const showChangePasswordDialog = createAction('SET_CHANGE_PASSWORD_DIALOG', () => true);
+export const hideChangePasswordDialog = createAction('SET_CHANGE_PASSWORD_DIALOG', () => false);

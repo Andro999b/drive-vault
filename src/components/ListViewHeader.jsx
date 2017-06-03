@@ -1,18 +1,22 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
+import Divider from 'material-ui/Divider';
 import Drawer from 'material-ui/Drawer';
-import ContentAddIcon from 'material-ui/svg-icons/content/add';
+import ContentCreateIcon from 'material-ui/svg-icons/content/create';
 import ActionSearchIcon from 'material-ui/svg-icons/action/search';
+import ActionKeyIcon from 'material-ui/svg-icons/communication/vpn-key';
 import BackIcon from 'material-ui/svg-icons/navigation/arrow-forward';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
+import { ListItem } from 'material-ui/List';
 import TextField from 'material-ui/TextField';
 import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 
 import GroupsList from './GroupsList';
+import ChangePasswordDialog from './ChangePasswordDialog';
 
-import { showSaveCredentialDialog } from '../actions/dialogs';
+import { showSaveCredentialDialog, showChangePasswordDialog } from '../actions/dialogs';
 import selectGroup from '../actions/selectGroup';
 import setNameFilter from '../actions/setNameFilter';
 
@@ -23,6 +27,7 @@ import { white, grey500 } from 'material-ui/styles/colors';
         selectedGroup: state.selectedGroup
     }),
     (dispatch) => ({
+        showCahngePasswordDialog: () => dispatch(showChangePasswordDialog()),
         showCreateDialog: () => dispatch(showSaveCredentialDialog()),
         selectGroup: (group) => dispatch(selectGroup(group)),
         setNameFilter: (name) => dispatch(setNameFilter(name))
@@ -30,6 +35,7 @@ import { white, grey500 } from 'material-ui/styles/colors';
 )
 class ListViewHeader extends Component {
     static propTypes = {
+        showCahngePasswordDialog: PropTypes.func.isRequired,
         showCreateDialog: PropTypes.func.isRequired,
         selectedGroup: PropTypes.object,
         selectGroup: PropTypes.func.isRequired,
@@ -46,12 +52,12 @@ class ListViewHeader extends Component {
     }
 
     toggleGroupMenu = () => this.setState({ groupsMenu: !this.state.groupsMenu });
-    enterSearchMode = () => this.setState({ searchMode: true})
-    leaveSearchMode = () => this.setState({ searchMode: false, nameFilter: ''})
+    enterSearchMode = () => this.setState({ searchMode: true })
+    leaveSearchMode = () => this.setState({ searchMode: false, nameFilter: '' })
 
     onNameFilterChange(e) {
         const nameFilter = e.target.value;
-        this.setState({nameFilter});
+        this.setState({ nameFilter });
         this.props.setNameFilter(nameFilter);
     }
 
@@ -61,16 +67,17 @@ class ListViewHeader extends Component {
     }
 
     render() {
-        const { showCreateDialog, selectedGroup } = this.props;
+        //TODO: decomposition here
+        const { showCreateDialog, showCahngePasswordDialog, selectedGroup } = this.props;
         const { groupsMenu, searchMode, nameFilter } = this.state;
 
-        const rightElement = (
-            <div style={{marginRight: -8}}>
-                <IconButton  onTouchTap={showCreateDialog}>
-                    <ContentAddIcon color={white}/>
+        const rightAppBarElement = (
+            <div style={{ marginRight: -8 }}>
+                <IconButton onTouchTap={showCreateDialog}>
+                    <ContentCreateIcon color={white} />
                 </IconButton>
                 <IconButton onTouchTap={this.enterSearchMode}>
-                    <ActionSearchIcon color={white}/>
+                    <ActionSearchIcon color={white} />
                 </IconButton>
             </div>
         );
@@ -79,28 +86,28 @@ class ListViewHeader extends Component {
             <AppBar
                 title={selectedGroup == null ? 'All credentials' : selectedGroup.name}
                 onLeftIconButtonTouchTap={this.toggleGroupMenu}
-                iconElementRight={rightElement}
+                iconElementRight={rightAppBarElement}
             />
         );
 
         const searchBar = (
-            <Toolbar style={{height: 64}}>
-                <ToolbarGroup firstChild style={{flexGrow: 1}}>
-                    <div style={{padding: 12, marginTop: 4}}>
-                        <ActionSearchIcon color={grey500}/>
+            <Toolbar style={{ height: 64 }}>
+                <ToolbarGroup firstChild style={{ flexGrow: 1 }}>
+                    <div style={{ padding: 12, marginTop: 4 }}>
+                        <ActionSearchIcon color={grey500} />
                     </div>
-                    <TextField 
+                    <TextField
                         hintText="Search"
                         name="searchbox"
                         value={nameFilter}
-                        onChange={(e) => this.onNameFilterChange(e)} 
-                        autoFocus 
-                        fullWidth 
-                        underlineShow={false}/>
+                        onChange={(e) => this.onNameFilterChange(e)}
+                        autoFocus
+                        fullWidth
+                        underlineShow={false} />
                 </ToolbarGroup>
                 <ToolbarGroup lastChild>
                     <IconButton onTouchTap={this.leaveSearchMode}>
-                        <BackIcon color={grey500}/>
+                        <BackIcon color={grey500} />
                     </IconButton>
                 </ToolbarGroup>
             </Toolbar>
@@ -114,7 +121,16 @@ class ListViewHeader extends Component {
                     docked={false}
                     onRequestChange={(open) => this.setState({ groupsMenu: open })}
                 >
-                    <GroupsList selectGroup={(group) => this.onSelectGroup(group)}/>
+                    <GroupsList 
+                        selectGroup={(group) => this.onSelectGroup(group)} 
+                        />
+                    <Divider/>
+                    <ListItem
+                        onTouchTap={showCahngePasswordDialog}
+                        leftIcon={<ActionKeyIcon/>}
+                        primaryText="Change password"
+                        />
+                    <ChangePasswordDialog/>
                 </Drawer>
             </div>
         );

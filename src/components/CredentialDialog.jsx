@@ -101,6 +101,7 @@ class CredentialDialog extends Component {
                         autoComplete="new-password" 
                         errorText={errors.value}
                         fullWidth 
+                        multiLine
                         value={value} 
                         onChange={linkstate(this, 'credential.value')} />
                 </form>

@@ -18,3 +18,10 @@ export function get() {
     return db;
 }
 
+export function save() {
+    if (db == null)
+        throw new Error('db not inited');
+
+    db.saveDatabase();
+}
+

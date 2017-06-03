@@ -3,10 +3,11 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { ListItem } from 'material-ui/List';
-import FlatButton from 'material-ui/FlatButton';
 import Group from './Group';
 import RemoveGroupDialog from './RemoveGroupDialog';
 import GroupDialog from './GroupDialog';
+import ContentAddCircleIcon from 'material-ui/svg-icons/content/add-circle';
+import ActionAllIcon from 'material-ui/svg-icons/action/done-all';
 
 import { showSaveGroupDialog } from '../actions/dialogs';
 
@@ -19,7 +20,7 @@ import { showSaveGroupDialog } from '../actions/dialogs';
     })
 )
 class GroupsList extends Component {
-    static propTypes ={
+    static propTypes = {
         showCreateDialog: PropTypes.func.isRequired,
         groups: PropTypes.array.isRequired,
         selectGroup: PropTypes.func.isRequired
@@ -31,21 +32,21 @@ class GroupsList extends Component {
         return (
             <div>
                 <div>
-                    <ListItem onTouchTap={() => selectGroup(null)} primaryText="All credentials"/>
-                    {groups.map((group) => 
-                        <Group key={group.id} group={group} selectGroup={selectGroup}/>
+                    <ListItem
+                        onTouchTap={() => selectGroup(null)}
+                        primaryText="All credentials"
+                        leftIcon={<ActionAllIcon/>} />
+                    {groups.map((group) =>
+                        <Group key={group.id} group={group} selectGroup={selectGroup} />
                     )}
                 </div>
-                <FlatButton
+                <ListItem
                     onTouchTap={showCreateDialog}
-                    label="New group"
-                    fullWidth
-                    style={{
-                        position: 'absolute',
-                        bottom: 0
-                    }} />
-                <RemoveGroupDialog/>
-                <GroupDialog/>
+                    primaryText="New group"
+                    leftIcon={<ContentAddCircleIcon />}
+                />
+                <RemoveGroupDialog />
+                <GroupDialog />
             </div>
         );
     }
