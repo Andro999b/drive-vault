@@ -2,7 +2,8 @@
   "name": "drive-password-storage",
   "version": "1.0.0",
   "scripts": {
-    "start": "node_modules/.bin/webpack-dev-server"
+    "start": "node_modules/.bin/webpack-dev-server --env=dev",
+    "build": "node_modules/.bin/webpack --env=prod"
   },
   "dependencies": {
     "copy-to-clipboard": "^3.0.6",
@@ -47,6 +48,7 @@
     "source-map-loader": "^0.2.1",
     "style-loader": "^0.18.1",
     "webpack": "^2.6.1",
-    "webpack-dev-server": "^2.4.5"
+    "webpack-dev-server": "^2.4.5",
+    "webpack-merge": "^4.1.0"
   }
 }

@@ -2,7 +2,9 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
+const merge = require('webpack-merge');
 const path = require('path');
+
 const config = {
   entry: {
     'main': './src/index'
@@ -38,43 +40,7 @@ const config = {
   ],
   node: { fs: 'empty' }
 };
-if (process.env.NODE_ENV === 'production') {
-  //config.devtool = 'hidden-source-map';
-  config.plugins = config.plugins.concat([
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production')
-      }
-    }),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true,
-      debug: false,
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        screw_ie8: true,
-        warnings: false,
-        conditionals: true,
-        unused: true,
-        comparisons: true,
-        sequences: true,
-        dead_code: true,
-        evaluate: true,
-        if_return: true,
-        join_vars: true
-      },
-      comments: false,
-      sourceMap: true
-    })
-  ]);
-} else {
-  config.devtool = 'source-map';
-  config.plugins = config.plugins.concat([
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('development')
-      }
-    })
-  ]);
+
+module.exports = function(env) {
+  return merge(config, require(`./webpack.config.${env}.js`))
 }
-module.exports = config;
