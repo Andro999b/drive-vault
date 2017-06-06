@@ -1,39 +1,40 @@
 import { setSecret } from '.';
 import { createAction } from 'redux-actions';
-import { createSecret, decrypt} from '../crypt';
-import { hashHistory as history } from 'react-router';
-import initDatabase from './initDatabase';
+import { createSecret, decrypt } from '../crypt';
+import loadDatabaseAndCredentials from './loadDatabaseAndCredentials';
 import { isWeakPassword } from '../crypt/password';
 
 const setMasterPasswordError = createAction('SET_MASTER_PASSWORD_ERROR', (error) => error);
 
 export default (password) => (dispatch, getState) => {
-    if(!password)  {
+    let { secret } = getState();
+    if (secret) return;//secret already setted
+
+    if (!password) {
         dispatch(setMasterPasswordError('Master password must be not empty'));
         return;
     }
 
-    const {fileData, salt} = getState();
-    const secret = createSecret(password, salt);
-    if(fileData) {
+    const { fileData, salt } = getState();
+    secret = createSecret(password, salt);
+    if (fileData) {
+        let keystore;
         try {
-            const keystore = decrypt(fileData, secret);
-
+            keystore = decrypt(fileData, secret);
             dispatch(setSecret(secret));
-            dispatch(initDatabase(keystore));
         } catch (e) {
             dispatch(setMasterPasswordError('Wrong master password'));
             return;
         }
+        dispatch(loadDatabaseAndCredentials(keystore));
     } else {
-        //TODO: check password securety
-        if(isWeakPassword(password)) {
+        //check password securety
+        if (isWeakPassword(password)) {
             dispatch(setMasterPasswordError('Master password too weak'));
             return;
         }
 
         dispatch(setSecret(secret));
-        dispatch(initDatabase(null));
+        dispatch(loadDatabaseAndCredentials(null));
     }
-    history.push('list');
 };

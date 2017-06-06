@@ -26,7 +26,7 @@ class LokiDBPersistanceAdapter {
 }
 
 class LokiDBImpl {
-    constructor(keystore, { onGoupsUpdated, onCredentialsUpdated, onDatabaseSave }) {
+    constructor(keystore, { onGoupsUpdated, onCredentialsUpdated, onDatabaseSave, onDbInited }) {
         this.db = new Loki('keystoredb', {
             adapter: new LokiDBPersistanceAdapter(keystore, onDatabaseSave),
             autoload: true,
@@ -68,6 +68,7 @@ class LokiDBImpl {
 
             onCredentialsUpdated(self.credentialsView.data());
             onGoupsUpdated(self.groupsView.data());
+            onDbInited();
         }
     }
 
@@ -122,6 +123,14 @@ class LokiDBImpl {
 
     saveDatabase() {
         this.db.saveDatabase();
+    }
+
+    getGroup(id) {
+        return this.groupsCollection.findOne({id});
+    }
+
+    getCredential(id) {
+        return this.credentialsCollection.findOne({id});
     }
 }
 
