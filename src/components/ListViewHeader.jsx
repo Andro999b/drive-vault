@@ -53,7 +53,10 @@ class ListViewHeader extends Component {
 
     toggleGroupMenu = () => this.setState({ groupsMenu: !this.state.groupsMenu });
     enterSearchMode = () => this.setState({ searchMode: true })
-    leaveSearchMode = () => this.setState({ searchMode: false, nameFilter: '' })
+    leaveSearchMode = () => {
+        this.setState({ searchMode: false, nameFilter: '' });
+        this.props.setNameFilter('');
+    }
 
     onNameFilterChange(e) {
         const nameFilter = e.target.value;
