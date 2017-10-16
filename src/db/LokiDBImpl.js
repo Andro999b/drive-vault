@@ -68,7 +68,7 @@ class LokiDBImpl {
 
             onCredentialsUpdated(self.credentialsView.data());
             onGoupsUpdated(self.groupsView.data());
-            onDbInited();
+            onDbInited(self);
         }
     }
 

@@ -7,7 +7,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
 import { hideRemoveGroupDialog } from '../actions/dialogs';
-import removeGroup from '../actions/removeGroup';
+import { removeGroup } from '../sagas/actions';
 
 @connect(
     (state) => ({

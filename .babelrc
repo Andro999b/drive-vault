@@ -19,7 +19,7 @@
     },
     "presets": [
         [
-            "latest",
+            "env",
             {
                 "modules": false
             }

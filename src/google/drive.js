@@ -1,56 +1,27 @@
 /* global gapi*/
 
-import { showToast } from './toast';
-import { setFile } from '.';
+const KEYSTORE_FILENAME = 'gdrivekeystore2';
 
-const KEYSTORE_FILENAME = 'gdrivekeystore';
+export function fileList() {
+    return gapi.client.drive.files.list({
+        q: `name = '${KEYSTORE_FILENAME}' and trashed != true`,
+        fields: 'files(id,webContentLink)'
+    }).then((res) => res.result.files);
+}
 
-function download(id) {
+export function download(fileId) {
     return gapi.client.drive.files.get({
-        fileId: id,
+        fileId: fileId,
         alt: 'media'
     }).then((res) => res.body);
 }
 
-export const loadStorage = () => (dispath) => {
-    gapi.client.drive.files.list({
-        q: `name = '${KEYSTORE_FILENAME}' and trashed != true`,
-        fields: 'files(id,webContentLink)'
-    }).then((res) => {
-        const files = res.result.files;
+export function upload({fileId, fileName, body}) {
+    const metadata = {
+        name: fileName || KEYSTORE_FILENAME,
+        mimeType: 'text/plain'
+    };
 
-        if(files.length > 0) {
-            const id = files[0].id;
-            return download(id).then((data) => {
-                dispath(setFile(id, data));
-            });
-        }
-
-        return Promise.resolve(dispath(setFile(null, null)));
-    });
-};
-
-export const saveStorage = (fileId, fileData) => (dispath) =>  {
-    upload({
-        fileId,
-        metadata: {
-            name: KEYSTORE_FILENAME,
-            mimeType: 'text/plain'
-        },
-        body: fileData
-    })
-    .then((r) => {
-        dispath(setFile(r.id));
-        dispath(showToast('Database synchronized'));
-    })
-    .catch(() => dispath(showToast('Database synchronize fail')));
-};
-
-function upload({
-    fileId,
-    metadata, 
-    body
-}) {
     const request = new XMLHttpRequest();
     const GoogleAuth = gapi.auth2.getAuthInstance();
     const currentUser = GoogleAuth.currentUser.get();

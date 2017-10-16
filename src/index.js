@@ -1,3 +1,4 @@
+import 'regenerator-runtime/runtime';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import React from 'react';
 import { render } from 'react-dom';
@@ -7,14 +8,19 @@ import './styles.scss';
 
 import App from 'App';
 import store from './store';
-import initAction from './actions/init';
+
+import { WAIT_FOR_ACTION } from 'redux-wait-for-action';
+import { INIT, INIT_FINISH } from './sagas/actions';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 
 store
-    .dispatch(initAction())
+    .dispatch({
+        type: INIT,
+        [WAIT_FOR_ACTION]: INIT_FINISH
+    })
     .then(() => {
         render(<App store={store}/>, document.getElementById('root'));
     });

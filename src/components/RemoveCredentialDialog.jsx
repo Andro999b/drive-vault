@@ -6,7 +6,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
 import { hideRemoveCredentialDialog } from '../actions/dialogs';
-import removeCredential from '../actions/removeCredential';
+import { removeCredential } from '../sagas/actions';
 
 @connect(
     (state) => ({

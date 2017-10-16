@@ -1,13 +1,17 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import setMasterPassword from '../actions/setMasterPassword';
+import { setMasterPassword } from '../sagas/actions';
 
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
+import history from '../history';
+
 @connect(
     (state) => ({
+        dbInited: state.dbInited,
         authResult: state.authResult,
         masterPasswordError: state.masterPasswordError
     }),
@@ -17,9 +21,17 @@ import RaisedButton from 'material-ui/RaisedButton';
 )
 class InitialView extends Component {
     static propTypes = {
+        dbInited: PropTypes.bool,
         authResult: PropTypes.bool.isRequired,
         masterPasswordError: PropTypes.string,
         setMasterPassword: PropTypes.func.isRequired
+    }
+
+    componentWillMount() {
+        const { dbInited } = this.props;
+        if(dbInited) {
+            history.push('/list');
+        }
     }
 
     constructor(props, context) {

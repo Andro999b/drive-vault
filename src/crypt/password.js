@@ -9,7 +9,7 @@ export const isWeakPassword = (password) => {
     //Base 10 digits (0 through 9)
     if(!/[0-9]+/.test(password)) return true;
     //Nonalphanumeric characters: ~!@#$%^&*_-+=`|\(){}[]:;"'<>,.?/
-    if(!/[~!@#\$%\^&\*_\-\+=`\|\\\(\){}\[\]:;"'<>,\.\?\/]+/.test(password)) return true;
+    if(!/[~!@#$%^&*_\-+=`|\\(){}[\]:;"'<>,.?/]+/.test(password)) return true;
 
     return false;
 };

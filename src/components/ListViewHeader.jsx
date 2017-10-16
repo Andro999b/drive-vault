@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Divider from 'material-ui/Divider';
@@ -17,8 +18,7 @@ import GroupsList from './GroupsList';
 import ChangePasswordDialog from './ChangePasswordDialog';
 
 import { showSaveCredentialDialog, showChangePasswordDialog } from '../actions/dialogs';
-import selectGroup from '../actions/selectGroup';
-import setNameFilter from '../actions/setNameFilter';
+import { selectGroup, setNameFilter} from '../sagas/actions';
 
 import { white, grey500 } from 'material-ui/styles/colors';
 

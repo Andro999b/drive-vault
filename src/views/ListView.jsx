@@ -1,9 +1,11 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import ListViewHeader from '../components/ListViewHeader';
 import CredentialsList from '../components/CredentialsList';
 import Toast from '../components/Toast';
+import history from '../history';
 
 @connect(
     (state) => ({
@@ -11,20 +13,14 @@ import Toast from '../components/Toast';
     })
 )
 class ListView extends Component {
-    static contextTypes = {
-        router: PropTypes.object.isRequired
-    };
-
     static propTypes = {
         dbInited: PropTypes.bool
     }
 
     componentWillMount() {
         const { dbInited } = this.props;
-        const { router } = this.context;
-
         if(!dbInited) {
-            router.push('/');
+            history.push('/');
         }
     }
 

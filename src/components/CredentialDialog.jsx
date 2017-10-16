@@ -10,7 +10,7 @@ import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 
 import { hideSaveCredentialDialog } from '../actions/dialogs';
-import saveCredential from '../actions/saveCredential';
+import { saveCredential } from '../sagas/actions';
 
 @connect(
     (state) => ({

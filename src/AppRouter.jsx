@@ -1,23 +1,20 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 
-import { Router, IndexRoute, Route, Redirect, hashHistory as history} from 'react-router';
+import history from './history';
+import { Router, Switch, Route, Redirect} from 'react-router-dom';
 
 import ListView from './views/ListView';
 import InitialView from './views/InitialView';
 
 class AppRouter extends Component {
-    static propTypes = {
-        masterPasswordRsa: PropTypes.object,
-    }
-
     render() {
         return (
             <Router history={history}>
-                <Route path="/">
-                    <IndexRoute component={InitialView} />
-                    <Route path="list" component={ListView} />
+                <Switch>
+                    <Route exact path="/" component={InitialView} />
+                    <Route path="/list" component={ListView} />
                     <Redirect from="*" to="/" />
-                </Route>
+                </Switch>
             </Router>
         );
     }

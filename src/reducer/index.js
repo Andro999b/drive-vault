@@ -1,5 +1,9 @@
 import { handleActions } from 'redux-actions';
 
+import * as actions from '../actions';
+import * as dialogsActions from '../actions/dialogs';
+import * as toasActions from '../actions/toast';
+
 const initilaState = {
     authResult: false,
     dbInited: false,
@@ -20,22 +24,28 @@ const initilaState = {
 };
 
 export default handleActions({
-    'SET_FILE': (state, action) => ({ ...state, fileData: action.payload.data, fileId: action.payload.id }),
-    'SET_PASSWORD_SALT': (state, action) => ({ ...state, salt: action.payload }),
-    'SET_MASTER_PASSWORD_ERROR': (state, action) => ({ ...state, masterPasswordError: action.payload }),
-    'SET_AUTH_RESULT': (state, action) => ({ ...state, authResult: action.payload }),
-    'SET_DB_INITED': (state) => ({
+    //common actions
+    [actions.SET_FILE]: (state, action) => ({ ...state, fileData: action.payload.data, fileId: action.payload.id }),
+    [actions.SET_PASSWORD_SALT]: (state, action) => ({ ...state, salt: action.payload }),
+    [actions.SET_MASTER_PASSWORD_ERROR]: (state, action) => ({ ...state, masterPasswordError: action.payload }),
+    [actions.SET_AUTH_RESULT]: (state, action) => ({ ...state, authResult: action.payload }),
+    [actions.SET_DB_INITED]: (state) => ({
         ...state,
         dbInited: true,
         fileData: undefined,
         masterPasswordError: null
     }),
-    'SET_SECRET': (state, action) => ({ ...state, secret: action.payload }),
-    'SET_TOAST_MSG': (state, action) => ({ ...state, toastMsg: action.payload }),
-    'SET_REMOVE_GROUP': (state, action) => ({ ...state, removeGroup: action.payload }),
-    'SET_SAVE_GROUP': (state, action) => ({ ...state, saveGroup: action.payload }),
-    'SET_REMOVE_CREDENTIAL': (state, action) => ({ ...state, removeCredential: action.payload }),
-    'SET_SAVE_CREDENTIAL': (state, action) => {
+    [actions.SET_SECRET]: (state, action) => ({ ...state, secret: action.payload }),
+    [actions.SET_GROUPS]: (state, action) => ({ ...state, groups: action.payload }),
+    [actions.SET_CREDENTIALS]: (state, action) => ({ ...state, credentials: action.payload }),
+    [actions.SET_SELECTED_GROUP]: (state, action) => ({ ...state, selectedGroup: action.payload }),
+    //toast
+    [toasActions.SET_TOAST_MSG]: (state, action) => ({ ...state, toastMsg: action.payload }),
+    //dialogs
+    [dialogsActions.SET_REMOVE_GROUP]: (state, action) => ({ ...state, removeGroup: action.payload }),
+    [dialogsActions.SET_SAVE_GROUP]: (state, action) => ({ ...state, saveGroup: action.payload }),
+    [dialogsActions.SET_REMOVE_CREDENTIAL]: (state, action) => ({ ...state, removeCredential: action.payload }),
+    [dialogsActions.SET_SAVE_CREDENTIAL]: (state, action) => {
         const credential = action.payload;
 
         // set selecetdGroup as credential group by default when create new
@@ -44,8 +54,5 @@ export default handleActions({
 
         return { ...state, saveCredential: credential };
     },
-    'SET_GROUPS': (state, action) => ({ ...state, groups: action.payload }),
-    'SET_CREDENTIALS': (state, action) => ({ ...state, credentials: action.payload }),
-    'SET_SELECTED_GROUP': (state, action) => ({ ...state, selectedGroup: action.payload }),
-    'SET_CHANGE_PASSWORD_DIALOG': (state, action) => ({ ...state, changePasswordDialog: action.payload }),
+    [dialogsActions.SET_CHANGE_PASSWORD_DIALOG]: (state, action) => ({ ...state, changePasswordDialog: action.payload }),
 }, initilaState);

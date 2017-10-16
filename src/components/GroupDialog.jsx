@@ -9,7 +9,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
 import { hideSaveGroupDialog } from '../actions/dialogs';
-import saveGroup from '../actions/saveGroup';
+import { saveGroup } from '../sagas/actions';
 
 @connect(
     (state) => ({
