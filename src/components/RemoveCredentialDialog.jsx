@@ -6,11 +6,11 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
 import { hideRemoveCredentialDialog } from '../actions/dialogs';
-import { removeCredential } from '../sagas/actions';
+import { removeCredential } from '../actions/sagas';
 
 @connect(
     (state) => ({
-        credential: state.removeCredential
+        credential: state.dialogs.removeCredential
     }),
     (dispatch) => ({
         hideDialog: () => dispatch(hideRemoveCredentialDialog()),

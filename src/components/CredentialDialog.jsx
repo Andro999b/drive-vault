@@ -10,12 +10,12 @@ import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 
 import { hideSaveCredentialDialog } from '../actions/dialogs';
-import { saveCredential } from '../sagas/actions';
+import { saveCredential } from '../actions/sagas';
 
 @connect(
     (state) => ({
-        credential: state.saveCredential,
-        groups: state.groups
+        credential: state.dialogs.saveCredential,
+        groups: state.main.groups
     }),
     (dispatch) => ({
         hideDialog: () => dispatch(hideSaveCredentialDialog()),

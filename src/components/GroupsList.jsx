@@ -14,7 +14,7 @@ import { showSaveGroupDialog } from '../actions/dialogs';
 
 @connect(
     (state) => ({
-        groups: state.groups
+        groups: state.main.groups
     }),
     (dispatch) => ({
         showCreateDialog: () => dispatch(showSaveGroupDialog())

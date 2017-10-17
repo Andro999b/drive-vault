@@ -7,7 +7,7 @@ import { hideToast } from '../actions/toast';
 
 @connect(
     (state) => ({
-        toastMsg: state.toastMsg
+        toastMsg: state.main.toastMsg
     }),
     (dispatch) => ({
         hideToast: () => dispatch(hideToast())

@@ -9,11 +9,11 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
 import { hideSaveGroupDialog } from '../actions/dialogs';
-import { saveGroup } from '../sagas/actions';
+import { saveGroup } from '../actions/sagas';
 
 @connect(
     (state) => ({
-        group: state.saveGroup
+        group: state.dialogs.saveGroup
     }),
     (dispatch) => ({
         hideDialog: () => dispatch(hideSaveGroupDialog()),

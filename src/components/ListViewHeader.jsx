@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import Divider from 'material-ui/Divider';
 import Drawer from 'material-ui/Drawer';
-import ContentCreateIcon from 'material-ui/svg-icons/content/create';
+import ContentCreateIcon from 'material-ui/svg-icons/content/add';
 import ActionSearchIcon from 'material-ui/svg-icons/action/search';
 import ActionKeyIcon from 'material-ui/svg-icons/communication/vpn-key';
 import BackIcon from 'material-ui/svg-icons/navigation/arrow-forward';
@@ -18,13 +18,13 @@ import GroupsList from './GroupsList';
 import ChangePasswordDialog from './ChangePasswordDialog';
 
 import { showSaveCredentialDialog, showChangePasswordDialog } from '../actions/dialogs';
-import { selectGroup, setNameFilter} from '../sagas/actions';
+import { selectGroup, setNameFilter} from '../actions/sagas';
 
 import { white, grey500 } from 'material-ui/styles/colors';
 
 @connect(
     (state) => ({
-        selectedGroup: state.selectedGroup
+        selectedGroup: state.main.selectedGroup
     }),
     (dispatch) => ({
         showCahngePasswordDialog: () => dispatch(showChangePasswordDialog()),

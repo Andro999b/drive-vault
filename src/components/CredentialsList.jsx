@@ -11,7 +11,7 @@ import RemoveCredentialDialog from '../components/RemoveCredentialDialog';
 
 @connect(
     (state) => ({
-        credentials: state.credentials
+        credentials: state.main.credentials
     })
 )
 class CredentialList extends Component {

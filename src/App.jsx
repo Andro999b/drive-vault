@@ -23,15 +23,21 @@ class App extends Component {
 
     render() {
         const { store } = this.props;
-
+        const { error } = store.getState().init;
+    
         return (
-            <MuiThemeProvider muiTheme={muiTheme}>
-                <Provider store={store}>
-                    <div>
-                        <AppRouter />
-                    </div>
-                </Provider>
-            </MuiThemeProvider>
+            <div>
+                {error != null && <div className="fail-to-start">{error}</div>}
+                {!error &&
+                    <MuiThemeProvider muiTheme={muiTheme}>
+                        <Provider store={store}>
+                            <div>
+                                <AppRouter />
+                            </div>
+                        </Provider>
+                    </MuiThemeProvider>
+                }
+            </div>
         );
     }
 }

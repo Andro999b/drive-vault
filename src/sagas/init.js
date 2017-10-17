@@ -1,35 +1,22 @@
-import auth from '../google/auth';
-import { fileList, download } from '../fs';
+import { INIT, INIT_FINISH} from '../actions/sagas';
+import { setPasswordSalt, setInitError, setFilesList } from '../actions';
 
-import { setPasswordSalt, setAuthResult, setFile } from '../actions';
+import auth from '../service/google/auth';
+import { fileList } from '../service/fs';
+
 import { put, takeLatest, call } from 'redux-saga/effects';
-import { INIT, INIT_FINISH} from './actions';
-
-function* initFileList() {
-    try {
-        const files = yield call(fileList);
-
-        if (files.length > 0) {
-            const id = files[0].id;
-            const data = yield call(download, id);
-            yield put(setFile(id, data));
-        }
-    } catch (e) {
-        console.error(e);
-    }
-}
 
 function* init() {
     try {
         const userinfo = yield call(auth);
+        const files = yield call(fileList);
+
+        yield put(setFilesList(files));
         yield put(setPasswordSalt(userinfo.getId()));
-        yield put(setAuthResult(true));
     } catch (e) {
         console.error(e);
-        yield put(setAuthResult(false));
+        yield put(setInitError('Fail to start'));
     }
-
-    yield call(initFileList);
 
     yield put({type: INIT_FINISH});
 }

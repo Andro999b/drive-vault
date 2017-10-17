@@ -7,12 +7,12 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
 import { hideChangePasswordDialog } from '../actions/dialogs';
-import { updateMasterPassword } from '../sagas/actions';
-import { isWeakPassword } from '../crypt/password';
+import { updateMasterPassword } from '../actions/sagas';
+import { isWeakPassword } from '../service/crypt/password';
 
 @connect(
     (state) => ({
-        open: state.changePasswordDialog
+        open: state.dialogs.changePassword
     }),
     (dispatch) => ({
         hideDialog: () => dispatch(hideChangePasswordDialog()),

@@ -4,17 +4,14 @@ import {
     REMOVE_CREDENTIAL,
     REMOVE_GROUP,
     SELECT_GROUP,
-    SET_NAME_FILTER,
-    UPDATE_MASTER_PASSWORD
-} from './actions';
+    SET_NAME_FILTER
+} from '../actions/sagas';
+import { setSelectedGroup } from '../actions/';
+
+import { get as db } from '../service/db';
+import { SELECTED_GROUP_KEY, setSetting } from '../service/settings';
 
 import { put, takeLatest, select, cps, call } from 'redux-saga/effects';
-
-import { get as db, save as saveDatabase } from '../db';
-import { SELECTED_GROUP_KEY, setSetting } from '../settings';
-
-import { setSelectedGroup, setSecret } from '../actions/';
-import { createSecret } from '../crypt';
 
 import {
     hideRemoveCredentialDialog,
@@ -29,7 +26,7 @@ function* removeGroup(action) {
     db().removeGroup(group);
     yield put(hideRemoveGroupDialog());
 
-    const { selectedGroup } = yield select();
+    const { selectedGroup } = (yield select()).main;
     if (selectedGroup != null && selectedGroup.id == group.id)
         yield call(selectGroup, { payload: null });
 }
@@ -71,17 +68,6 @@ function* setNameFilter(action) {
     yield cps(() => db().setFilterName(action.payload));
 }
 
-function* updateMasterPassword(action) {
-    const password = action.payload;
-    const { salt } = yield select();
-    const secret = createSecret(password, salt);
-
-    yield put(setSecret(secret));
-
-    //force upload db
-    saveDatabase();
-}
-
 export default function* () {
     yield takeLatest(REMOVE_CREDENTIAL, removeCredential);
     yield takeLatest(REMOVE_GROUP, removeGroup);
@@ -89,5 +75,4 @@ export default function* () {
     yield takeLatest(SAVE_GROUP, saveGruop);
     yield takeLatest(SELECT_GROUP, selectGroup);
     yield takeLatest(SET_NAME_FILTER, setNameFilter);
-    yield takeLatest(UPDATE_MASTER_PASSWORD, updateMasterPassword);
 }

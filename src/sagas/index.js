@@ -1,13 +1,13 @@
 import { fork, all } from 'redux-saga/effects';
 
 import init from './init';
-import setMassterPassword from './setMasterPassword';
-import list from './list';
+import password from './password';
+import main from './main';
 
 export default function* () {
     yield all([
         fork(init),
-        fork(setMassterPassword),
-        fork(list)
+        fork(password),
+        fork(main)
     ]);
 }

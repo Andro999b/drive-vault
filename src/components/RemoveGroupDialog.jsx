@@ -7,11 +7,11 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
 import { hideRemoveGroupDialog } from '../actions/dialogs';
-import { removeGroup } from '../sagas/actions';
+import { removeGroup } from '../actions/sagas';
 
 @connect(
     (state) => ({
-        group: state.removeGroup
+        group: state.dialogs.removeGroup
     }),
     (dispatch) => ({
         hideDialog: () => dispatch(hideRemoveGroupDialog()),

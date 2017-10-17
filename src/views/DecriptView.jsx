@@ -2,36 +2,28 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { setMasterPassword } from '../sagas/actions';
+import { setMasterPassword } from '../actions/sagas';
 
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
-import history from '../history';
-
 @connect(
     (state) => ({
-        dbInited: state.dbInited,
-        authResult: state.authResult,
         masterPasswordError: state.masterPasswordError
     }),
     (dispatch) => ({
         setMasterPassword: (password) => dispatch(setMasterPassword(password))
     }) 
 )
-class InitialView extends Component {
+class DecriptView extends Component {
     static propTypes = {
-        dbInited: PropTypes.bool,
-        authResult: PropTypes.bool.isRequired,
+        fileId: PropTypes.string,
         masterPasswordError: PropTypes.string,
         setMasterPassword: PropTypes.func.isRequired
     }
 
     componentWillMount() {
-        const { dbInited } = this.props;
-        if(dbInited) {
-            history.push('/list');
-        }
+
     }
 
     constructor(props, context) {
@@ -62,11 +54,9 @@ class InitialView extends Component {
 
     render() {
         const { password } = this.state;
-        const { authResult, masterPasswordError } = this.props;
+        const { masterPasswordError } = this.props;
         return (
             <div className="initial-view">
-                {!authResult && <span className="initial-view__fail">Aplication start fail</span>}
-                {authResult &&
                     <div>
                         <TextField
                             autoFocus
@@ -81,11 +71,9 @@ class InitialView extends Component {
                         <br />
                         <RaisedButton label="Ok" primary fullWidth onClick={this.onSubmit.bind(this)} />
                     </div>
-                }
-
             </div>
         );
     }
 }
 
-export default InitialView;
+export default DecriptView;

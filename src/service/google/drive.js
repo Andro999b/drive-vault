@@ -1,11 +1,12 @@
 /* global gapi*/
 
-const KEYSTORE_FILENAME = 'gdrivekeystore2';
+const EXT = '.vault';
+const DEFULT_KEYSTORE = `keystore${EXT}`;
 
 export function fileList() {
     return gapi.client.drive.files.list({
-        q: `name = '${KEYSTORE_FILENAME}' and trashed != true`,
-        fields: 'files(id,webContentLink)'
+        q: `name contains '${EXT}' and trashed != true`,
+        fields: 'files(id,name,webContentLink)'
     }).then((res) => res.result.files);
 }
 
@@ -18,7 +19,7 @@ export function download(fileId) {
 
 export function upload({fileId, fileName, body}) {
     const metadata = {
-        name: fileName || KEYSTORE_FILENAME,
+        name: fileName || DEFULT_KEYSTORE,
         mimeType: 'text/plain'
     };
 

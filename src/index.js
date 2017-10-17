@@ -10,7 +10,7 @@ import App from 'App';
 import store from './store';
 
 import { WAIT_FOR_ACTION } from 'redux-wait-for-action';
-import { INIT, INIT_FINISH } from './sagas/actions';
+import { INIT, INIT_FINISH } from './actions/sagas';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
