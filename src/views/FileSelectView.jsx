@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { setNewFileName } from '../actions';
-
-import { validateFileName } from '../service/fs'; 
+import { createNewFile } from '../actions/sagas';
 
 import Avatar from 'material-ui/Avatar';
 import FileIcon from 'material-ui/svg-icons/action/https';
@@ -21,25 +19,25 @@ import { lightBlue500, red700 } from 'material-ui/styles/colors';
 @connect(
     (state) => ({
         dbInited: state.decrypt.db,
-        fileName: state.decrypt.fileName,
+        newFileNameError: state.files.newFileNameError,
         fileList: state.files.list
     }),
     (dispatch) => ({
-        setNewFileName: (name) => dispatch(setNewFileName(name))
+        createNewFile: (name) => dispatch(createNewFile(name))
     })
 )
 class FileSelectView extends Component {
     static propTypes = {
         dbInited: PropTypes.bool,
         fileList: PropTypes.array.isRequired,
-        setNewFileName: PropTypes.func.isRequired,
+        newFileNameError: PropTypes.string,
+        createNewFile: PropTypes.func.isRequired,
         history: PropTypes.object.isRequired
     }
     
     constructor(props, context) {
         super(props, context);
         this.state = {
-            fileNameError: '',
             fileName: ''
         };
     }
@@ -55,29 +53,21 @@ class FileSelectView extends Component {
     }
 
     createNewFile() {
-        const { history, setNewFileName } = this.props;
+        const { createNewFile } = this.props;
         const { fileName } = this.state;
 
-        if(validateFileName(fileName)) {
-            setNewFileName(fileName);
-            history.push('/file/new');
-        } else {
-            this.setState({
-                fileNameError: 'Bad file name',
-            });
-        }
+        createNewFile(fileName);
     }
 
     onNameChange(e) {
         this.setState({
-            fileNameError: '',
             fileName: e.target.value 
         });
     }
 
     render() {
-        const { fileName, fileNameError } = this.state;
-        const { fileList } = this.props;
+        const { fileName } = this.state;
+        const { fileList, newFileNameError } = this.props;
         const subHeadStyle = {paddingLeft: 0, textAlign:'center'};
         return (
             <div className="files-list">
@@ -105,7 +95,7 @@ class FileSelectView extends Component {
                             onChange={(e) => this.onNameChange(e)}
                             fullWidth
                             value={fileName}
-                            errorText={fileNameError}
+                            errorText={newFileNameError}
                             hintText="Enter vault name"
                             floatingLabelText="Enter vault name" />
                         <RaisedButton 

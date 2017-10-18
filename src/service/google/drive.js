@@ -3,7 +3,28 @@
 const EXT = '.vault';
 
 export function validateFileName(fileName) {
-    return /[^.]+/.test(fileName);
+    if(!/[^.]+/.test(fileName)) {
+        return Promise.resolve({
+            valid: false,
+            error: 'Bad file name'
+        });
+    }
+
+    return gapi.client.drive.files.list({
+        q: `name = '${fileName}.${EXT}' and trashed != true`,
+        fields: 'files(id,name,webContentLink)'
+    }).then((res) => {
+        if(res.result.files.lenght == 0) {
+            return {
+                valid: true,
+            };
+        } else {
+            return {
+                valid: false,
+                error: 'File alredy exists'
+            };
+        }
+    });
 }
 
 export function fileList() {

@@ -3,7 +3,8 @@ import { handleActions } from 'redux-actions';
 import * as actions from '../actions';
 
 const initilaState = {
-    list: []
+    list: [],
+    newFileNameError: null
 };
 
 export default handleActions({
