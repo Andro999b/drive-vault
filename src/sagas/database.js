@@ -17,9 +17,9 @@ const DB_EVENT_CREDENTIALS_UPDATED = 'db_creadential_updated';
 function* saveDataBase(action) {
     try {
         const keystore = action.payload;
-        const { fileId, secret } = (yield select()).decrypt;
+        const { fileId, fileName, secret } = (yield select()).decrypt;
 
-        const file = yield call(upload, { fileId, body: encrypt(keystore, secret) });
+        const file = yield call(upload, { fileId, fileName, body: encrypt(keystore, secret) });
         yield put(setFile(file.id));
         yield put(showToast('Database synchronized'));
     } catch (e) {

@@ -5,23 +5,21 @@ import { connect } from 'react-redux';
 import ListViewHeader from '../components/ListViewHeader';
 import CredentialsList from '../components/CredentialsList';
 import Toast from '../components/Toast';
-import history from '../history';
 
 @connect(
     (state) => ({
-        dbInited: state.dbInited
+        dbInited: state.decrypt.db
     })
 )
 class ListView extends Component {
     static propTypes = {
-        dbInited: PropTypes.bool
+        dbInited: PropTypes.bool,
+        history: PropTypes.object.isRequired
     }
 
     componentWillMount() {
-        const { dbInited } = this.props;
-        if(!dbInited) {
-            history.push('/');
-        }
+        const { dbInited, history } = this.props;
+        if(!dbInited) history.push('/');
     }
 
     render() {

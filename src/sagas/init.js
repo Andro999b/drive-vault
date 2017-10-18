@@ -1,8 +1,8 @@
-import { INIT, INIT_FINISH} from '../actions/sagas';
-import { setPasswordSalt, setInitError, setFilesList } from '../actions';
+import { INIT, INIT_FINISH, DOWNLOAD_FILE} from '../actions/sagas';
+import { setPasswordSalt, setInitError, setFilesList, setFile, setFileLoading } from '../actions';
 
 import auth from '../service/google/auth';
-import { fileList } from '../service/fs';
+import { fileList, download } from '../service/fs';
 
 import { put, takeLatest, call } from 'redux-saga/effects';
 
@@ -21,6 +21,18 @@ function* init() {
     yield put({type: INIT_FINISH});
 }
 
+function* downloadFile(action) {
+    const fileId = action.payload;
+
+    yield put(setFileLoading(true));
+
+    const fileData = yield call(download, fileId);
+
+    yield put(setFile(fileId, fileData));
+    yield put(setFileLoading(false));
+}
+
 export default function* () {
     yield takeLatest(INIT, init);
+    yield takeLatest(DOWNLOAD_FILE, downloadFile);
 }

@@ -5,6 +5,7 @@ import * as actions from '../actions';
 const initilaState = {
     db: false,
     masterPasswordError: null,
+    fileLoading: false,
     fileName: null,
     fileId: null,
     fileData: null,
@@ -21,6 +22,7 @@ export default handleActions({
         fileId: action.payload.id, 
         fileName: action.payload.name
     }),
+    [actions.SET_FILE_LOADING]: (state, action) => ({...state, fileLoading: action.payload}),
     [actions.SET_MASTER_PASSWORD_ERROR]: (state, action) => ({ ...state, masterPasswordError: action.payload }),
     [actions.SET_DB_INITED]: (state) => ({
         ...state,

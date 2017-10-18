@@ -1,5 +1,5 @@
-import { setMasterPasswordError, setSecret, setDatabaseInited } from '../actions';
-import { SET_MASTER_PASSWORD, UPDATE_MASTER_PASSWORD, selectGroup } from '../actions/sagas';
+import { setMasterPasswordError, setSecret, setDatabaseInited} from '../actions';
+import { SET_MASTER_PASSWORD, UPDATE_MASTER_PASSWORD, selectGroup, } from '../actions/sagas';
 
 import { save as saveDatabase } from '../service/db';
 import { createSecret, decrypt } from '../service/crypt';
@@ -46,6 +46,7 @@ function* setMasterPassword(action) {
             keystore = decrypt(fileData, secret);
             yield put(setSecret(secret));
         } catch (e) {
+            console.error(e);
             yield put(setMasterPasswordError('Wrong master password'));
             return;
         }

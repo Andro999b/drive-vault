@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import createReduxWaitForMiddleware from 'redux-wait-for-action';
 
-import reducer from '../reducer';
+import reducers from '../reducers';
 import sagas from '../sagas';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -10,7 +10,7 @@ const sagaMiddleware = createSagaMiddleware();
 const waitForActionMiddleware = createReduxWaitForMiddleware();
 
 const store = createStore(
-    reducer, 
+    reducers, 
     composeEnhancers(applyMiddleware(sagaMiddleware, waitForActionMiddleware))
 );
 

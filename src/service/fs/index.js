@@ -13,3 +13,7 @@ export function download(fileId) {
 export function upload({fileId, fileName, body}) {
     return fs.upload({fileId, fileName, body});
 }
+
+export function validateFileName(fileName) {
+    return fs.validateFileName(fileName);
+}

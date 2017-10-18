@@ -1,7 +1,10 @@
 /* global gapi*/
 
 const EXT = '.vault';
-const DEFULT_KEYSTORE = `keystore${EXT}`;
+
+export function validateFileName(fileName) {
+    return /[^.]+/.test(fileName);
+}
 
 export function fileList() {
     return gapi.client.drive.files.list({
@@ -18,10 +21,6 @@ export function download(fileId) {
 }
 
 export function upload({fileId, fileName, body}) {
-    const metadata = {
-        name: fileName || DEFULT_KEYSTORE,
-        mimeType: 'text/plain'
-    };
 
     const request = new XMLHttpRequest();
     const GoogleAuth = gapi.auth2.getAuthInstance();
@@ -31,6 +30,11 @@ export function upload({fileId, fileName, body}) {
     let requestBody;
 
     if(fileId == null) {
+        const metadata = {
+            name: fileName + EXT,
+            mimeType: 'text/plain'
+        };
+
         const boundary = '-------314159265358979323846';
         const delimiter = `\r\n--${boundary}\r\n`;
         const closeDelimiter = `\r\n--${boundary}--`;
