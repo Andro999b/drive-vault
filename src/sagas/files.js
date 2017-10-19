@@ -36,12 +36,13 @@ function* downloadFile(action) {
 function* removeFile(action) {
     const file = action.payload;
 
-    yield call(remove, file.id);
-
-    const files = yield call(fileList);
-    yield put(setFilesList(files));
-
-    yield put(hideRemoveFileDialog());
+    try{
+        yield call(remove, file.id);
+    } finally {
+        const files = yield call(fileList);
+        yield put(setFilesList(files));
+        yield put(hideRemoveFileDialog());
+    }
 }
 
 export default function* () {
