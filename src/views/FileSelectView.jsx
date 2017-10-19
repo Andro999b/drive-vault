@@ -64,6 +64,12 @@ class FileSelectView extends Component {
         createNewFile(fileName);
     }
 
+    onKeyDown(e) {
+        if (e.keyCode == 13) {
+            this.createNewFile();
+        }
+    }
+
     onNameChange(e) {
         this.setState({
             fileName: e.target.value 
@@ -97,6 +103,7 @@ class FileSelectView extends Component {
                     }
                     <div>
                         <TextField
+                            onKeyDown={(e) => this.onKeyDown(e)}
                             onChange={(e) => this.onNameChange(e)}
                             fullWidth
                             value={fileName}

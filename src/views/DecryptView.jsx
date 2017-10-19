@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { setMasterPassword, downloadFile } from '../actions/sagas';
+import { setMasterPasswordError } from '../actions';
 
 import Loader from '../components/Loader';
 
@@ -18,7 +19,8 @@ import RaisedButton from 'material-ui/RaisedButton';
     }),
     (dispatch) => ({
         downloadFile: (fileId) => dispatch(downloadFile(fileId)),
-        setMasterPassword: (password) => dispatch(setMasterPassword(password))
+        setMasterPassword: (password) => dispatch(setMasterPassword(password)),
+        clearPasswordError: () => dispatch(setMasterPasswordError(null))
     }),
     (stateProps, dispatchProps, ownProps) => ({
         ...stateProps,
@@ -36,6 +38,7 @@ class DecryptView extends Component {
         masterPasswordError: PropTypes.string,
         setMasterPassword: PropTypes.func.isRequired,
         downloadFile: PropTypes.func.isRequired,
+        clearPasswordError: PropTypes.func.isRequired,
         history: PropTypes.object.isRequired
     }
 
@@ -48,7 +51,9 @@ class DecryptView extends Component {
     }
 
     componentWillMount() {
-        const { fileId, fileName, dbInited, history, downloadFile } = this.props;
+        const { fileId, fileName, dbInited, history, downloadFile, clearPasswordError } = this.props;
+
+        clearPasswordError();
 
         if(dbInited) {
             history.push('/list');
@@ -93,14 +98,14 @@ class DecryptView extends Component {
                                 autoFocus
                                 fullWidth
                                 value={password}
-                                onKeyDown={this.onKeyDown.bind(this)}
-                                onChange={this.onChange.bind(this)}
+                                onKeyDown={(e) => this.onKeyDown(e)}
+                                onChange={(e) => this.onChange(e)}
                                 hintText="Enter master password"
                                 floatingLabelText="Enter master password"
                                 errorText={masterPasswordError}
                                 type="password" />
                             <br />
-                            <RaisedButton label="Ok" primary fullWidth onClick={this.onSubmit.bind(this)} />
+                            <RaisedButton label="Ok" primary fullWidth onClick={(e) => this.onSubmit(e)} />
                         </div>
                     </div>
                 }
