@@ -9,7 +9,7 @@ import { SELECTED_GROUP_KEY, getSetting } from '../service/settings';
 import { put, takeLatest, select, spawn, call } from 'redux-saga/effects';
 
 import database from './database';
-import history from '../history';
+import history from '../service/history';
 
 function* afterDatabaseInited(action) {
     yield put(setDatabaseInited());

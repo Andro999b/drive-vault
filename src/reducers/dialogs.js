@@ -4,6 +4,7 @@ import * as dialogsActions from '../actions/dialogs';
 const initilaState = {
     removeGroup: null,
     removeCredential: null,
+    removeFile: null,
     saveGroup: null,
     saveCredential: null,
     changePassword: false,
@@ -23,5 +24,6 @@ export default handleActions({
 
         return { ...state, saveCredential: credential };
     },
+    [dialogsActions.SET_REMOVE_FILE]: (state, action) => ({ ...state, removeFile: action.payload }),
     [dialogsActions.SET_CHANGE_PASSWORD_DIALOG]: (state, action) => ({ ...state, changePassword: action.payload }),
 }, initilaState);

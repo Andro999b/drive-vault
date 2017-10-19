@@ -12,6 +12,7 @@ export const REMOVE_GROUP = 'remove_group';
 export const REMOVE_CREDENTIAL = 'remove_credential';
 export const DOWNLOAD_FILE = 'download_file';
 export const CREATE_FILE = 'create_file';
+export const REMOVE_FILE = 'remove_file';
 
 export const setMasterPassword = createAction(SET_MASTER_PASSWORD, (password) => password);
 export const updateMasterPassword = createAction(UPDATE_MASTER_PASSWORD, (password) => password);
@@ -23,3 +24,4 @@ export const removeGroup = createAction(REMOVE_GROUP, (group) => group);
 export const removeCredential = createAction(REMOVE_CREDENTIAL, (credential) => credential); 
 export const downloadFile = createAction(DOWNLOAD_FILE, (fileId) => fileId);
 export const createNewFile = createAction(CREATE_FILE, (fileName) => fileName);
+export const removeFile = createAction(REMOVE_FILE, (fileName) => fileName);

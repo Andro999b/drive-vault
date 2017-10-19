@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import history from './history';
+import history from './service/history';
 import { Router, Switch, Route, Redirect} from 'react-router-dom';
 
 import ListView from './views/ListView';

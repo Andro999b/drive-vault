@@ -3,7 +3,7 @@
 const EXT = '.vault';
 
 export function validateFileName(fileName) {
-    if(!/[^.]+/.test(fileName)) {
+    if(!fileName || /[.]+/.test(fileName)) {
         return Promise.resolve({
             valid: false,
             error: 'Bad file name'
@@ -14,16 +14,22 @@ export function validateFileName(fileName) {
         q: `name = '${fileName}.${EXT}' and trashed != true`,
         fields: 'files(id,name,webContentLink)'
     }).then((res) => {
-        if(res.result.files.lenght == 0) {
+        if(res.result.files.length == 0) {
             return {
                 valid: true,
             };
         } else {
             return {
                 valid: false,
-                error: 'File alredy exists'
+                error: 'File already exists'
             };
         }
+    });
+}
+
+export function remove(fileId) {
+    return gapi.client.drive.files.delete({
+        fileId
     });
 }
 
@@ -36,13 +42,12 @@ export function fileList() {
 
 export function download(fileId) {
     return gapi.client.drive.files.get({
-        fileId: fileId,
+        fileId,
         alt: 'media'
     }).then((res) => res.body);
 }
 
 export function upload({fileId, fileName, body}) {
-
     const request = new XMLHttpRequest();
     const GoogleAuth = gapi.auth2.getAuthInstance();
     const currentUser = GoogleAuth.currentUser.get();

@@ -3,8 +3,8 @@ import { showToast } from '../actions/toast';
 
 import { encrypt } from '../service/crypt';
 
-import { init } from '../service/db/index';
-import { upload } from '../service/fs/index';
+import { init } from '../service/db';
+import { upload } from '../service/fs';
 
 import { put, select, take, call } from 'redux-saga/effects';
 import { eventChannel } from 'redux-saga';

@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { createNewFile } from '../actions/sagas';
+import { showRemoveFileDialog } from '../actions/dialogs';
+
+import RemoveFileDialog from '../components/RemoveFileDialog';
 
 import Avatar from 'material-ui/Avatar';
 import FileIcon from 'material-ui/svg-icons/action/https';
@@ -23,7 +26,8 @@ import { lightBlue500, red700 } from 'material-ui/styles/colors';
         fileList: state.files.list
     }),
     (dispatch) => ({
-        createNewFile: (name) => dispatch(createNewFile(name))
+        createNewFile: (name) => dispatch(createNewFile(name)),
+        showRemoveFileDialog: (file) => dispatch(showRemoveFileDialog(file))
     })
 )
 class FileSelectView extends Component {
@@ -32,6 +36,7 @@ class FileSelectView extends Component {
         fileList: PropTypes.array.isRequired,
         newFileNameError: PropTypes.string,
         createNewFile: PropTypes.func.isRequired,
+        showRemoveFileDialog: PropTypes.func.isRequired,
         history: PropTypes.object.isRequired
     }
     
@@ -67,7 +72,7 @@ class FileSelectView extends Component {
 
     render() {
         const { fileName } = this.state;
-        const { fileList, newFileNameError } = this.props;
+        const { fileList, newFileNameError, showRemoveFileDialog } = this.props;
         const subHeadStyle = {paddingLeft: 0, textAlign:'center'};
         return (
             <div className="files-list">
@@ -81,7 +86,7 @@ class FileSelectView extends Component {
                                 key={file.id}
                                 leftAvatar={<Avatar icon={<FileIcon />} backgroundColor={lightBlue500} />}
                                 rightIconButton={
-                                    <IconButton>
+                                    <IconButton onTouchTap={() => showRemoveFileDialog(file)}>
                                         <DeleteIcon color={red700} />
                                     </IconButton>
                                     }
@@ -104,6 +109,7 @@ class FileSelectView extends Component {
                             onTouchTap={() => this.createNewFile()}/>
                     </div>
                 </List >
+                <RemoveFileDialog/>
             </div>
         );
     }

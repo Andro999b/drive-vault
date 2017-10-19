@@ -10,4 +10,5 @@ const initilaState = {
 export default handleActions({
     //common actions
     [actions.SET_FILES_LIST]: (state, action) => ({ ...state, list: action.payload }),
+    [actions.SET_NEW_FILE_NAME_ERROR]: (state, action) => ({ ...state, newFileNameError: action.payload})
 }, initilaState);

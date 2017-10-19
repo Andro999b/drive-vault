@@ -1,4 +1,4 @@
-import * as driveFs from '../google/drive';
+import * as driveFs from './google/drive';
 
 const fs = driveFs;
 
@@ -16,4 +16,8 @@ export function upload({fileId, fileName, body}) {
 
 export function validateFileName(fileName) {
     return fs.validateFileName(fileName);
+}
+
+export function remove(fileId) {
+    return fs.remove(fileId);
 }

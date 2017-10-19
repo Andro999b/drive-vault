@@ -22,6 +22,7 @@ export default handleActions({
         fileId: action.payload.id, 
         fileName: action.payload.name
     }),
+    [actions.SET_NEW_FILE_NAME]: (state, action) => ({ ...state, fileName: action.payload}),
     [actions.SET_FILE_LOADING]: (state, action) => ({...state, fileLoading: action.payload}),
     [actions.SET_MASTER_PASSWORD_ERROR]: (state, action) => ({ ...state, masterPasswordError: action.payload }),
     [actions.SET_DB_INITED]: (state) => ({
