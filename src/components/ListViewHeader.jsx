@@ -69,6 +69,12 @@ class ListViewHeader extends Component {
         this.setState({ groupsMenu: false });
     }
 
+    onKeyDown(e) {
+        if (e.keyCode == 27) {
+            this.leaveSearchMode();
+        }
+    }
+
     render() {
         //TODO: decomposition here
         const { showCreateDialog, showCahngePasswordDialog, selectedGroup } = this.props;
@@ -103,6 +109,7 @@ class ListViewHeader extends Component {
                         hintText="Search"
                         name="searchbox"
                         value={nameFilter}
+                        onKeyDown={(e) => this.onKeyDown(e)}
                         onChange={(e) => this.onNameFilterChange(e)}
                         autoFocus
                         fullWidth
