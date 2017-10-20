@@ -8,8 +8,12 @@ So for decrypting file hacker must know you master password and have acces to yo
 
 * support dropbox
 * support web dav
-* multi storage
+* multiple device sync?
+
+## 1.2
+
+* Now you can work with multiple files
 
 ## 1.1
 
-* moved to redux saga
+* Side effects action moved to redux saga from redux trunk
