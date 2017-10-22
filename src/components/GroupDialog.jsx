@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import linkstate from 'linkstate';
 
 import { connect } from 'react-redux';
 
+import Dialog from './Dialog';
 import TextField from 'material-ui/TextField';
-import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
 import { hideSaveGroupDialog } from '../actions/dialogs';
@@ -42,6 +41,10 @@ class GroupDialog extends Component {
         });
     }
 
+    onGroupNameChange(e) {
+        this.setState((state) => ({group: {...state.group, name: e.target.value}}));
+    }
+
     save() {
         const { group } = this.state;
         let errors = {};
@@ -75,7 +78,7 @@ class GroupDialog extends Component {
                         errorText={errors.name}
                         fullWidth
                         value={name}
-                        onChange={linkstate(this, 'group.name')}
+                        onChange={this.onGroupNameChange.bind(this)}
                     />
                 </form>
             </Dialog>

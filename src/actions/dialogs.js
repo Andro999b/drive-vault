@@ -1,4 +1,5 @@
 import { createAction } from 'redux-actions';
+import { TYPE_SINGLE_VALUE } from '../service/credentials';
 
 export const SET_REMOVE_GROUP = 'SET_REMOVE_GROUP';
 export const SET_SAVE_GROUP = 'SET_SAVE_GROUP';
@@ -10,7 +11,7 @@ export const SET_CHANGE_PASSWORD_DIALOG = 'SET_CHANGE_PASSWORD_DIALOG';
 export const showRemoveGroupDialog = createAction(SET_REMOVE_GROUP, (group) => group);
 export const showSaveGroupDialog = createAction(SET_SAVE_GROUP, (group) => (group || {}));
 export const showRemoveCredentialDialog = createAction(SET_REMOVE_CREDENTIAL, (credential) => credential);
-export const showSaveCredentialDialog = createAction(SET_SAVE_CREDENTIAL, (credential) => (credential || {}));
+export const showSaveCredentialDialog = createAction(SET_SAVE_CREDENTIAL, (credential) => (credential || {type: TYPE_SINGLE_VALUE}));
 export const hideRemoveGroupDialog = createAction(SET_REMOVE_GROUP, () => null);
 export const hideSaveGroupDialog = createAction(SET_SAVE_GROUP, () => null);
 export const hideRemoveCredentialDialog = createAction(SET_REMOVE_CREDENTIAL, () => null);

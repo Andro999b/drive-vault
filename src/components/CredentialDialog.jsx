@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import linkstate from 'linkstate';
+
+import Dialog from './Dialog';
 
 import TextField from 'material-ui/TextField';
-import Dialog from 'material-ui/Dialog';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
@@ -64,12 +64,18 @@ class CredentialDialog extends Component {
     }
 
     //eslint-disable-next-line no-unused-vars
-    onGroupChange = (event, index, value) => this.setState({credential: {...this.state.credential, group: value}})
+    onGroupChange(event, index, value) {
+        this.setState((state) => ({credential: {...state.credential, group: value}}));
+    }
+
+    onNameChange(e) {
+        this.setState((state) => ({group: {...state.credential, name: e.target.value}}));
+    }
 
     render() {
         const { credential, hideDialog, groups } = this.props;
         const errors = this.state.errors;
-        const { group, name, value } = this.state.credential;
+        const { group, name } = this.state.credential;
 
         const actions = [
             <FlatButton key={0} onTouchTap={hideDialog} label="Cancel" primary />,
@@ -89,13 +95,13 @@ class CredentialDialog extends Component {
                         {groups.map((item) => <MenuItem key={item.id} value={item.id} primaryText={item.name} />)}
                     </SelectField>
                     <TextField 
-                        floatingLabelText="Enter name" 
+                        floatingLabelText="Enter title" 
                         autoComplete="new-password" 
                         errorText={errors.name}
                         fullWidth 
                         value={name} 
-                        onChange={linkstate(this, 'credential.name')} />
-                    <TextField 
+                        onChange={this.onNameChange.bind(this)} />
+                    {/*<TextField 
                         floatingLabelText="Enter value" 
                         type="password" 
                         autoComplete="new-password" 
@@ -103,7 +109,7 @@ class CredentialDialog extends Component {
                         fullWidth 
                         multiLine
                         value={value} 
-                        onChange={linkstate(this, 'credential.value')} />
+                    onChange={linkstate(this, 'credential.value')} />*/}
                 </form>
             </Dialog>
         );

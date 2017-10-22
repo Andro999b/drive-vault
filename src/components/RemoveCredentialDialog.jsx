@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Dialog from 'material-ui/Dialog';
+import Dialog from './Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
 import { hideRemoveCredentialDialog } from '../actions/dialogs';
