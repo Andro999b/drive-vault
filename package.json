@@ -1,6 +1,6 @@
 {
-  "name": "drive-password-storage",
-  "version": "1.0.0",
+  "name": "drive-vault",
+  "version": "1.3.4",
   "scripts": {
     "start": "webpack-dev-server --env=dev",
     "build": "webpack --env=prod"

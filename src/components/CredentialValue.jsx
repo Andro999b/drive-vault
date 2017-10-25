@@ -8,7 +8,7 @@ import { ListItem } from 'material-ui/List';
 import ActionVisibilityIcon from 'material-ui/svg-icons/action/visibility';
 import ActionVisibilityOffIcon from 'material-ui/svg-icons/action/visibility-off';
 
-import { grey500 } from 'material-ui/styles/colors';
+import { grey600 } from 'material-ui/styles/colors';
 
 import { showToast } from '../actions/toast';
 
@@ -54,7 +54,7 @@ class Credential extends Component {
                 onMouseLeave={this.hideValue}
                 onTouchEnd={this.hideValue}
                 onTouchTap={(e) => e.stopPropagation()}>
-                {showValue? <ActionVisibilityOffIcon color={grey500}/> : <ActionVisibilityIcon color={grey500}/>}
+                {showValue? <ActionVisibilityOffIcon color={grey600}/> : <ActionVisibilityIcon color={grey600}/>}
             </span>
         );
 
