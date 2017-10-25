@@ -3,6 +3,7 @@ import { handleActions } from 'redux-actions';
 import * as actions from '../actions';
 import * as dialogsActions from '../actions/dialogs';
 import * as toasActions from '../actions/toast';
+import { SYNCRONIZED } from '../service/db/sync-status';
 
 const initilaState = {
     groups: [],
@@ -14,6 +15,7 @@ const initilaState = {
     saveGroup: null,
     saveCredential: null,
     changePasswordDialog: false,
+    syncStatus: SYNCRONIZED
 };
 
 export default handleActions({
@@ -21,6 +23,7 @@ export default handleActions({
     [actions.SET_GROUPS]: (state, action) => ({ ...state, groups: action.payload }),
     [actions.SET_CREDENTIALS]: (state, action) => ({ ...state, credentials: action.payload }),
     [actions.SET_SELECTED_GROUP]: (state, action) => ({ ...state, selectedGroup: action.payload }),
+    [actions.SET_SYNC_STATUS]: (state, action) => ({ ...state, syncStatus: action.payload }),
     //toast
     [toasActions.SET_TOAST_MSG]: (state, action) => ({ ...state, toastMsg: action.payload }),
     //dialogs

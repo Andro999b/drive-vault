@@ -22,5 +22,5 @@ function* init() {
 }
 
 export default function* () {
-    yield takeLatest(INIT, init);
+    yield takeLatest(INIT, init);   
 }

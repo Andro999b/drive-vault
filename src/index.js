@@ -11,16 +11,30 @@ import store from './store';
 
 import { WAIT_FOR_ACTION } from 'redux-wait-for-action';
 import { INIT, INIT_FINISH } from './actions/sagas';
+import { SYNCRONIZED } from './service/db/sync-status';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 
-store
-    .dispatch({
-        type: INIT,
-        [WAIT_FOR_ACTION]: INIT_FINISH
-    })
-    .then(() => {
-        render(<App store={store}/>, document.getElementById('root'));
+export function startUp() {
+    store
+        .dispatch({
+            type: INIT,
+            [WAIT_FOR_ACTION]: INIT_FINISH
+        })
+        .then(() => {
+            render(<App store={store} />, document.getElementById('root'));
+        });
+
+    // prevent close window if db not syncronizes
+    store.subscribe(() => {
+        if (SYNCRONIZED == store.getState().main.syncStatus) {
+            window.onbeforeunload = null;
+        } else {
+            window.onbeforeunload = function () {
+                return 'Database synchronization in progress. Please wait for finish.';
+            };
+        }
     });
+}

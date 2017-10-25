@@ -35,7 +35,7 @@ function* setMasterPassword(action) {
     if (secret) return;
 
     if (!password) {
-        yield put(setMasterPasswordError('Master password must be not empty'));
+        yield put(setMasterPasswordError('Master password can`t be empty'));
         return;
     }
 

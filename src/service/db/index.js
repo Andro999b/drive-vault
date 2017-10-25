@@ -7,7 +7,7 @@ export function init(keystore, callbacks) {
         throw new Error('db already inited');
 
     return new Promise(function(resolve) {
-        db = new LokiDBImpl(keystore, {...callbacks, onDbInited: resolve});
+        db = new LokiDBImpl(keystore, {...callbacks, onDatabaseInited: resolve});
     });
 }
 

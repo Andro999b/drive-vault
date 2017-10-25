@@ -20,7 +20,7 @@
             -webkit-transform: rotateZ(45deg);
             transform: rotateZ(45deg);
         }
-        
+
         .sk-folding-cube .sk-cube {
             float: left;
             width: 50%;
@@ -30,7 +30,7 @@
             -ms-transform: scale(1.1);
             transform: scale(1.1);
         }
-        
+
         .sk-folding-cube .sk-cube:before {
             content: '';
             position: absolute;
@@ -45,37 +45,37 @@
             -ms-transform-origin: 100% 100%;
             transform-origin: 100% 100%;
         }
-        
+
         .sk-folding-cube .sk-cube2 {
             -webkit-transform: scale(1.1) rotateZ(90deg);
             transform: scale(1.1) rotateZ(90deg);
         }
-        
+
         .sk-folding-cube .sk-cube3 {
             -webkit-transform: scale(1.1) rotateZ(180deg);
             transform: scale(1.1) rotateZ(180deg);
         }
-        
+
         .sk-folding-cube .sk-cube4 {
             -webkit-transform: scale(1.1) rotateZ(270deg);
             transform: scale(1.1) rotateZ(270deg);
         }
-        
+
         .sk-folding-cube .sk-cube2:before {
             -webkit-animation-delay: 0.3s;
             animation-delay: 0.3s;
         }
-        
+
         .sk-folding-cube .sk-cube3:before {
             -webkit-animation-delay: 0.6s;
             animation-delay: 0.6s;
         }
-        
+
         .sk-folding-cube .sk-cube4:before {
             -webkit-animation-delay: 0.9s;
             animation-delay: 0.9s;
         }
-        
+
         @-webkit-keyframes sk-foldCubeAngle {
             0%,
             10% {
@@ -96,7 +96,7 @@
                 opacity: 0;
             }
         }
-        
+
         @keyframes sk-foldCubeAngle {
             0%,
             10% {
@@ -122,14 +122,74 @@
 
 <body>
     <div id="root">
-        <div class="sk-folding-cube">
+        <div id="initial-loader" class="sk-folding-cube">
             <div class="sk-cube1 sk-cube"></div>
             <div class="sk-cube2 sk-cube"></div>
             <div class="sk-cube4 sk-cube"></div>
             <div class="sk-cube3 sk-cube"></div>
         </div>
+        <div id="sign-in"></div>
     </div>
-    <script src="https://apis.google.com/js/api.js"></script>
+    <script type="text/javascript">
+        // Client ID and API key from the Developer Console
+        var CLIENT_ID = '865137154549-4emsm32c10m6g281epq6i7akvblj97g9.apps.googleusercontent.com';
+        var API_KEY_ID = 'AIzaSyDzJSZ302P2yZfWpUedWcg3hlPudjL3SNE';
+
+        // Array of API discovery doc URLs for APIs used by the quickstart
+        var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
+
+        // Authorization scopes required by the API; multiple scopes can be
+        // included, separated by spaces.
+        var SCOPES = 'https://www.googleapis.com/auth/drive';
+
+        /**
+         *  On load, called to load the auth2 library and API client library.
+         */
+        function handleClientLoad() {
+            gapi.load('client:auth2:signin2', initClient);
+        }
+
+        /**
+         *  Initializes the API client library and sets up sign-in state
+         *  listeners.
+         */
+        function initClient() {
+            gapi.client.init({
+                apiKey: API_KEY_ID,
+                clientId: CLIENT_ID,
+                discoveryDocs: DISCOVERY_DOCS,
+                scope: SCOPES
+            }).then(function () {
+                const GoogleAuth = gapi.auth2.getAuthInstance();
+
+                //chek if user alredy sign in
+                if (!GoogleAuth.isSignedIn.get()) {
+                    var initialLoader = document.getElementById('initial-loader');
+
+
+                    initialLoader.style.display = 'none';
+                    gapi.signin2.render('sign-in', {
+                        scope: SCOPES,
+                        width: 280,
+                        height: 50,
+                        longtitle: true,
+                        theme: 'dark',
+                        onsuccess: function() {
+                            initialLoader.style.display = 'block';
+                            document.getElementById('sign-in').style.display = 'none';
+
+                            application.startUp();
+                        }
+                    });
+                } else {
+                    application.startUp();
+                }
+            });
+        }
+    </script>
+    <!-- <script src="https://apis.google.com/js/platform.js" /> -->
+    <script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()" onreadystatechange="if (this.readyState === 'complete') this.onload()">
+    </script>
 </body>
 
 </html>

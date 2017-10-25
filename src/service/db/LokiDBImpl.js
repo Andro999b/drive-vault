@@ -13,20 +13,26 @@ class LokiDBPersistanceAdapter {
     }
 
     // eslint-disable-next-line no-unused-vars
-    loadDatabase (dbname, callback) {
+    loadDatabase(dbname, callback) {
         callback(this.keystore);
     }
 
     // eslint-disable-next-line no-unused-vars
-    saveDatabase (dbname, dbstring, callback) {
+    saveDatabase(dbname, dbstring, callback) {
         this.keystore = dbstring;
-        this.onDatabaseSave(dbstring);
-        callback(null);
+        this.onDatabaseSave(dbstring, () => callback(null));
     }
 }
 
 class LokiDBImpl {
-    constructor(keystore, { onGoupsUpdated, onCredentialsUpdated, onDatabaseSave, onDbInited }) {
+    constructor(keystore, {
+        onGoupsUpdated,
+        onCredentialsUpdated,
+        onDatabaseSave,
+        onDatabaseInited,
+        onDatabaseChanged
+    }) {
+        this.onDatabaseChanged = onDatabaseChanged;
         this.db = new Loki('keystoredb', {
             adapter: new LokiDBPersistanceAdapter(keystore, onDatabaseSave),
             autoload: true,
@@ -52,23 +58,23 @@ class LokiDBImpl {
             }
 
             self.credentialsView = self.credentialsCollection.getDynamicView(CREDENTIALS_COLLECTION_VIEW);
-            if(self.credentialsView == null) {
-                self.credentialsView = self.credentialsCollection.addDynamicView(CREDENTIALS_COLLECTION_VIEW, {persistent: false});
+            if (self.credentialsView == null) {
+                self.credentialsView = self.credentialsCollection.addDynamicView(CREDENTIALS_COLLECTION_VIEW, { persistent: false });
             }
 
             self.groupsView = self.groupsCollection.getDynamicView(GROUPS_COLLECTION_VIEW);
-            if(self.groupsView == null) {
-                self.groupsView = self.groupsCollection.addDynamicView(GROUPS_COLLECTION_VIEW, {persistent: false});
+            if (self.groupsView == null) {
+                self.groupsView = self.groupsCollection.addDynamicView(GROUPS_COLLECTION_VIEW, { persistent: false });
             }
 
             self.credentialsView.on('rebuild', (view) => onCredentialsUpdated(view.data()));
             self.groupsView.on('rebuild', (view) => onGoupsUpdated(view.data()));
 
-            self.credentialsView.removeFilters(); 
+            self.credentialsView.removeFilters();
 
             onCredentialsUpdated(self.credentialsView.data());
             onGoupsUpdated(self.groupsView.data());
-            onDbInited(self);
+            onDatabaseInited(self);
         }
     }
 
@@ -79,10 +85,12 @@ class LokiDBImpl {
             credential.id = uuidV4();
             this.credentialsCollection.insert(credential);
         }
+        this.onDatabaseChanged();
     }
 
     removeCredential(credential) {
         this.credentialsCollection.findAndRemove({ id: credential.id });
+        this.onDatabaseChanged();
     }
 
     saveGroup(group) {
@@ -92,19 +100,21 @@ class LokiDBImpl {
             group.id = uuidV4();
             this.groupsCollection.insert(group);
         }
+        this.onDatabaseChanged();
     }
 
     removeGroup(group) {
         this.groupsCollection.findAndRemove({ id: group.id });
         this.credentialsCollection.findAndUpdate({ id: group.id }, (credential) => {
             const index = credential.groups.findIndex((item) => item.id == group.id);
-            if(index > -1) credential.groups.splice(index, 1);
+            if (index > -1) credential.groups.splice(index, 1);
         });
+        this.onDatabaseChanged();
     }
 
     setFilterGroup(group) {
         if (group)
-            this.credentialsView.applyFind({ groups: {'$contains': group.id }}, 'group');
+            this.credentialsView.applyFind({ groups: { '$contains': group.id } }, 'group');
         else
             this.removeFilter('group');
     }
@@ -129,11 +139,11 @@ class LokiDBImpl {
     }
 
     getGroup(id) {
-        return this.groupsCollection.findOne({id});
+        return this.groupsCollection.findOne({ id });
     }
 
     getCredential(id) {
-        return this.credentialsCollection.findOne({id});
+        return this.credentialsCollection.findOne({ id });
     }
 }
 

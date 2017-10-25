@@ -11,7 +11,8 @@ const config = {
   },
   output: {
     path: path.resolve(__dirname, './app'),
-    filename: '[name].js'
+    filename: '[name].js',
+    library: 'application'
   },
   resolve: {
     extensions: ['.js', '.jsx'],

@@ -11,7 +11,7 @@ import { setSelectedGroup } from '../actions/';
 import { get as db } from '../service/db';
 import { SELECTED_GROUP_KEY, setSetting } from '../service/settings';
 
-import { put, takeLatest, select, cps, call } from 'redux-saga/effects';
+import { put, takeLatest, select, call } from 'redux-saga/effects';
 
 import {
     hideRemoveCredentialDialog,
@@ -65,7 +65,7 @@ function* selectGroup(action) {
 }
 
 function* setNameFilter(action) {
-    yield cps(() => db().setFilterName(action.payload));
+    yield call(() => db().setFilterName(action.payload));
 }
 
 export default function* () {
