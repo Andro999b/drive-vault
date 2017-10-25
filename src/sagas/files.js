@@ -1,6 +1,13 @@
 import { CREATE_FILE, DOWNLOAD_FILE, REMOVE_FILE } from '../actions/sagas';
 import { hideRemoveFileDialog } from '../actions/dialogs';
-import { setNewFileName, setNewFileNameError, setFileLoading, setFile, setFilesList } from '../actions';
+import { 
+    setNewFileName, 
+    setNewFileNameError, 
+    setFileLoading, 
+    setFilesListLoading, 
+    setFile, 
+    setFilesList 
+} from '../actions';
 
 import { takeLatest, put, call } from 'redux-saga/effects';
 
@@ -36,13 +43,18 @@ function* downloadFile(action) {
 function* removeFile(action) {
     const file = action.payload;
 
+    yield put(setFilesListLoading(true));
+    yield put(hideRemoveFileDialog());
+    
     try{
         yield call(remove, file.id);
-    } finally {
-        const files = yield call(fileList);
-        yield put(setFilesList(files));
-        yield put(hideRemoveFileDialog());
+    } catch(e) {
+        console.error(e);
     }
+
+    const files = yield call(fileList);
+    yield put(setFilesList(files));
+    yield put(setFilesListLoading(false));
 }
 
 export default function* () {

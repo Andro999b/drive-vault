@@ -4,25 +4,29 @@ body {
     margin: 0;
 }
 
-.initial-view {
+.initial-view,
+.files-list,
+.screan-center {
+    width: 280px;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translateY(-50%);
     margin-left: -145px;
-    width: 280px;
-    text-align: center;
+    transform: translateY(-50%);
 }
 
-.files-list {
-    width: 280px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-left: -145px;
-    transform: translateY(-50%);
+.initial-view {
+    text-align: center;
 }
 
 .fail-to-start {
     color: red;
+}
+
+.row-first-cell {
+    margin-right: 10px
+}
+
+.text-right {
+    text-align: right;
 }

@@ -6,13 +6,13 @@ import AppRouter from './AppRouter';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { lightBlue500, lightBlue700, purpleA200 } from 'material-ui/styles/colors';
+import { lightBlue500, lightBlue700 } from 'material-ui/styles/colors';
 
 const muiTheme = getMuiTheme({
     palette: {
         primary1Color: lightBlue500,
         primary2Color: lightBlue700,
-        accent1Color: purpleA200
+        accent1Color: lightBlue500
     }
 });
 

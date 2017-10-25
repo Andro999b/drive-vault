@@ -42,7 +42,8 @@ class GroupDialog extends Component {
     }
 
     onGroupNameChange(e) {
-        this.setState((state) => ({group: {...state.group, name: e.target.value}}));
+        const name = e.target.value;
+        this.setState((state) => ({group: {...state.group, name}}));
     }
 
     save() {
@@ -77,7 +78,7 @@ class GroupDialog extends Component {
                         autoComplete="new-password"
                         errorText={errors.name}
                         fullWidth
-                        value={name}
+                        value={name||''}
                         onChange={this.onGroupNameChange.bind(this)}
                     />
                 </form>

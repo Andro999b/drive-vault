@@ -8,11 +8,19 @@ class Dialog extends Component {
         contentStyle: PropTypes.object
     }
 
+    static defaultContentStyle = {
+        maxWidth: 570,
+        width: '100%'
+    }
+
     render() {
         const { contentStyle } = this.props;
 
         return (
-            <MuiDialog {...this.props} contentStyle={{width: '100%', ...contentStyle}}/>
+            <MuiDialog 
+                autoScrollBodyContent
+                {...this.props}
+                contentStyle={{ ...Dialog.defaultContentStyle, ...contentStyle }} />
         );
     }
 }

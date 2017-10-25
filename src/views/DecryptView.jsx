@@ -88,6 +88,7 @@ class DecryptView extends Component {
     render() {
         const { password } = this.state;
         const { masterPasswordError, fileLoading } = this.props;
+        
         return (
             <div>
                 {fileLoading && <Loader />}
