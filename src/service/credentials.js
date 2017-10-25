@@ -1,5 +1,3 @@
-import { error } from "util";
-
 export const TYPE_SINGLE_VALUE = 1;
 export const TYPE_MULTI_VALUE = 2;
 export const TYPE_LOGIN_PASSWORD = 3;
