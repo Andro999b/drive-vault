@@ -10,6 +10,10 @@ So for decrypting file hacker must know you master password and have acces to yo
 * support web dav
 * multiple device sync?
 
+## 1.3
+* multiple groups
+* comples credentials
+
 ## 1.2
 
 * Now application can work with multiple files

@@ -96,12 +96,15 @@ class LokiDBImpl {
 
     removeGroup(group) {
         this.groupsCollection.findAndRemove({ id: group.id });
-        this.credentialsCollection.findAndUpdate({ id: group.id }, (credential) => credential.group = null);
+        this.credentialsCollection.findAndUpdate({ id: group.id }, (credential) => {
+            const index = credential.groups.findIndex((item) => item.id == group.id);
+            if(index > -1) credential.groups.splice(index, 1);
+        });
     }
 
     setFilterGroup(group) {
         if (group)
-            this.credentialsView.applyFind({ group: group.id }, 'group');
+            this.credentialsView.applyFind({ groups: {'$contains': group.id }}, 'group');
         else
             this.removeFilter('group');
     }

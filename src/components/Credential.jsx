@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import CrediCardIcon from 'material-ui/svg-icons/action/credit-card';
-import MultipleValuesIcon from 'material-ui/svg-icons/action/description';
+import CreditCardIcon from 'material-ui/svg-icons/action/credit-card';
+import SiteIcon from 'material-ui/svg-icons/action/language';
+import LoginPasswordIcon from 'material-ui/svg-icons/action/account-box';
+import MultipleValuesIcon from 'material-ui/svg-icons/action/assignment';
 
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
@@ -13,7 +15,12 @@ import ListItem from 'material-ui/List/ListItem';
 
 import CredentialValue from './CredentialValue';
 
-import { TYPE_CREDIT_CARD } from '../service/credentials';
+import { 
+    TYPE_CREDIT_CARD, 
+    TYPE_SINGLE_VALUE, 
+    TYPE_SITE_CREDENTIALS, 
+    TYPE_LOGIN_PASSWORD 
+} from '../service/credentials';
 import { showSaveCredentialDialog, showRemoveCredentialDialog } from '../actions/dialogs';
 
 @connect(
@@ -32,14 +39,16 @@ class Credential extends Component {
 
     getIcon(type) {
         switch(type) {
-            case TYPE_CREDIT_CARD: return (<CrediCardIcon/>);
+            case TYPE_CREDIT_CARD: return (<CreditCardIcon/>);
+            case TYPE_SITE_CREDENTIALS: return (<SiteIcon/>);
+            case TYPE_LOGIN_PASSWORD: return (<LoginPasswordIcon/>);
             default: return (<MultipleValuesIcon/>);
         }
     }
 
     render() {
         const { showEditDialog, showRemoveDialog, credential } = this.props;
-        const { values } = credential;
+        const { type } = credential;
 
         const rightIconButton = (
             <IconMenu iconButtonElement={
@@ -55,9 +64,9 @@ class Credential extends Component {
             </IconMenu>
         );
 
-        return values.length > 1 ?
-            this.renderMultipeValue(credential, rightIconButton) :
-            this.renderSinleValue(credential, rightIconButton);
+        return type == TYPE_SINGLE_VALUE ?
+            this.renderSinleValue(credential, rightIconButton):
+            this.renderMultipeValue(credential, rightIconButton);
     }
 
     renderMultipeValue(credential, rightIconButton) {
