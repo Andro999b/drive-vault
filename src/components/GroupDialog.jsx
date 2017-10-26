@@ -74,6 +74,7 @@ class GroupDialog extends Component {
             <Dialog title="Group" open={group != null} actions={actions} onRequestClose={hideDialog}>
                 <form autoComplete="off">
                     <TextField
+                        autoFocus
                         floatingLabelText="Group name"
                         autoComplete="new-password"
                         errorText={errors.name}

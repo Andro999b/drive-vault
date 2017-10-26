@@ -131,6 +131,7 @@ class CredentialDialog extends Component {
             >
                 <form autoComplete="off">
                     <TextField
+                        autoFocus
                         floatingLabelText="Enter title"
                         autoComplete="new-password"
                         errorText={errors.name}
