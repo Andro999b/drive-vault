@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import { isMobile } from '../../service/utils';
 
 class CredentialMultipleValues extends Component {
     static propTypes = {
@@ -82,15 +83,18 @@ class CredentialMultipleValues extends Component {
     }
 
     renderRow(index, name, value, error, isLast) {
+        const mobile = isMobile();
         return (
             <div key={index}>{/*there is now predictable key for this case*/}
                 <TextField
+                    fullWidth={mobile}
                     floatingLabelText="Enter name"
                     value={name}
                     errorText={error.nameError}
                     onChange={(e) => this.onNameChange(index, e.target.value)}
                     className="row-first-cell" />
                 <TextField
+                    fullWidth={mobile}
                     floatingLabelText="Enter value"
                     errorText={error.error}
                     onChange={(e) => this.onValueChange(index, e.target.value)}

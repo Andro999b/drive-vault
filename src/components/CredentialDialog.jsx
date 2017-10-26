@@ -122,6 +122,8 @@ class CredentialDialog extends Component {
             default: ValueEditor = schema ? CredentialShemeValues : CredentialSingleValue;
         }
 
+        const hasAvaliableGroups = avaliableGroups.length  > 0;
+
         return (
             <Dialog
                 title="Credential"
@@ -139,7 +141,7 @@ class CredentialDialog extends Component {
                         value={name||''}
                         onChange={this.onNameChange.bind(this)} />
                     <div>
-                        <SelectField 
+                        {hasAvaliableGroups && <SelectField 
                             multiple 
                             className="row-first-cell"  
                             floatingLabelText="Select Group" 
@@ -152,8 +154,12 @@ class CredentialDialog extends Component {
                                     checked={groups && groups.indexOf(item.id) > -1}
                                     primaryText={item.name} />)
                             )}
-                        </SelectField>
-                        <SelectField floatingLabelText="Select Type" value={type} onChange={this.onTypeChange.bind(this)}>
+                        </SelectField>}
+                        <SelectField 
+                            fullWidth={!hasAvaliableGroups} 
+                            floatingLabelText="Select Type" 
+                            value={type} 
+                            onChange={this.onTypeChange.bind(this)}>
                             {allTypes.map((item) => <MenuItem key={item} value={item} primaryText={getTypeName(item)} />)}
                         </SelectField>
                     </div>
