@@ -29,6 +29,7 @@ import {
 @connect(
     (state) => ({
         credential: state.dialogs.saveCredential,
+        selectedGroup: state.main.selectedGroup,
         avaliableGroups: state.main.groups
     }),
     (dispatch) => ({
@@ -41,22 +42,27 @@ class CredentialDialog extends Component {
         credential: PropTypes.object,
         hideDialog: PropTypes.func.isRequired,
         avaliableGroups: PropTypes.array,
+        selectedGroup: PropTypes.object,
         save: PropTypes.func.isRequired
     };
 
     constructor(props) {
         super(props);
-        this.state = {
-            errors: {},
-            credential: props.credential ? { ...props.credential } : {}
-        };
+        this.state = this.convertPropsToSate(props);
     }
 
     componentWillReceiveProps(props) {
-        this.setState({
+        this.setState(this.convertPropsToSate(props));
+    }
+
+    convertPropsToSate(props) {
+        const { selectedGroup } = this.props;
+        const groups = selectedGroup && [selectedGroup.id] || [];
+
+        return {
             errors: {},
-            credential: props.credential ? { ...props.credential } : {}
-        });
+            credential: { groups, ...props.credential }
+        };
     }
 
     save() {

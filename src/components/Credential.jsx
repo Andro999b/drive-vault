@@ -52,11 +52,7 @@ class Credential extends Component {
 
         const rightIconButton = (
             <IconMenu iconButtonElement={
-                <IconButton
-                    touch
-                    tooltip="more"
-                    tooltipPosition="bottom-left"
-                >
+                <IconButton>
                     <MoreVertIcon />
                 </IconButton>}>
                 <MenuItem onTouchTap={() => showEditDialog(credential)}>Edit</MenuItem>
