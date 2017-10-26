@@ -35,7 +35,7 @@ class RemoveFileDialog extends Component {
         ];
 
         return (
-            <Dialog open={file != null} actions={actions} onRequestClose={hideDialog}>
+            <Dialog offMobileMode open={file != null} actions={actions} onRequestClose={hideDialog}>
                 Remove file {name} ? 
             </Dialog>
         );

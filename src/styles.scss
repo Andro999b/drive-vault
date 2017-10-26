@@ -1,19 +1,26 @@
+$min-width: 280px;
+$dialog-z-index: 1500;
+$dialog-content-width: 570px;
+
 body {
     font-family: 'Roboto';
     font-size: 16px;
     margin: 0;
 }
 
-#sign-in,
-.initial-view,
-.files-list,
-.screan-center {
-    width: 280px;
+@mixin screan-center {
+    width: $min-width;
     position: absolute;
     top: 50%;
     left: 50%;
-    margin-left: -145px;
+    margin-left: -($min-width / 2);
     transform: translateY(-50%);
+}
+
+#sign-in,
+.initial-view,
+.files-list {
+    @include screan-center;
 }
 
 .initial-view {
@@ -30,4 +37,42 @@ body {
 
 .text-right {
     text-align: right;
+}
+
+.full-screan-dialog {
+    position: fixed;
+    z-index: $dialog-z-index;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: white;
+    overflow: auto;
+}
+
+.full-screan-dialog__body {
+    width: 100%;
+    max-width: $dialog-content-width;
+    margin: 0 auto;
+}
+
+.full-screan-dialog__title {
+    padding: 24px 24px 20px;
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 22px;
+    line-height: 32px;
+    font-weight: 400;
+}
+
+.full-screan-dialog__content {
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.6);
+    padding: 24px;
+}
+
+.full-screan-dialog__actions {
+    box-sizing: border-box;
+    text-align: right;
+    padding: 8px;
+    width: 100%;
 }

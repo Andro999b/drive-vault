@@ -13,6 +13,8 @@ So for decrypting file hacker must know you master password and have acces to yo
 ## 1.3
 * multiple groups
 * complex credentials
+* improve mobile experience
+* fix google auth
 
 ## 1.2
 

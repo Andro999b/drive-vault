@@ -21,6 +21,7 @@ function* createFile(action) {
     const result = yield call(validateFileName, name);
 
     if (result.valid) {
+        yield put(setFile());
         yield put(setNewFileName(name));
         yield put(setNewFileNameError(null));
         history.push('/file/new');
