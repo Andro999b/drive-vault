@@ -26,7 +26,7 @@ class RemoveCredentialDialog extends Component {
 
     render() {
         const { credential, hideDialog, removeCredential } = this.props;
-        const name = credential? credential.name : null;
+        const name = credential ? credential.name : null;
 
         const actions = [
             <FlatButton key={0} onTouchTap={hideDialog} label="Cancel" primary />,
@@ -35,11 +35,12 @@ class RemoveCredentialDialog extends Component {
 
         return (
             <Dialog
-                 open={credential != null} 
-                 actions={actions}
-                 onRequestClose={hideDialog}
-                 >
-                Remove credential {name} ? 
+                offMobileMode
+                open={credential != null}
+                actions={actions}
+                onRequestClose={hideDialog}
+            >
+                Remove credential {name} ?
             </Dialog>
         );
     }

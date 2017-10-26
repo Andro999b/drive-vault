@@ -35,7 +35,7 @@ class RemoveGroupDialog extends Component {
         ];
 
         return (
-            <Dialog open={group != null} actions={actions} onRequestClose={hideDialog}>
+            <Dialog offMobileMode open={group != null} actions={actions} onRequestClose={hideDialog}>
                 Remove group {name} ? 
             </Dialog>
         );
