@@ -9,8 +9,8 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 
-import { hideSaveCredentialDialog } from '../../actions/dialogs';
-import { saveCredential } from '../../actions/sagas';
+import { hideSaveCredentialDialog } from 'actions/dialogs';
+import { saveCredential } from 'actions/sagas';
 
 import CredentialSingleValue from './credential-dialog/CredentialSingleValue';
 import CredentialMultipleValues from './credential-dialog/CredentialMultipleValues';
@@ -20,11 +20,11 @@ import {
     allTypes,
     TYPE_MULTI_VALUE, TYPE_SINGLE_VALUE,
     getSchema, getValidator, getTypeName
-} from '../../service/credentials';
+} from 'service/credentials';
 
 import {
     noEmptyValue
-} from '../../service/validations';
+} from 'service/validations';
 
 @connect(
     (state) => ({

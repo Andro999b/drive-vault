@@ -7,9 +7,9 @@ import Dialog from './Dialog';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 
-import { hideChangePasswordDialog } from '../../actions/dialogs';
-import { updateMasterPassword } from '../../actions/sagas';
-import { isWeakPassword } from '../../service/crypt/password';
+import { hideChangePasswordDialog } from 'actions/dialogs';
+import { updateMasterPassword } from 'actions/sagas';
+import { isWeakPassword } from 'service/crypt/password';
 
 @connect(
     (state) => ({

@@ -7,12 +7,12 @@ import Dialog from './Dialog';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 
-import { hideSaveGroupDialog } from '../../actions/dialogs';
-import { saveGroup } from '../../actions/sagas';
+import { hideSaveGroupDialog } from 'actions/dialogs';
+import { saveGroup } from 'actions/sagas';
 
 import {
     noEmptyValue
-} from '../../service/validations';
+} from 'service/validations';
 
 @connect(
     (state) => ({

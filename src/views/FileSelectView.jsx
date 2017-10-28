@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { createNewFile } from '../actions/sagas';
-import { showRemoveFileDialog } from '../actions/dialogs';
+import { createNewFile } from 'actions/sagas';
+import { showRemoveFileDialog } from 'actions/dialogs';
 
-import RemoveFileDialog from '../components/dialogs/RemoveFileDialog';
-import Loader from '../components/Loader';
+import RemoveFileDialog from 'components/dialogs/RemoveFileDialog';
+import Loader from 'components/Loader';
 
 import Avatar from 'material-ui/Avatar';
 import FileIcon from 'material-ui/svg-icons/action/https';

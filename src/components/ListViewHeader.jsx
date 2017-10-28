@@ -14,8 +14,8 @@ import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 
 import ListSideBar from './ListSideBar';
 
-import { showSaveCredentialDialog } from '../actions/dialogs';
-import { setNameFilter } from '../actions/sagas';
+import { showSaveCredentialDialog } from 'actions/dialogs';
+import { setNameFilter } from 'actions/sagas';
 
 import { white, grey500 } from 'material-ui/styles/colors';
 

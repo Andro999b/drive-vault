@@ -1,5 +1,5 @@
-import { CREATE_FILE, DOWNLOAD_FILE, REMOVE_FILE } from '../actions/sagas';
-import { hideRemoveFileDialog } from '../actions/dialogs';
+import { CREATE_FILE, DOWNLOAD_FILE, REMOVE_FILE } from 'actions/sagas';
+import { hideRemoveFileDialog } from 'actions/dialogs';
 import { 
     setNewFileName, 
     setNewFileNameError, 
@@ -7,13 +7,13 @@ import {
     setFilesListLoading, 
     setFile, 
     setFilesList 
-} from '../actions';
+} from 'actions';
 
 import { takeLatest, put, call } from 'redux-saga/effects';
 
-import { validateFileName, download, remove, fileList } from '../service/fs';
+import { validateFileName, download, remove, fileList } from 'service/fs';
 
-import history from '../service/history';
+import history from 'service/history';
 
 function* createFile(action) {
     const name = action.payload;

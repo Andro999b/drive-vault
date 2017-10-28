@@ -15,8 +15,8 @@ import ActionKeyIcon from 'material-ui/svg-icons/communication/vpn-key';
 import ExportIcon from 'material-ui/svg-icons/content/unarchive';
 import ImportIcon from 'material-ui/svg-icons/content/archive';
 
-import { showChangePasswordDialog, showExportDialog, showImportDialog } from '../actions/dialogs';
-import { selectGroup } from '../actions/sagas';
+import { showChangePasswordDialog, showExportDialog, showImportDialog } from 'actions/dialogs';
+import { selectGroup } from 'actions/sagas';
 
 @connect(
     () => ({}),

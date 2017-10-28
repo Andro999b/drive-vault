@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import MuiDialog from 'material-ui/Dialog';
 import FullScreanDailog from './FullScreanDailog';
-import { isMobile } from '../../service/utils';
+import { isMobile } from 'service/utils';
 
 class Dialog extends Component {
     static propTypes = {

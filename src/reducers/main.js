@@ -1,9 +1,9 @@
 import { handleActions } from 'redux-actions';
 
-import * as actions from '../actions';
-import * as dialogsActions from '../actions/dialogs';
-import * as toasActions from '../actions/toast';
-import { SYNCRONIZED } from '../service/db/sync-status';
+import * as actions from 'actions';
+import * as dialogsActions from 'actions/dialogs';
+import * as toasActions from 'actions/toast';
+import { SYNCRONIZED } from 'service/db/sync-status';
 
 const initilaState = {
     groups: [],

@@ -6,7 +6,7 @@ import Dialog from './Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
-import { hideExportDialog } from '../../actions/dialogs';
+import { hideExportDialog } from 'actions/dialogs';
 
 @connect(
     (state) => ({

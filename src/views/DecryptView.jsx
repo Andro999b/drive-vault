@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { setMasterPassword, downloadFile } from '../actions/sagas';
-import { setMasterPasswordError } from '../actions';
+import { setMasterPassword, downloadFile } from 'actions/sagas';
+import { setMasterPasswordError } from 'actions';
 
-import Loader from '../components/Loader';
+import Loader from 'components/Loader';
 
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';

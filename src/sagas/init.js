@@ -1,8 +1,8 @@
-import { INIT, INIT_FINISH} from '../actions/sagas';
-import { setPasswordSalt, setInitError, setFilesList } from '../actions';
+import { INIT, INIT_FINISH} from 'actions/sagas';
+import { setPasswordSalt, setInitError, setFilesList } from 'actions';
 
-import auth from '../service/google/auth';
-import { fileList } from '../service/fs';
+import auth from 'service/google/auth';
+import { fileList } from 'service/fs';
 
 import { put, takeLatest, call } from 'redux-saga/effects';
 

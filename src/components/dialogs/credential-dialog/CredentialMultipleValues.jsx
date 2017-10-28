@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import { isMobile } from '../../../service/utils';
+import { isMobile } from 'service/utils';
 
 class CredentialMultipleValues extends Component {
     static propTypes = {

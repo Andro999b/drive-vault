@@ -1,5 +1,5 @@
 import { createAction } from 'redux-actions';
-import { TYPE_SINGLE_VALUE } from '../service/credentials';
+import { TYPE_SINGLE_VALUE } from 'service/credentials';
 
 export const SET_REMOVE_GROUP = 'SET_REMOVE_GROUP';
 export const SET_SAVE_GROUP = 'SET_SAVE_GROUP';

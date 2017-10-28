@@ -1,15 +1,15 @@
-import { setMasterPasswordError, setSecret, setDatabaseInited} from '../actions';
-import { SET_MASTER_PASSWORD, UPDATE_MASTER_PASSWORD, selectGroup, } from '../actions/sagas';
+import { setMasterPasswordError, setSecret, setDatabaseInited} from 'actions';
+import { SET_MASTER_PASSWORD, UPDATE_MASTER_PASSWORD, selectGroup, } from 'actions/sagas';
 
-import { save as saveDatabase } from '../service/db';
-import { createSecret, decrypt } from '../service/crypt';
-import { isWeakPassword } from '../service/crypt/password';
-import { SELECTED_GROUP_KEY, getSetting } from '../service/settings';
+import { save as saveDatabase } from 'service/db';
+import { createSecret, decrypt } from 'service/crypt';
+import { isWeakPassword } from 'service/crypt/password';
+import { SELECTED_GROUP_KEY, getSetting } from 'service/settings';
 
 import { put, takeLatest, select, spawn, call } from 'redux-saga/effects';
 
 import database from './database';
-import history from '../service/history';
+import history from 'service/history';
 
 function* afterDatabaseInited(action) {
     yield put(setDatabaseInited());

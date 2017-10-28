@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Snackbar from 'material-ui/Snackbar';
-import { hideToast } from '../actions/toast';
+import { hideToast } from 'actions/toast';
 
 @connect(
     (state) => ({

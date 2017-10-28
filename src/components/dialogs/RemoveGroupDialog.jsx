@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import Dialog from './Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
-import { hideRemoveGroupDialog } from '../../actions/dialogs';
-import { removeGroup } from '../../actions/sagas';
+import { hideRemoveGroupDialog } from 'actions/dialogs';
+import { removeGroup } from 'actions/sagas';
 
 @connect(
     (state) => ({

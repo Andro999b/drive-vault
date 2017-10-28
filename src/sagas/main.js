@@ -5,11 +5,11 @@ import {
     REMOVE_GROUP,
     SELECT_GROUP,
     SET_NAME_FILTER
-} from '../actions/sagas';
-import { setSelectedGroup } from '../actions/';
+} from 'actions/sagas';
+import { setSelectedGroup } from 'actions/';
 
-import { get as db } from '../service/db';
-import { SELECTED_GROUP_KEY, setSetting } from '../service/settings';
+import { get as db } from 'service/db';
+import { SELECTED_GROUP_KEY, setSetting } from 'service/settings';
 
 import { put, takeLatest, select, call } from 'redux-saga/effects';
 
@@ -18,7 +18,7 @@ import {
     hideRemoveGroupDialog,
     hideSaveCredentialDialog,
     hideSaveGroupDialog
-} from '../actions/dialogs';
+} from 'actions/dialogs';
 
 function* removeGroup(action) {
     const group = action.payload;

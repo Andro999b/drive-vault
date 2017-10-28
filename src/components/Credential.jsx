@@ -20,8 +20,8 @@ import {
     TYPE_SINGLE_VALUE, 
     TYPE_SITE_CREDENTIALS, 
     TYPE_LOGIN_PASSWORD 
-} from '../service/credentials';
-import { showSaveCredentialDialog, showRemoveCredentialDialog } from '../actions/dialogs';
+} from 'service/credentials';
+import { showSaveCredentialDialog, showRemoveCredentialDialog } from 'actions/dialogs';
 
 @connect(
     null,

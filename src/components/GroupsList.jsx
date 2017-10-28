@@ -12,7 +12,7 @@ import GroupDialog from './dialogs/GroupDialog';
 import ContentAddCircleIcon from 'material-ui/svg-icons/content/add-circle';
 import ActionAllIcon from 'material-ui/svg-icons/action/done-all';
 
-import { showSaveGroupDialog } from '../actions/dialogs';
+import { showSaveGroupDialog } from 'actions/dialogs';
 
 @connect(
     (state) => ({

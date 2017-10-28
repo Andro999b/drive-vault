@@ -1,11 +1,11 @@
-import { setFile, setGroups, setCredentials, setSetSyncStatus } from '../actions';
-import { showToast } from '../actions/toast';
+import { setFile, setGroups, setCredentials, setSetSyncStatus } from 'actions';
+import { showToast } from 'actions/toast';
 
-import { encrypt } from '../service/crypt';
+import { encrypt } from 'service/crypt';
 
-import { init } from '../service/db';
-import { DIRTY, SYNCRONIZED, SYNCRONIZATION_INPROGRESS } from '../service/db/sync-status';
-import { upload } from '../service/fs';
+import { init } from 'service/db';
+import { DIRTY, SYNCRONIZED, SYNCRONIZATION_INPROGRESS } from 'service/db/sync-status';
+import { upload } from 'service/fs';
 
 import { put, select, take, call } from 'redux-saga/effects';
 import { eventChannel } from 'redux-saga';

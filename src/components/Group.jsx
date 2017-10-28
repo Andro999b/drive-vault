@@ -9,7 +9,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 
-import { showSaveGroupDialog, showRemoveGroupDialog } from '../actions/dialogs';
+import { showSaveGroupDialog, showRemoveGroupDialog } from 'actions/dialogs';
 
 @connect(
     null,

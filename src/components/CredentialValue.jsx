@@ -10,7 +10,7 @@ import ActionVisibilityOffIcon from 'material-ui/svg-icons/action/visibility-off
 
 import { grey600 } from 'material-ui/styles/colors';
 
-import { showToast } from '../actions/toast';
+import { showToast } from 'actions/toast';
 
 @connect(
     null,

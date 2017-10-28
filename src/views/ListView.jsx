@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import ListViewHeader from '../components/ListViewHeader';
-import CredentialsList from '../components/CredentialsList';
-import Toast from '../components/Toast';
+import ListViewHeader from 'components/ListViewHeader';
+import CredentialsList from 'components/CredentialsList';
+import Toast from 'components/Toast';
 
 @connect(
     (state) => ({

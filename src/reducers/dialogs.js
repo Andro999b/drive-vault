@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions';
-import * as dialogsActions from '../actions/dialogs';
+import * as dialogsActions from 'actions/dialogs';
 
 const initilaState = {
     removeGroup: null,
