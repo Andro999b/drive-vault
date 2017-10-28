@@ -5,8 +5,10 @@ import { connect } from 'react-redux';
 
 import { ListItem } from 'material-ui/List';
 import Group from './Group';
-import RemoveGroupDialog from './RemoveGroupDialog';
-import GroupDialog from './GroupDialog';
+
+import RemoveGroupDialog from './dialogs/RemoveGroupDialog';
+import GroupDialog from './dialogs/GroupDialog';
+
 import ContentAddCircleIcon from 'material-ui/svg-icons/content/add-circle';
 import ActionAllIcon from 'material-ui/svg-icons/action/done-all';
 

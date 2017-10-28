@@ -9,8 +9,8 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 
-import { hideSaveCredentialDialog } from '../actions/dialogs';
-import { saveCredential } from '../actions/sagas';
+import { hideSaveCredentialDialog } from '../../actions/dialogs';
+import { saveCredential } from '../../actions/sagas';
 
 import CredentialSingleValue from './credential-dialog/CredentialSingleValue';
 import CredentialMultipleValues from './credential-dialog/CredentialMultipleValues';
@@ -20,11 +20,11 @@ import {
     allTypes,
     TYPE_MULTI_VALUE, TYPE_SINGLE_VALUE,
     getSchema, getValidator, getTypeName
-} from '../service/credentials';
+} from '../../service/credentials';
 
 import {
     noEmptyValue
-} from '../service/validations';
+} from '../../service/validations';
 
 @connect(
     (state) => ({
@@ -71,7 +71,7 @@ class CredentialDialog extends Component {
         let errors = {};
 
         const nameError = noEmptyValue(name);
-        if(nameError) errors.name = nameError;
+        if (nameError) errors.name = nameError;
 
         const validator = getValidator(type);
         if (validator) {
@@ -105,14 +105,75 @@ class CredentialDialog extends Component {
     }
 
     render() {
-        const { credential, hideDialog, avaliableGroups } = this.props;
-        const errors = this.state.errors;
-        const { groups, name, type, values } = this.state.credential;
+        const { credential, hideDialog } = this.props;
 
         const actions = [
             <FlatButton key={0} onTouchTap={hideDialog} label="Cancel" primary />,
             <FlatButton key={1} onTouchTap={this.save.bind(this)} label="Save" primary />,
         ];
+
+        return (
+            <Dialog title="Credential" open={credential != null} actions={actions} onRequestClose={hideDialog}>
+                <form autoComplete="off">
+                    {this.renderTitleInput()}
+                    {this.renderGroupAndTypeSelectors()}
+                    {this.renderValueEditor()}
+                </form>
+            </Dialog>
+        );
+    }
+
+    renderTitleInput() {
+        const { errors } = this.state;
+        const { name } = this.state.credential;
+
+        return (
+            <TextField
+                autoFocus
+                floatingLabelText="Enter title"
+                autoComplete="new-password"
+                errorText={errors.name}
+                fullWidth
+                value={name || ''}
+                onChange={this.onNameChange.bind(this)} />
+        );
+    }
+
+    renderGroupAndTypeSelectors() {
+        const { avaliableGroups } = this.props;
+        const { groups, type } = this.state.credential;
+        const hasAvaliableGroups = avaliableGroups.length > 0;
+
+        return (
+            <div>
+                {hasAvaliableGroups && <SelectField
+                    multiple
+                    className="row-first-cell"
+                    floatingLabelText="Select Group"
+                    value={groups}
+                    onChange={this.onGroupChange.bind(this)}>
+                    {avaliableGroups.map((item) =>
+                        (<MenuItem
+                            key={item.id}
+                            value={item.id}
+                            checked={groups && groups.indexOf(item.id) > -1}
+                            primaryText={item.name} />)
+                    )}
+                </SelectField>}
+                <SelectField
+                    fullWidth={!hasAvaliableGroups}
+                    floatingLabelText="Select Type"
+                    value={type}
+                    onChange={this.onTypeChange.bind(this)}>
+                    {allTypes.map((item) => <MenuItem key={item} value={item} primaryText={getTypeName(item)} />)}
+                </SelectField>
+            </div>
+        );
+    }
+
+    renderValueEditor() {
+        const { errors, credential } = this.state;
+        const { type, values } = credential;
 
         const schema = getSchema(type);
         let ValueEditor;
@@ -122,54 +183,12 @@ class CredentialDialog extends Component {
             default: ValueEditor = schema ? CredentialShemeValues : CredentialSingleValue;
         }
 
-        const hasAvaliableGroups = avaliableGroups.length  > 0;
-
         return (
-            <Dialog
-                title="Credential"
-                open={credential != null}
-                actions={actions}
-                onRequestClose={hideDialog}
-            >
-                <form autoComplete="off">
-                    <TextField
-                        autoFocus
-                        floatingLabelText="Enter title"
-                        autoComplete="new-password"
-                        errorText={errors.name}
-                        fullWidth
-                        value={name||''}
-                        onChange={this.onNameChange.bind(this)} />
-                    <div>
-                        {hasAvaliableGroups && <SelectField 
-                            multiple 
-                            className="row-first-cell"  
-                            floatingLabelText="Select Group" 
-                            value={groups} 
-                            onChange={this.onGroupChange.bind(this)}>
-                            {avaliableGroups.map((item) => 
-                                (<MenuItem 
-                                    key={item.id} 
-                                    value={item.id} 
-                                    checked={groups && groups.indexOf(item.id) > -1}
-                                    primaryText={item.name} />)
-                            )}
-                        </SelectField>}
-                        <SelectField 
-                            fullWidth={!hasAvaliableGroups} 
-                            floatingLabelText="Select Type" 
-                            value={type} 
-                            onChange={this.onTypeChange.bind(this)}>
-                            {allTypes.map((item) => <MenuItem key={item} value={item} primaryText={getTypeName(item)} />)}
-                        </SelectField>
-                    </div>
-                    <ValueEditor
-                        values={values}
-                        errors={errors.values}
-                        schema={schema}
-                        onChange={this.onValuesChange.bind(this)} />
-                </form>
-            </Dialog>
+            <ValueEditor
+                values={values}
+                errors={errors.values}
+                schema={schema}
+                onChange={this.onValuesChange.bind(this)} />
         );
     }
 }

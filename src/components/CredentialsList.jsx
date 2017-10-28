@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import { List } from 'material-ui/List';
 import Credential from './Credential';
 
-import CredentialDialog from '../components/CredentialDialog';
-import RemoveCredentialDialog from '../components/RemoveCredentialDialog';
+import CredentialDialog from './dialogs/CredentialDialog';
+import RemoveCredentialDialog from './dialogs/RemoveCredentialDialog';
 
 @connect(
     (state) => ({

@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import Dialog from './Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
-import { hideRemoveCredentialDialog } from '../actions/dialogs';
-import { removeCredential } from '../actions/sagas';
+import { hideRemoveCredentialDialog } from '../../actions/dialogs';
+import { removeCredential } from '../../actions/sagas';
 
 @connect(
     (state) => ({

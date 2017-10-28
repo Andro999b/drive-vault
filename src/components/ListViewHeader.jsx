@@ -2,23 +2,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Divider from 'material-ui/Divider';
-import Drawer from 'material-ui/Drawer';
 import ContentCreateIcon from 'material-ui/svg-icons/content/add';
 import ActionSearchIcon from 'material-ui/svg-icons/action/search';
-import ActionKeyIcon from 'material-ui/svg-icons/communication/vpn-key';
-import BackIcon from 'material-ui/svg-icons/navigation/arrow-forward';
+import BackIcon from 'material-ui/svg-icons/navigation/arrow-back';
+import ClearIcon from 'material-ui/svg-icons/content/clear';
+
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
-import { ListItem } from 'material-ui/List';
 import TextField from 'material-ui/TextField';
 import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 
-import GroupsList from './GroupsList';
-import ChangePasswordDialog from './ChangePasswordDialog';
+import ListSideBar from './ListSideBar';
 
-import { showSaveCredentialDialog, showChangePasswordDialog } from '../actions/dialogs';
-import { selectGroup, setNameFilter} from '../actions/sagas';
+import { showSaveCredentialDialog } from '../actions/dialogs';
+import { setNameFilter } from '../actions/sagas';
 
 import { white, grey500 } from 'material-ui/styles/colors';
 
@@ -27,33 +24,35 @@ import { white, grey500 } from 'material-ui/styles/colors';
         selectedGroup: state.main.selectedGroup
     }),
     (dispatch) => ({
-        showCahngePasswordDialog: () => dispatch(showChangePasswordDialog()),
         showCreateDialog: () => dispatch(showSaveCredentialDialog()),
-        selectGroup: (group) => dispatch(selectGroup(group)),
         setNameFilter: (name) => dispatch(setNameFilter(name))
     })
 )
 class ListViewHeader extends Component {
     static propTypes = {
-        showCahngePasswordDialog: PropTypes.func.isRequired,
         showCreateDialog: PropTypes.func.isRequired,
         selectedGroup: PropTypes.object,
-        selectGroup: PropTypes.func.isRequired,
         setNameFilter: PropTypes.func.isRequired,
     };
 
     constructor(props) {
         super(props);
         this.state = {
-            groupsMenu: false,
+            sideBar: false,
             searchMode: false,
             nameFilter: ''
         };
     }
 
-    toggleGroupMenu = () => this.setState({ groupsMenu: !this.state.groupsMenu });
-    enterSearchMode = () => this.setState({ searchMode: true })
-    leaveSearchMode = () => {
+    toggleSideBar() {
+        this.setState((state) => ({ sideBar: !state.sideBar }));
+    }
+
+    enterSearchMode() {
+        this.setState({ searchMode: true });
+    }
+
+    leaveSearchMode() {
         this.setState({ searchMode: false, nameFilter: '' });
         this.props.setNameFilter('');
     }
@@ -64,9 +63,9 @@ class ListViewHeader extends Component {
         this.props.setNameFilter(nameFilter);
     }
 
-    onSelectGroup(group) {
-        this.props.selectGroup(group);
-        this.setState({ groupsMenu: false });
+    onNameFilterClear() {
+        this.setState({ nameFilter: '' });
+        this.props.setNameFilter('');
     }
 
     onKeyDown(e) {
@@ -76,16 +75,15 @@ class ListViewHeader extends Component {
     }
 
     render() {
-        //TODO: decomposition here
-        const { showCreateDialog, showCahngePasswordDialog, selectedGroup } = this.props;
-        const { groupsMenu, searchMode, nameFilter } = this.state;
+        const { showCreateDialog, selectedGroup } = this.props;
+        const { sideBar, searchMode, nameFilter } = this.state;
 
         const rightAppBarElement = (
             <div style={{ marginRight: -8 }}>
-                <IconButton onTouchTap={showCreateDialog}>
+                <IconButton onTouchTap={() => showCreateDialog()}>
                     <ContentCreateIcon color={white} />
                 </IconButton>
-                <IconButton onTouchTap={this.enterSearchMode}>
+                <IconButton onTouchTap={this.enterSearchMode.bind(this)}>
                     <ActionSearchIcon color={white} />
                 </IconButton>
             </div>
@@ -94,7 +92,7 @@ class ListViewHeader extends Component {
         const appBar = (
             <AppBar
                 title={selectedGroup == null ? 'All credentials' : selectedGroup.name}
-                onLeftIconButtonTouchTap={this.toggleGroupMenu}
+                onLeftIconButtonTouchTap={this.toggleSideBar.bind(this)}
                 iconElementRight={rightAppBarElement}
             />
         );
@@ -102,9 +100,9 @@ class ListViewHeader extends Component {
         const searchBar = (
             <Toolbar style={{ height: 64 }}>
                 <ToolbarGroup firstChild style={{ flexGrow: 1 }}>
-                    <div style={{ padding: 12, marginTop: 4 }}>
-                        <ActionSearchIcon color={grey500} />
-                    </div>
+                    <IconButton onTouchTap={this.leaveSearchMode.bind(this)}>
+                        <BackIcon color={grey500} />
+                    </IconButton>
                     <TextField
                         hintText="Search"
                         name="searchbox"
@@ -116,8 +114,8 @@ class ListViewHeader extends Component {
                         underlineShow={false} />
                 </ToolbarGroup>
                 <ToolbarGroup lastChild>
-                    <IconButton onTouchTap={this.leaveSearchMode}>
-                        <BackIcon color={grey500} />
+                    <IconButton onTouchTap={this.onNameFilterClear.bind(this)}>
+                        <ClearIcon color={grey500} />
                     </IconButton>
                 </ToolbarGroup>
             </Toolbar>
@@ -126,22 +124,7 @@ class ListViewHeader extends Component {
         return (
             <div>
                 {searchMode ? searchBar : appBar}
-                <Drawer
-                    open={groupsMenu}
-                    docked={false}
-                    onRequestChange={(open) => this.setState({ groupsMenu: open })}
-                >
-                    <GroupsList 
-                        selectGroup={(group) => this.onSelectGroup(group)} 
-                        />
-                    <Divider/>
-                    <ListItem
-                        onTouchTap={showCahngePasswordDialog}
-                        leftIcon={<ActionKeyIcon/>}
-                        primaryText="Change password"
-                        />
-                    <ChangePasswordDialog/>
-                </Drawer>
+                <ListSideBar open={sideBar} onRequestChange={this.toggleSideBar.bind(this)} />
             </div>
         );
     }

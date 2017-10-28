@@ -7,9 +7,9 @@ import Dialog from './Dialog';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 
-import { hideChangePasswordDialog } from '../actions/dialogs';
-import { updateMasterPassword } from '../actions/sagas';
-import { isWeakPassword } from '../service/crypt/password';
+import { hideChangePasswordDialog } from '../../actions/dialogs';
+import { updateMasterPassword } from '../../actions/sagas';
+import { isWeakPassword } from '../../service/crypt/password';
 
 @connect(
     (state) => ({
@@ -29,13 +29,13 @@ class ChangePasswordDialog extends Component {
 
     constructor(props, context) {
         super(props, context);
-        
+
         this.state = {
             password: '',
             passwordError: null
         };
     }
-    
+
     componentWillReceiveProps() {
         this.setState({
             password: '',
@@ -47,25 +47,25 @@ class ChangePasswordDialog extends Component {
         const password = e.target.value;
 
         let passwordError = null;
-        if(password.length == 0)
+        if (password.length == 0)
             passwordError = 'Master password must be not empty';
-        else if(isWeakPassword(password))
+        else if (isWeakPassword(password))
             passwordError = 'Master password too weak';
 
-        this.setState({password, passwordError});
+        this.setState({ password, passwordError });
     }
 
     onSave() {
-        const { password, passwordError} = this.state;
-        if(passwordError == null){
+        const { password, passwordError } = this.state;
+        if (passwordError == null) {
             this.props.updateMasterPassword(password);
             this.props.hideDialog();
         }
     }
-    
+
     render() {
         const { open, hideDialog } = this.props;
-        const { password, passwordError} = this.state;
+        const { password, passwordError } = this.state;
 
         const actions = [
             <FlatButton key={0} onTouchTap={hideDialog} label="Cancel" primary />,
@@ -74,14 +74,15 @@ class ChangePasswordDialog extends Component {
 
         return (
             <Dialog open={open} title="Change Password" actions={actions} onRequestClose={hideDialog}>
-                <TextField 
-                        floatingLabelText="Enter master password" 
-                        autoComplete="new-password" 
-                        errorText={passwordError}
-                        fullWidth 
-                        type="password"
-                        value={password} 
-                        onChange={this.onPasswordChange.bind(this)} />
+                <TextField
+                    autoFocus
+                    floatingLabelText="Enter master password"
+                    autoComplete="new-password"
+                    errorText={passwordError}
+                    fullWidth
+                    type="password"
+                    value={password}
+                    onChange={this.onPasswordChange.bind(this)} />
             </Dialog>
         );
     }

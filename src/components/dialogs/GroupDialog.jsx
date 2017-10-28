@@ -7,8 +7,12 @@ import Dialog from './Dialog';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 
-import { hideSaveGroupDialog } from '../actions/dialogs';
-import { saveGroup } from '../actions/sagas';
+import { hideSaveGroupDialog } from '../../actions/dialogs';
+import { saveGroup } from '../../actions/sagas';
+
+import {
+    noEmptyValue
+} from '../../service/validations';
 
 @connect(
     (state) => ({
@@ -50,9 +54,8 @@ class GroupDialog extends Component {
         const { group } = this.state;
         let errors = {};
 
-        if(!group.name){
-            errors.name = 'Cant be empty';
-        }
+        const nameError = noEmptyValue(group.name);
+        if(nameError) errors.name = nameError;
 
         this.setState({errors});
 

@@ -31,9 +31,10 @@ class Group extends Component {
 
         const rightIconMenu = (
             <IconMenu iconButtonElement={
-                <IconButton>
+                <IconButton touch>
                     <MoreVertIcon />
-                </IconButton>}>
+                </IconButton>
+            }>
                 <MenuItem onTouchTap={() => showEditDialog(group)}>Edit</MenuItem>
                 <MenuItem onTouchTap={() => showRemoveDialog(group)}>Remove</MenuItem>
             </IconMenu>

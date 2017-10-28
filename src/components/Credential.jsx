@@ -52,9 +52,10 @@ class Credential extends Component {
 
         const rightIconButton = (
             <IconMenu iconButtonElement={
-                <IconButton>
+                <IconButton touch>
                     <MoreVertIcon />
-                </IconButton>}>
+                </IconButton>}
+            >
                 <MenuItem onTouchTap={() => showEditDialog(credential)}>Edit</MenuItem>
                 <MenuItem onTouchTap={() => showRemoveDialog(credential)}>Remove</MenuItem>
             </IconMenu>

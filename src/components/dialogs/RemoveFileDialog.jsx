@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import Dialog from './Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
-import { hideRemoveFileDialog } from '../actions/dialogs';
-import { removeFile } from '../actions/sagas';
+import { hideRemoveFileDialog } from '../../actions/dialogs';
+import { removeFile } from '../../actions/sagas';
 
 @connect(
     (state) => ({

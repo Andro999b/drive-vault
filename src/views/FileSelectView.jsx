@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { createNewFile } from '../actions/sagas';
 import { showRemoveFileDialog } from '../actions/dialogs';
 
-import RemoveFileDialog from '../components/RemoveFileDialog';
+import RemoveFileDialog from '../components/dialogs/RemoveFileDialog';
 import Loader from '../components/Loader';
 
 import Avatar from 'material-ui/Avatar';

@@ -7,6 +7,8 @@ export const SET_REMOVE_CREDENTIAL = 'SET_REMOVE_CREDENTIAL';
 export const SET_SAVE_CREDENTIAL = 'SET_SAVE_CREDENTIAL';
 export const SET_REMOVE_FILE = 'SET_REMOVE_FILE';
 export const SET_CHANGE_PASSWORD_DIALOG = 'SET_CHANGE_PASSWORD_DIALOG';
+export const SET_IMPORT_DIALOG = 'SET_IMPORT_DIALOG';
+export const SET_EXPORT_DIALOG  = 'SET_EXPORT_DIALOG';
 
 export const showRemoveGroupDialog = createAction(SET_REMOVE_GROUP, (group) => group);
 export const showSaveGroupDialog = createAction(SET_SAVE_GROUP, (group) => (group || {}));
@@ -20,3 +22,7 @@ export const showChangePasswordDialog = createAction(SET_CHANGE_PASSWORD_DIALOG,
 export const hideChangePasswordDialog = createAction(SET_CHANGE_PASSWORD_DIALOG, () => false);
 export const showRemoveFileDialog = createAction(SET_REMOVE_FILE, (file) => file);
 export const hideRemoveFileDialog = createAction(SET_REMOVE_FILE, () => null);
+export const showImportDialog = createAction(SET_IMPORT_DIALOG, () => true);
+export const hideImportDialog = createAction(SET_IMPORT_DIALOG, () => false);
+export const showExportDialog = createAction(SET_EXPORT_DIALOG, () => true);
+export const hideExportDialog = createAction(SET_EXPORT_DIALOG, () => false);
