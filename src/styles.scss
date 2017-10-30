@@ -47,7 +47,7 @@ body {
     width: 100%;
     height: 100%;
     background: white;
-    overflow: auto;
+    // overflow: auto;
 }
 
 .full-screan-dialog__body {
@@ -75,4 +75,36 @@ body {
     text-align: right;
     padding: 8px;
     width: 100%;
+}
+
+.file-import {
+    height: 36px;
+    line-height: 36px;
+}
+
+.file-import__file-name {
+    vertical-align: middle;
+}
+
+.file-import__button-wrapper {
+    cursor: pointer;
+    position: relative;
+    display: block; 
+    float: right;
+    overflow: hidden;
+}
+
+.file-import__input {
+    cursor: pointer;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+}  
+
+.file-import__input::webkit-file-upload-button {
+    cursor: pointer;
 }

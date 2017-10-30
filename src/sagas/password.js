@@ -11,6 +11,8 @@ import { put, takeLatest, select, spawn, call } from 'redux-saga/effects';
 import database from './database';
 import history from 'service/history';
 
+import { ERROR_CANT_BE_EMPTY, ERROR_WRONG_PASSWORD, ERROR_PASSWORD_TOO_WEAK } from 'service/validations';
+
 function* afterDatabaseInited(action) {
     yield put(setDatabaseInited());
     yield call(restoreLatestSelectGroup, action.payload);
@@ -35,7 +37,7 @@ function* setMasterPassword(action) {
     if (secret) return;
 
     if (!password) {
-        yield put(setMasterPasswordError('Master password can`t be empty'));
+        yield put(setMasterPasswordError(ERROR_CANT_BE_EMPTY));
         return;
     }
 
@@ -47,14 +49,14 @@ function* setMasterPassword(action) {
             yield put(setSecret(secret));
         } catch (e) {
             console.error(e);
-            yield put(setMasterPasswordError('Wrong master password'));
+            yield put(setMasterPasswordError(ERROR_WRONG_PASSWORD));
             return;
         }
         yield spawn(database, keystore, afterDatabaseInited);//TODO: cancel?
     } else {
         //check password security
         if (isWeakPassword(password)) {
-            yield put(setMasterPasswordError('Master password too weak'));
+            yield put(setMasterPasswordError(ERROR_PASSWORD_TOO_WEAK));
             return;
         }
 

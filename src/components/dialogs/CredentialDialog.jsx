@@ -16,6 +16,8 @@ import CredentialSingleValue from './credential-dialog/CredentialSingleValue';
 import CredentialMultipleValues from './credential-dialog/CredentialMultipleValues';
 import CredentialShemeValues from './credential-dialog/CredentialShemeValues';
 
+import { isMobile } from 'service/utils';
+
 import {
     allTypes,
     TYPE_MULTI_VALUE, TYPE_SINGLE_VALUE,
@@ -143,6 +145,7 @@ class CredentialDialog extends Component {
         const { avaliableGroups } = this.props;
         const { groups, type } = this.state.credential;
         const hasAvaliableGroups = avaliableGroups.length > 0;
+        const mobile = isMobile();
 
         return (
             <div>
@@ -151,6 +154,7 @@ class CredentialDialog extends Component {
                     className="row-first-cell"
                     floatingLabelText="Select Group"
                     value={groups}
+                    fullWidth={mobile}
                     onChange={this.onGroupChange.bind(this)}>
                     {avaliableGroups.map((item) =>
                         (<MenuItem
@@ -161,7 +165,7 @@ class CredentialDialog extends Component {
                     )}
                 </SelectField>}
                 <SelectField
-                    fullWidth={!hasAvaliableGroups}
+                    fullWidth={mobile || !hasAvaliableGroups}
                     floatingLabelText="Select Type"
                     value={type}
                     onChange={this.onTypeChange.bind(this)}>

@@ -1,4 +1,5 @@
 import * as cardValid from 'card-validator';
+import { isWeakPassword } from 'service/crypt/password';
 
 export const ERROR_CANT_BE_EMPTY = 'Can`t be empty';
 export const ERROR_CARD_NUMBER = 'Invalid card number';
@@ -7,6 +8,8 @@ export const ERROR_CARD_DATE_MONTH = 'Invalid card month';
 export const ERROR_CARD_DATE_YEAR = 'Invalid card year';
 export const ERROR_CARD_CSV = 'Invalid csv';
 export const ERROR_URL = 'Invalid url';
+export const ERROR_PASSWORD_TOO_WEAK = 'Password too weak';
+export const ERROR_WRONG_PASSWORD = 'Wrong password';
 
 export function combine(...validators) {
     return function (value) {
@@ -38,3 +41,10 @@ export function correctCardCsv(value) {
     if (!cardValid.cvv(value).isValid)
         return ERROR_CARD_CSV;
 }
+
+export function strongPassword(value) {
+    if (isWeakPassword(value))
+        return ERROR_PASSWORD_TOO_WEAK;
+}
+
+export const passwordValidator = combine(noEmptyValue, strongPassword);

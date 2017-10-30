@@ -5,6 +5,12 @@ const CREDENTIALS_COLLECTION = 'credentials';
 const CREDENTIALS_COLLECTION_VIEW = CREDENTIALS_COLLECTION + 'View';
 const GROUPS_COLLECTION = 'groups';
 const GROUPS_COLLECTION_VIEW = GROUPS_COLLECTION + 'View';
+const DEFAULT_DB_OPTIONS = {
+    autoload: true,
+    autosave: true,
+    autosaveInterval: 2000,
+    verbose: true
+};
 
 class LokiDBPersistanceAdapter {
     constructor(keystore, onDatabaseSave) {
@@ -22,6 +28,13 @@ class LokiDBPersistanceAdapter {
         this.keystore = dbstring;
         this.onDatabaseSave(dbstring, () => callback(null));
     }
+
+    // eslint-disable-next-line no-unused-vars
+    deleteDatabase(dbname, callback) {
+        this.onDatabaseSave = null;
+        this.keystore = null;
+        callback();
+    }
 }
 
 class LokiDBImpl {
@@ -33,49 +46,63 @@ class LokiDBImpl {
         onDatabaseChanged
     }) {
         this.onDatabaseChanged = onDatabaseChanged;
+        this.onGoupsUpdated = onGoupsUpdated;
+        this.onCredentialsUpdated = onCredentialsUpdated;
+        this.onDatabaseSave = onDatabaseSave;
+
         this.db = new Loki('keystoredb', {
+            ...DEFAULT_DB_OPTIONS,
             adapter: new LokiDBPersistanceAdapter(keystore, onDatabaseSave),
-            autoload: true,
-            autoloadCallback: databaseInitialize,
-            autosave: true,
-            autosaveInterval: 2000
+            autoloadCallback: () => {
+                this.initDatabase(this.db);
+                onDatabaseInited(this);
+            },
         });
+    }
 
-        const self = this;
-        function databaseInitialize() {
-            self.credentialsCollection = self.db.getCollection(CREDENTIALS_COLLECTION);
-            self.groupsCollection = self.db.getCollection(GROUPS_COLLECTION);
+    initDatabase(db) {
+        //ensure db srtucture
+        this.credentialsCollection = db.getCollection(CREDENTIALS_COLLECTION);
+        this.groupsCollection = db.getCollection(GROUPS_COLLECTION);
 
-            if (self.credentialsCollection == null) {
-                self.credentialsCollection = self.db.addCollection(CREDENTIALS_COLLECTION);
-                self.credentialsCollection.ensureIndex('id');
-                self.credentialsCollection.ensureIndex('group');
-            }
-
-            if (self.groupsCollection == null) {
-                self.groupsCollection = self.db.addCollection(GROUPS_COLLECTION);
-                self.groupsCollection.ensureIndex('id');
-            }
-
-            self.credentialsView = self.credentialsCollection.getDynamicView(CREDENTIALS_COLLECTION_VIEW);
-            if (self.credentialsView == null) {
-                self.credentialsView = self.credentialsCollection.addDynamicView(CREDENTIALS_COLLECTION_VIEW, { persistent: false });
-            }
-
-            self.groupsView = self.groupsCollection.getDynamicView(GROUPS_COLLECTION_VIEW);
-            if (self.groupsView == null) {
-                self.groupsView = self.groupsCollection.addDynamicView(GROUPS_COLLECTION_VIEW, { persistent: false });
-            }
-
-            self.credentialsView.on('rebuild', (view) => onCredentialsUpdated(view.data()));
-            self.groupsView.on('rebuild', (view) => onGoupsUpdated(view.data()));
-
-            self.credentialsView.removeFilters();
-
-            onCredentialsUpdated(self.credentialsView.data());
-            onGoupsUpdated(self.groupsView.data());
-            onDatabaseInited(self);
+        if (this.credentialsCollection == null) {
+            this.credentialsCollection = db.addCollection(CREDENTIALS_COLLECTION);
+            this.credentialsCollection.ensureIndex('id');
+            this.credentialsCollection.ensureIndex('group');
         }
+
+        if (this.groupsCollection == null) {
+            this.groupsCollection = db.addCollection(GROUPS_COLLECTION);
+            this.groupsCollection.ensureIndex('id');
+        }
+
+        this.credentialsView = this.credentialsCollection.getDynamicView(CREDENTIALS_COLLECTION_VIEW);
+        if (this.credentialsView == null) {
+            this.credentialsView = this.credentialsCollection.addDynamicView(CREDENTIALS_COLLECTION_VIEW, { persistent: false });
+        }
+
+        this.groupsView = this.groupsCollection.getDynamicView(GROUPS_COLLECTION_VIEW);
+        if (this.groupsView == null) {
+            this.groupsView = this.groupsCollection.addDynamicView(GROUPS_COLLECTION_VIEW, { persistent: false });
+        }
+
+        this.credentialsView.removeFilters();
+
+        //init listenres
+        this.initViewsListeners();
+    }
+
+    initViewsListeners() {
+        const db = this.db;
+
+        const credentialsView = db.getCollection(CREDENTIALS_COLLECTION).getDynamicView(CREDENTIALS_COLLECTION_VIEW);
+        const groupsView = db.getCollection(GROUPS_COLLECTION).getDynamicView(GROUPS_COLLECTION_VIEW);
+
+        credentialsView.on('rebuild', (view) => this.onCredentialsUpdated(view.data()));
+        groupsView.on('rebuild', (view) => this.onGoupsUpdated(view.data()));
+
+        this.onCredentialsUpdated(credentialsView.data());
+        this.onGoupsUpdated(groupsView.data());
     }
 
     saveCredential(credential) {
@@ -134,16 +161,36 @@ class LokiDBImpl {
         }
     }
 
-    saveDatabase() {
-        this.db.saveDatabase();
-    }
-
     getGroup(id) {
         return this.groupsCollection.findOne({ id });
     }
 
     getCredential(id) {
         return this.credentialsCollection.findOne({ id });
+    }
+
+    saveDatabase() {
+        this.db.saveDatabase();
+    }
+
+    serialize() {
+        return this.db.serialize();
+    }
+
+    deserialize(keystore) {
+        const oldDb = this.db;
+        //clean up old db
+        oldDb.deleteDatabase(() => {
+            oldDb.removeCollection(CREDENTIALS_COLLECTION);
+            oldDb.removeCollection(GROUPS_COLLECTION);
+
+            //create new db
+            this.db = new Loki('keystoredb', {
+                ...DEFAULT_DB_OPTIONS,
+                adapter: new LokiDBPersistanceAdapter(keystore, this.onDatabaseSave),
+                autoloadCallback: () => this.initDatabase(this.db)
+            });
+        });
     }
 }
 

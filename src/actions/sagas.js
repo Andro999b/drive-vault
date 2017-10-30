@@ -13,6 +13,8 @@ export const REMOVE_CREDENTIAL = 'remove_credential';
 export const DOWNLOAD_FILE = 'download_file';
 export const CREATE_FILE = 'create_file';
 export const REMOVE_FILE = 'remove_file';
+export const EXPORT_VAULT = 'export_vault';
+export const IMPORT_VAULT = 'import_vault';
 
 export const setMasterPassword = createAction(SET_MASTER_PASSWORD, (password) => password);
 export const updateMasterPassword = createAction(UPDATE_MASTER_PASSWORD, (password) => password);
@@ -25,3 +27,5 @@ export const removeCredential = createAction(REMOVE_CREDENTIAL, (credential) => 
 export const downloadFile = createAction(DOWNLOAD_FILE, (fileId) => fileId);
 export const createNewFile = createAction(CREATE_FILE, (fileName) => fileName);
 export const removeFile = createAction(REMOVE_FILE, (fileName) => fileName);
+export const exportVault = createAction(EXPORT_VAULT, (password) => password);
+export const importVault = createAction(IMPORT_VAULT, (password, file) => ({password, file}));

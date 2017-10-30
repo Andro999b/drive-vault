@@ -10,9 +10,8 @@ import FlatButton from 'material-ui/FlatButton';
 import { hideSaveGroupDialog } from 'actions/dialogs';
 import { saveGroup } from 'actions/sagas';
 
-import {
-    noEmptyValue
-} from 'service/validations';
+import { noEmptyValue} from 'service/validations';
+import { callOnEnter } from 'service/utils';
 
 @connect(
     (state) => ({
@@ -50,7 +49,7 @@ class GroupDialog extends Component {
         this.setState((state) => ({group: {...state.group, name}}));
     }
 
-    save() {
+    onSave() {
         const { group } = this.state;
         let errors = {};
 
@@ -70,7 +69,7 @@ class GroupDialog extends Component {
 
         const actions = [
             <FlatButton key={0} onTouchTap={hideDialog} label="Cancel" primary />,
-            <FlatButton key={1} onTouchTap={this.save.bind(this)} label="Save" primary />,
+            <FlatButton key={1} onTouchTap={this.onSave.bind(this)} label="Save" primary />,
         ];
 
         return (
@@ -78,6 +77,7 @@ class GroupDialog extends Component {
                 <form autoComplete="off">
                     <TextField
                         autoFocus
+                        onKeyDown={callOnEnter(this.onSave.bind(this))}
                         floatingLabelText="Group name"
                         autoComplete="new-password"
                         errorText={errors.name}

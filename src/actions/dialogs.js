@@ -22,7 +22,8 @@ export const showChangePasswordDialog = createAction(SET_CHANGE_PASSWORD_DIALOG,
 export const hideChangePasswordDialog = createAction(SET_CHANGE_PASSWORD_DIALOG, () => false);
 export const showRemoveFileDialog = createAction(SET_REMOVE_FILE, (file) => file);
 export const hideRemoveFileDialog = createAction(SET_REMOVE_FILE, () => null);
-export const showImportDialog = createAction(SET_IMPORT_DIALOG, () => true);
-export const hideImportDialog = createAction(SET_IMPORT_DIALOG, () => false);
 export const showExportDialog = createAction(SET_EXPORT_DIALOG, () => true);
 export const hideExportDialog = createAction(SET_EXPORT_DIALOG, () => false);
+export const showImportDialog = createAction(SET_IMPORT_DIALOG, () => ({}));
+export const showImportDialogError = createAction(SET_IMPORT_DIALOG, (error) => ({error: error}));
+export const hideImportDialog = createAction(SET_IMPORT_DIALOG, () => null);

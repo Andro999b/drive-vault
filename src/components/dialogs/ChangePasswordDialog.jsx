@@ -9,7 +9,9 @@ import FlatButton from 'material-ui/FlatButton';
 
 import { hideChangePasswordDialog } from 'actions/dialogs';
 import { updateMasterPassword } from 'actions/sagas';
-import { isWeakPassword } from 'service/crypt/password';
+
+import { callOnEnter } from 'service/utils';
+import { passwordValidator} from 'service/validations';
 
 @connect(
     (state) => ({
@@ -27,39 +29,33 @@ class ChangePasswordDialog extends Component {
         updateMasterPassword: PropTypes.func.isRequired
     }
 
-    constructor(props, context) {
-        super(props, context);
+    state = {
+        password: '',
+        passwordError: null
+    };
 
-        this.state = {
-            password: '',
-            passwordError: null
-        };
-    }
-
-    componentWillReceiveProps() {
-        this.setState({
-            password: '',
-            passwordError: null
-        });
+    componentWillReceiveProps(nextProps) {
+        if (!nextProps.open) {
+            this.setState({
+                password: '',
+                passwordError: null
+            });
+        }
     }
 
     onPasswordChange(e) {
         const password = e.target.value;
-
-        let passwordError = null;
-        if (password.length == 0)
-            passwordError = 'Master password must be not empty';
-        else if (isWeakPassword(password))
-            passwordError = 'Master password too weak';
-
-        this.setState({ password, passwordError });
+        this.setState({ password, passwordError: null });
     }
 
     onSave() {
-        const { password, passwordError } = this.state;
+        const { password } = this.state;
+        const passwordError = passwordValidator(password);
         if (passwordError == null) {
             this.props.updateMasterPassword(password);
             this.props.hideDialog();
+        } else {
+            this.setState({ passwordError });
         }
     }
 
@@ -76,6 +72,7 @@ class ChangePasswordDialog extends Component {
             <Dialog open={open} title="Change Password" actions={actions} onRequestClose={hideDialog}>
                 <TextField
                     autoFocus
+                    onKeyDown={callOnEnter(this.onSave.bind(this))}
                     floatingLabelText="Enter master password"
                     autoComplete="new-password"
                     errorText={passwordError}

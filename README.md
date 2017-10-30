@@ -10,6 +10,11 @@ So for decrypting file hacker must know you master password and have acces to yo
 * support web dav
 * multiple device sync?
 
+##
+* import/export db feature
+* search ui improvment
+* refactoring
+
 ## 1.3
 * multiple groups
 * complex credentials

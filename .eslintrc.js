@@ -46,6 +46,7 @@ module.exports = {
     "react/jsx-no-bind": "off",
     "react/jsx-no-literals": "off",
     "react/jsx-pascal-case": "warn",
+    "react/no-string-refs": "off",
     "react/prop-types": "warn",
     "react/jsx-sort-prop-types": "off",
     "react/jsx-sort-props": "off",

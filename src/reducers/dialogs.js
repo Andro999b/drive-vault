@@ -8,7 +8,7 @@ const initilaState = {
     saveGroup: null,
     saveCredential: null,
     changePassword: false,
-    import: false,
+    import: null,
     export: false
 };
 

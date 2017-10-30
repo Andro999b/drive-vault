@@ -35,6 +35,7 @@ function* downloadFile(action) {
 
     yield put(setFileLoading(true));
 
+    //todo: get file metadata
     const fileData = yield call(download, fileId);
 
     yield put(setFile(fileId, fileData));

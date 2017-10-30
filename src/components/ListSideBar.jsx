@@ -8,8 +8,8 @@ import Drawer from 'material-ui/Drawer';
 import { ListItem } from 'material-ui/List';
 import GroupsList from './GroupsList';
 import ChangePasswordDialog from './dialogs/ChangePasswordDialog';
-import ExportDailog from './dialogs/ExportDialog';
-//import ImportDialog from './dialogs/ImportDialog';
+import ExportDailog from 'components/dialogs/ExportDialog';
+import ImportDialog from 'components/dialogs/ImportDialog';
 
 import ActionKeyIcon from 'material-ui/svg-icons/communication/vpn-key';
 import ExportIcon from 'material-ui/svg-icons/content/unarchive';
@@ -63,7 +63,7 @@ class ListSideBar extends Component {
                 <ListItem onTouchTap={() => showExportDialog()} leftIcon={<ExportIcon />} primaryText="Export" />
                 <ExportDailog/>
                 <ListItem onTouchTap={() => showImportDialog()} leftIcon={<ImportIcon />} primaryText="Import" />
-                {/* <ImportDialog/> */}
+                <ImportDialog/>
             </Drawer>
         );
     }

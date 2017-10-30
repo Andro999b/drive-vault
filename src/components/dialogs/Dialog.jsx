@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import MuiDialog from 'material-ui/Dialog';
 import FullScreanDailog from './FullScreanDailog';
-import { isMobile } from 'service/utils';
+import { isTablet } from 'service/utils';
 
 class Dialog extends Component {
     static propTypes = {
@@ -19,7 +19,7 @@ class Dialog extends Component {
     render() {
         const { offMobileMode } = this.props;
 
-        return !isMobile() || offMobileMode ? this.renderMuiDialog() : this.renderFullScrean();
+        return !isTablet() || offMobileMode ? this.renderMuiDialog() : this.renderFullScrean();
     }
 
     renderFullScrean() {

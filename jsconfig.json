@@ -1,5 +1,7 @@
 {
     "compilerOptions": {
-        "experimentalDecorators": true
+        "experimentalDecorators": true,
+        "module": "es6",
+        "baseUrl": "src"
     }
   }

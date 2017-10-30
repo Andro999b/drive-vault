@@ -33,7 +33,7 @@ export function startUp() {
             window.onbeforeunload = null;
         } else {
             window.onbeforeunload = function () {
-                return 'Database synchronization in progress. Please wait for finish.';
+                return 'Database synchronization in progress. Please wait until it finish.';
             };
         }
     });

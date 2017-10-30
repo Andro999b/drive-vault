@@ -20,6 +20,8 @@ import IconButton from 'material-ui/IconButton';
 
 import { red700, grey500 } from 'material-ui/styles/colors';
 
+import { callOnEnter } from 'service/utils';
+
 @connect(
     (state) => ({
         dbInited: state.decrypt.db,
@@ -67,12 +69,6 @@ class FileSelectView extends Component {
         createNewFile(fileName);
     }
 
-    onKeyDown(e) {
-        if (e.keyCode == 13) {
-            this.createNewFile();
-        }
-    }
-
     onNameChange(e) {
         this.setState({
             fileName: e.target.value
@@ -109,7 +105,7 @@ class FileSelectView extends Component {
         return (
             <div>
                 <TextField
-                    onKeyDown={(e) => this.onKeyDown(e)}
+                    onKeyDown={callOnEnter(this.createNewFile.bind(this))}
                     onChange={(e) => this.onNameChange(e)}
                     fullWidth
                     value={fileName}
