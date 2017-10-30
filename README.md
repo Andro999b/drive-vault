@@ -10,7 +10,7 @@ So for decrypting file hacker must know you master password and have acces to yo
 * support web dav
 * multiple device sync?
 
-##
+## 1.4
 * import/export db feature
 * search ui improvment
 * refactoring
