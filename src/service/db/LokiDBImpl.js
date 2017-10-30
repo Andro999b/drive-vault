@@ -178,17 +178,25 @@ class LokiDBImpl {
     }
 
     deserialize(keystore) {
-        const oldDb = this.db;
-        //clean up old db
-        oldDb.deleteDatabase(() => {
-            oldDb.removeCollection(CREDENTIALS_COLLECTION);
-            oldDb.removeCollection(GROUPS_COLLECTION);
+        this.onDatabaseChanged();
+        return new Promise((resolve) => {
+            const oldDb = this.db;
+            //clean up old db
+            oldDb.deleteDatabase(() => {
+                oldDb.removeCollection(CREDENTIALS_COLLECTION);
+                oldDb.removeCollection(GROUPS_COLLECTION);
 
-            //create new db
-            this.db = new Loki('keystoredb', {
-                ...DEFAULT_DB_OPTIONS,
-                adapter: new LokiDBPersistanceAdapter(keystore, this.onDatabaseSave),
-                autoloadCallback: () => this.initDatabase(this.db)
+                //create new db
+                this.db = new Loki('keystoredb', {
+                    ...DEFAULT_DB_OPTIONS,
+                    adapter: new LokiDBPersistanceAdapter(keystore, this.onDatabaseSave),
+                    autoloadCallback: () => {
+                        this.initDatabase(this.db);
+                        this.db.saveDatabase(() => {
+                            resolve();
+                        });
+                    }
+                });
             });
         });
     }

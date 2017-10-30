@@ -36,7 +36,8 @@ function* importVault(action) {
 
     try {
         const keystore = decrypt(fileContent, secret);
-        deserialize(keystore);
+        yield put(hideImportDialog());
+        yield call(deserialize, keystore);
     } catch (e) {
         console.error(e);
         yield put(showImportDialogError(ERROR_WRONG_PASSWORD));
@@ -44,7 +45,6 @@ function* importVault(action) {
     }
 
     yield put(selectGroup(null));
-    yield put(hideImportDialog());
 }
 
 function* exportVault(action) {
