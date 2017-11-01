@@ -10,7 +10,9 @@ export function createSecret(password, salt) {
 }
 
 export function decrypt(cipher, secret) {
-    return AES.decrypt(cipher, secret).toString(Utf8);
+    const result = AES.decrypt(cipher, secret).toString(Utf8);
+    if(!result) throw Error('Wrong secret');
+    return result;
 }
 
 export function encrypt(keystore, secret) {

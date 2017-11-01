@@ -9,7 +9,7 @@ import {
     setFilesList 
 } from 'actions';
 
-import { takeLatest, put, call } from 'redux-saga/effects';
+import { takeLatest, put, call, throttle } from 'redux-saga/effects';
 
 import { validateFileName, download, remove, fileList } from 'service/fs';
 
@@ -60,7 +60,7 @@ function* removeFile(action) {
 }
 
 export default function* () {
-    yield takeLatest(CREATE_FILE, createFile);
+    yield throttle(2000, CREATE_FILE, createFile);
     yield takeLatest(DOWNLOAD_FILE, downloadFile);
     yield takeLatest(REMOVE_FILE, removeFile);
 }
