@@ -15,6 +15,7 @@ export const CREATE_FILE = 'create_file';
 export const REMOVE_FILE = 'remove_file';
 export const EXPORT_VAULT = 'export_vault';
 export const IMPORT_VAULT = 'import_vault';
+export const UPLOAD_DATABASE = 'upload_database';
 
 export const setMasterPassword = createAction(SET_MASTER_PASSWORD, (password) => password);
 export const updateMasterPassword = createAction(UPDATE_MASTER_PASSWORD, (password) => password);
@@ -29,3 +30,4 @@ export const createNewFile = createAction(CREATE_FILE, (fileName) => fileName);
 export const removeFile = createAction(REMOVE_FILE, (fileName) => fileName);
 export const exportVault = createAction(EXPORT_VAULT, (password) => password);
 export const importVault = createAction(IMPORT_VAULT, (password, file) => ({password, file}));
+export const uploadDatabase = createAction(UPLOAD_DATABASE, (keystore) => ({keystore}));

@@ -26,7 +26,8 @@ class LokiDBPersistanceAdapter {
     // eslint-disable-next-line no-unused-vars
     saveDatabase(dbname, dbstring, callback) {
         this.keystore = dbstring;
-        this.onDatabaseSave(dbstring, () => callback(null));
+        this.onDatabaseSave(dbstring);
+        callback(null);
     }
 
     // eslint-disable-next-line no-unused-vars
