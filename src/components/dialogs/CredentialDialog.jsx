@@ -69,7 +69,17 @@ class CredentialDialog extends Component {
 
     save() {
         const { credential } = this.state;
-        const { name, type, values } = credential;
+        const { name, type } = credential;
+
+        //filter field 
+        let schema = getSchema(type);
+        const values =
+            !schema ?
+                credential.values :
+                credential.values.filter((value) =>
+                    schema.find((field) => field.name == value.name)
+                );
+
         let errors = {};
 
         const nameError = noEmptyValue(name);
@@ -82,6 +92,9 @@ class CredentialDialog extends Component {
         }
 
         this.setState({ errors });
+
+        //filter all fields before save
+        credential.values = values;
 
         if (Object.keys(errors).length == 0)
             this.props.save(credential);
