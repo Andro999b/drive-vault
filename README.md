@@ -7,7 +7,7 @@ So for decrypting file hacker must know you master password and have acces to yo
 ## TODO
 
 * support dropbox
-* support web dav
+* support github private gists
 * multiple device sync?
 
 ## 1.4
