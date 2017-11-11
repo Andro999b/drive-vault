@@ -63,7 +63,7 @@ class Credential extends Component {
                 nestedLevel={nestedLevel}
                 leftIcon={leftIcon}
                 primaryText={name}
-                secondaryText={showValue? value : '*'.repeat(Math.max(value.length, 10))}
+                secondaryText={showValue? value : '*'.repeat(10)}
                 onTouchTap={this.doCopyToClipboad}
                 rightIconButton={rightIconButton} />
         );

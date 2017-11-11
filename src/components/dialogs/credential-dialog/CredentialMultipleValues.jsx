@@ -86,19 +86,24 @@ class CredentialMultipleValues extends Component {
         const mobile = isMobile();
         return (
             <div key={index}>{/*there is now predictable key for this case*/}
-                <TextField
-                    fullWidth={mobile}
-                    floatingLabelText="Enter name"
-                    value={name}
-                    errorText={error.nameError}
-                    onChange={(e) => this.onNameChange(index, e.target.value)}
-                    className="row-first-cell" />
-                <TextField
-                    fullWidth={mobile}
-                    floatingLabelText="Enter value"
-                    errorText={error.error}
-                    onChange={(e) => this.onValueChange(index, e.target.value)}
-                    value={value} />
+                <div>
+                    <TextField
+                        style={{ verticalAlign: 'top' }}
+                        fullWidth={mobile}
+                        floatingLabelText="Enter name"
+                        value={name}
+                        errorText={error.nameError}
+                        onChange={(e) => this.onNameChange(index, e.target.value)}
+                        className="row-first-cell" />
+                    <TextField
+                        style={{ verticalAlign: 'top' }}
+                        fullWidth={mobile}
+                        floatingLabelText="Enter value"
+                        multiLine
+                        errorText={error.error}
+                        onChange={(e) => this.onValueChange(index, e.target.value)}
+                        value={value} />
+                </div>
                 {!isLast &&
                     <div className="text-right">
                         <RaisedButton label="Remove Value" onTouchTap={() => this.removeRow(index)} />

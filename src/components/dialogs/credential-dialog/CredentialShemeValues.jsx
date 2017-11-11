@@ -64,6 +64,7 @@ class CredentialShemeValues extends Component {
                     <TextField
                         key={name}
                         fullWidth
+                        multiLine
                         floatingLabelText={`Enter ${name}`}
                         errorText={getError(name)}
                         onChange={(e) => this.onValueChange(name, e.target.value)}

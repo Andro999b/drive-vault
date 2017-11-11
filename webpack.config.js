@@ -7,7 +7,7 @@ const path = require('path');
 
 const config = {
   entry: {
-    'main': './src/index'
+    'gdrive': './src/index-gdrive'
   },
   output: {
     path: path.resolve(__dirname, './app'),
@@ -18,6 +18,7 @@ const config = {
     extensions: ['.js', '.jsx'],
     modules: [
       path.resolve(__dirname, 'node_modules'),
+      path.resolve(__dirname, 'libs'),
       path.resolve(__dirname, 'src')
     ]
   },
@@ -36,6 +37,7 @@ const config = {
       template: path.join('src', 'index.html'),
       path: 'app',
       filename: 'index.html',
+      inject: false
     }),
     new ExtractTextPlugin('styles.css')
   ],
