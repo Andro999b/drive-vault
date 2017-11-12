@@ -4,19 +4,11 @@ import { serialize, deserialize } from 'service/db';
 import { createSecret, decrypt, encrypt } from 'service/crypt';
 import { hideExportDialog, hideImportDialog, showImportDialogError } from 'actions/dialogs';
 import { saveAs } from 'file-saver';
+import { readFile } from 'service/utils';
 
 import { ERROR_CANT_BE_EMPTY, ERROR_WRONG_PASSWORD } from 'service/validations';
  
 const EXPORT_IMPORT_SALT = 'BNwhkbbaGyluMRNh62xh'; 
-
-function readFile(file) {
-    return new Promise((resolve, reject) => {
-        const fileReader = new FileReader();
-        fileReader.readAsText(file, 'utf-8');
-        fileReader.onerror = reject;
-        fileReader.onload = () => resolve(fileReader.result);
-    });
-}
 
 function* importVault(action) {
     const { password, file} = action.payload;

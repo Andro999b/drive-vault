@@ -1,5 +1,7 @@
-import dropbox from 'dropbox';
+import { getClient } from './client';
 
 export function getUserId() {
-    return dropbox('users/get_current_account').then((result) => result.account_id);
+    return getClient()
+            .usersGetCurrentAccount()
+            .then((result) => result.account_id);
 }

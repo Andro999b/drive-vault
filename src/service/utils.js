@@ -23,3 +23,23 @@ export function callOnEnter(callback) {
         }
     };
 } 
+
+export function paramsFromUrlHash() {
+    return window.location.hash
+        .replace(/^#?\//, '')
+        .split('&')
+        .reduce((o, entry) => {
+            if (entry == '') return o;
+            entry = entry.split('=');
+            o[decodeURIComponent(entry[0])] = decodeURIComponent(entry[1]); return o;
+        }, {});
+}
+
+export function readFile(file) {
+    return new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.readAsText(file, 'utf-8');
+        fileReader.onerror = reject;
+        fileReader.onload = () => resolve(fileReader.result);
+    });
+}

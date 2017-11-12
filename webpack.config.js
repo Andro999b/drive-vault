@@ -29,7 +29,6 @@ const config = {
     extensions: ['.js', '.jsx'],
     modules: [
       path.resolve(__dirname, 'node_modules'),
-      path.resolve(__dirname, 'libs'),
       path.resolve(__dirname, 'src')
     ]
   },
