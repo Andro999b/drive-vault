@@ -1,23 +1,35 @@
-import * as driveFs from './google/drive';
+let fsImpl;
 
-const fs = driveFs;
+export function setFsImpl(impl) {
+    if (fsImpl)
+        throw new Error('File system implementation already set');
+
+    fsImpl = impl;
+}
+
+function getFsImpl() {
+    if (!fsImpl)
+        throw new Error('No file system implementation');
+
+    return fsImpl;
+}
 
 export function fileList() {
-    return fs.fileList();
+    return getFsImpl().fileList();
 }
 
 export function download(fileId) {
-    return fs.download(fileId);
+    return getFsImpl().download(fileId);
 }
 
-export function upload({fileId, fileName, body}) {
-    return fs.upload({fileId, fileName, body});
+export function upload({ fileId, fileName, body }) {
+    return getFsImpl().upload({ fileId, fileName, body });
 }
 
 export function validateFileName(fileName) {
-    return fs.validateFileName(fileName);
+    return getFsImpl().validateFileName(fileName);
 }
 
 export function remove(fileId) {
-    return fs.remove(fileId);
+    return getFsImpl().remove(fileId);
 }

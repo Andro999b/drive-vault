@@ -5,9 +5,20 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 const path = require('path');
 
+function htmlPlugin(htmlFileName, initScript) {
+  return new HtmlWebpackPlugin({
+    template: path.join('src', 'index.html'),
+    path: 'app',
+    filename: htmlFileName,
+    inject: false,
+    initScript: initScript
+  })
+}
+
 const config = {
   entry: {
-    'gdrive': './src/index-gdrive'
+    'gdrive': './src/index-gdrive',
+    'dropbox': './src/index-dropbox'
   },
   output: {
     path: path.resolve(__dirname, './app'),
@@ -28,17 +39,13 @@ const config = {
       { test: /\.jsx?$/, exclude: /node_modules/, use: 'babel-loader'},
       { test: /\.scss$/, loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader!sass-loader' }) },
       { test: /\.css$/, loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }) },
-      { test: /\.(gif|png|svg|jpe?g)$/i, loader: 'file-loader?name=images/[name].[ext]' },
+      { test: /\.(gif|png|svg|jpe?g)$/i, loader: 'file-loader?name=images/[name].[ext]' }
     ]
   },
   plugins: [
     new webpack.NamedModulesPlugin(),
-    new HtmlWebpackPlugin({
-      template: path.join('src', 'index.html'),
-      path: 'app',
-      filename: 'index.html',
-      inject: false
-    }),
+    htmlPlugin('index.html', 'gdrive.js'),
+    htmlPlugin('dropbox.html', 'dropbox.js'),
     new ExtractTextPlugin('styles.css')
   ],
   node: { fs: 'empty' }

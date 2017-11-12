@@ -116,20 +116,22 @@
   dropbox.authenticate = function(apiArgs, handlers){
     handlers = handlers || {};
     if(isFunction(handlers)) handlers = { onComplete: handlers };
-    apiArgs = apiArgs || {};
-    if(isString(apiArgs)) apiArgs = { client_id: apiArgs };
-    apiArgs.redirect_uri = apiArgs.redirect_uri || window.location.href;
-
-    var promise,promisectl = {};
-    if(Promise){
-      promise = new Promise(function(resolve,reject){ promisectl.resolve = resolve; promisectl.reject = reject });
-    }
 
     // if we already have an access token, return immediately
     if( tokenStore('__dbat') ){
-      handlers.onComplete();
-      promise && promise.resolve && promise.resolve();
-      return promise
+      if(isFunction(handlers.onComplete))
+        handlers.onComplete();
+      
+      if(Promise)
+        return Promise.resolve()
+    }
+
+    apiArgs = apiArgs || {};
+    if(isString(apiArgs)) apiArgs = { client_id: apiArgs };
+    apiArgs.redirect_uri = apiArgs.redirect_uri || window.location.href;
+    var promise,promisectl = {};
+    if(Promise){
+      promise = new Promise(function(resolve,reject){ promisectl.resolve = resolve; promisectl.reject = reject });
     }
 
     var params = paramsFromUrlHash(),

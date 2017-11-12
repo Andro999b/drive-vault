@@ -1,17 +1,30 @@
 /* global gapi, addScript */
 
+import * as googleAccount from 'service/google/account';
+import * as driveFs from 'service/google/drive';
+
+import { setAccountImpl } from 'service/account';
+import { setFsImpl } from 'service/fs';
+
 import { startUp }  from 'index';
 
+function perpereEnvAndStart() {
+    setAccountImpl(googleAccount);
+    setFsImpl(driveFs);
+
+    startUp();
+}
+
 // Client ID and API key from the Developer Console
-var CLIENT_ID = '865137154549-4emsm32c10m6g281epq6i7akvblj97g9.apps.googleusercontent.com';
-var API_KEY_ID = 'AIzaSyDzJSZ302P2yZfWpUedWcg3hlPudjL3SNE';
+const CLIENT_ID = '865137154549-4emsm32c10m6g281epq6i7akvblj97g9.apps.googleusercontent.com';
+const API_KEY_ID = 'AIzaSyDzJSZ302P2yZfWpUedWcg3hlPudjL3SNE';
 
 // Array of API discovery doc URLs for APIs used by the quickstart
-var DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'];
+const DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'];
 
 // Authorization scopes required by the API; multiple scopes can be
 // included, separated by spaces.
-var SCOPES = 'https://www.googleapis.com/auth/drive';
+const SCOPES = 'https://www.googleapis.com/auth/drive';
 
 /**
  *  On load, called to load the auth2 library and API client library.
@@ -35,7 +48,7 @@ function initClient() {
 
         //chek if user alredy sign in
         if (!GoogleAuth.isSignedIn.get()) {
-            var initialLoader = document.getElementById('initial-loader');
+            const initialLoader = document.getElementById('initial-loader');
 
             initialLoader.style.display = 'none';
             gapi.signin2.render('sign-in', {
@@ -48,11 +61,11 @@ function initClient() {
                     initialLoader.style.display = 'block';
                     document.getElementById('sign-in').style.display = 'none';
 
-                    startUp();
+                    perpereEnvAndStart();
                 }
             });
         } else {
-            startUp();
+            perpereEnvAndStart();
         }
     });
 }

@@ -1,18 +1,18 @@
 import { INIT, INIT_FINISH} from 'actions/sagas';
 import { setPasswordSalt, setInitError, setFilesList } from 'actions';
 
-import auth from 'service/google/auth';
+import { getUserId } from 'service/account';
 import { fileList } from 'service/fs';
 
 import { put, takeLatest, call } from 'redux-saga/effects';
 
 function* init() {
     try {
-        const userinfo = yield call(auth);
+        const uid = yield call(getUserId);
         const files = yield call(fileList);
 
         yield put(setFilesList(files));
-        yield put(setPasswordSalt(userinfo.getId()));
+        yield put(setPasswordSalt(uid));
     } catch (e) {
         console.error(e);
         yield put(setInitError('Fail to start'));
