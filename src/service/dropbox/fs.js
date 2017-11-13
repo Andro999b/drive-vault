@@ -1,15 +1,34 @@
 import { getClient } from './client';
 import { readFile } from 'service/utils';
 
+const EXT = '.vault';
+
 const idToPath = (id) => 'id:' + id; 
 const extractFileId = (path) => path.substring(3);
 
 // eslint-disable-next-line
 export function validateFileName(fileName) {
-    return Promise.resolve({ valid: true });
+    if(!fileName || /[.]+/.test(fileName)) {
+        return Promise.resolve({
+            valid: false,
+            error: 'Bad file name'
+        });
+    }
+
+    return getClient()
+        .filesSearch({path: '', query: fileName + EXT, mode: 'filename'})
+        .then((result) => {
+            if(result.matches.length) {
+                return Promise.resolve({
+                    valid: false,
+                    error: 'Valut alredy exist'
+                });
+            } else {
+                return Promise.resolve({valid: true});
+            }
+        });
 }
 
-// eslint-disable-next-line
 export function remove(fileId) {
     return getClient().filesDelete({path: idToPath(fileId)});
 }
@@ -28,19 +47,17 @@ export function fileList() {
         );
 }
 
-// eslint-disable-next-line
 export function download(fileId) {
     return getClient()
         .filesDownload({ path: idToPath(fileId)})
         .then((result) => readFile(result.fileBlob));
 }
 
-// eslint-disable-next-line
 export function upload({ fileId, fileName, body }) {
     return getClient()
         .filesUpload({
             contents: body,
-            path: fileId? idToPath(fileId) : '/' + fileName + '.vault',
+            path: fileId? idToPath(fileId) : '/' + fileName + EXT,
             mode: {
                 '.tag': 'overwrite'
             }
