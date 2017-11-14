@@ -1,28 +1,36 @@
 import { setMasterPasswordError, setSecret, setDatabaseInited} from 'actions';
 import { SET_MASTER_PASSWORD, UPDATE_MASTER_PASSWORD, selectGroup, } from 'actions/sagas';
 
-import { save as saveDatabase } from 'service/db';
+import { 
+    save as saveDatabase,
+    deserialize as deserializeDatabase, 
+    get as getDatabase 
+} from 'service/db';
+
 import { createSecret, decrypt } from 'service/crypt';
 import { isWeakPassword } from 'service/crypt/password';
 import { SELECTED_GROUP_KEY, getSetting } from 'service/settings';
 
-import { put, takeLatest, select, spawn, call } from 'redux-saga/effects';
+import { put, takeLatest, select, call } from 'redux-saga/effects';
 
-import database from './database';
 import history from 'service/history';
 
-import { ERROR_CANT_BE_EMPTY, ERROR_WRONG_PASSWORD, ERROR_PASSWORD_TOO_WEAK } from 'service/validations';
+import { 
+    ERROR_CANT_BE_EMPTY, 
+    ERROR_WRONG_PASSWORD,
+    ERROR_PASSWORD_TOO_WEAK 
+} from 'service/validations';
 
-function* afterDatabaseInited(action) {
-    yield put(setDatabaseInited());
-    yield call(restoreLatestSelectGroup, action.payload);
+function* afterDatabaseInited() {
+    yield put(setDatabaseInited());//TODO remove
+    yield call(restoreLatestSelectGroup);
     
     history.push('/list');
 }
 
-function* restoreLatestSelectGroup(db) {
+function* restoreLatestSelectGroup() {
+    const db = getDatabase();
     const id = getSetting(SELECTED_GROUP_KEY);
-    if (!id) return;
 
     const group = db.getGroup(id);
     if (!group) return;
@@ -52,7 +60,8 @@ function* setMasterPassword(action) {
             yield put(setMasterPasswordError(ERROR_WRONG_PASSWORD));
             return;
         }
-        yield spawn(database, keystore, afterDatabaseInited);//TODO: cancel?
+        yield call(deserializeDatabase, keystore);
+        yield call(afterDatabaseInited);
     } else {
         //check password security
         if (isWeakPassword(password)) {
@@ -61,7 +70,8 @@ function* setMasterPassword(action) {
         }
 
         yield put(setSecret(secret));
-        yield spawn(database, null, afterDatabaseInited);
+        yield call(deserializeDatabase, null);
+        yield call(afterDatabaseInited);
     }
 }
 

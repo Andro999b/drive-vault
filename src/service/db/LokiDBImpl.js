@@ -39,26 +39,16 @@ class LokiDBPersistanceAdapter {
 }
 
 class LokiDBImpl {
-    constructor(keystore, {
+    constructor({
         onGoupsUpdated,
         onCredentialsUpdated,
         onDatabaseSave,
-        onDatabaseInited,
         onDatabaseChanged
     }) {
         this.onDatabaseChanged = onDatabaseChanged;
         this.onGoupsUpdated = onGoupsUpdated;
         this.onCredentialsUpdated = onCredentialsUpdated;
         this.onDatabaseSave = onDatabaseSave;
-
-        this.db = new Loki('keystoredb', {
-            ...DEFAULT_DB_OPTIONS,
-            adapter: new LokiDBPersistanceAdapter(keystore, onDatabaseSave),
-            autoloadCallback: () => {
-                this.initDatabase(this.db);
-                onDatabaseInited(this);
-            },
-        });
     }
 
     initDatabase(db) {
@@ -179,26 +169,33 @@ class LokiDBImpl {
     }
 
     deserialize(keystore) {
-        this.onDatabaseChanged();
+        const createNewDatabase = (callback) => {
+            //create new db
+            this.db = new Loki('keystoredb', {
+                ...DEFAULT_DB_OPTIONS,
+                adapter: new LokiDBPersistanceAdapter(keystore, this.onDatabaseSave),
+                autoloadCallback: () => {
+                    this.initDatabase(this.db);
+                    callback();
+                }
+            });
+        };
+
         return new Promise((resolve) => {
             const oldDb = this.db;
             //clean up old db
-            oldDb.deleteDatabase(() => {
-                oldDb.removeCollection(CREDENTIALS_COLLECTION);
-                oldDb.removeCollection(GROUPS_COLLECTION);
-
-                //create new db
-                this.db = new Loki('keystoredb', {
-                    ...DEFAULT_DB_OPTIONS,
-                    adapter: new LokiDBPersistanceAdapter(keystore, this.onDatabaseSave),
-                    autoloadCallback: () => {
-                        this.initDatabase(this.db);
-                        this.db.saveDatabase(() => {
-                            resolve();
-                        });
-                    }
+            if (oldDb) {
+                this.onDatabaseChanged();                
+                oldDb.deleteDatabase(() => {
+                    oldDb.removeCollection(CREDENTIALS_COLLECTION);
+                    oldDb.removeCollection(GROUPS_COLLECTION);
+                    createNewDatabase(() => {
+                        this.db.saveDatabase(resolve);
+                    });
                 });
-            });
+            } else {
+                createNewDatabase(resolve);
+            }
         });
     }
 }

@@ -2,13 +2,11 @@ import LokiDBImpl from './LokiDBImpl';
 
 let db;
 
-export function init(keystore, callbacks) {
+export function connect(callbacks) {
     if (db != null)
         throw new Error('db already inited');
 
-    return new Promise(function (resolve) {
-        db = new LokiDBImpl(keystore, { ...callbacks, onDatabaseInited: resolve });
-    });
+    db = new LokiDBImpl(callbacks);
 }
 
 export function get() {

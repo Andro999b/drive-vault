@@ -4,7 +4,7 @@ import { showToast } from 'actions/toast';
 
 import { encrypt } from 'service/crypt';
 
-import { init } from 'service/db';
+import { connect } from 'service/db';
 import { DIRTY, SYNCRONIZED, SYNCRONIZATION_INPROGRESS } from 'service/db/sync-status';
 import { upload } from 'service/fs';
 
@@ -12,7 +12,6 @@ import { put, select, take, takeLatest, call, fork } from 'redux-saga/effects';
 import { eventChannel } from 'redux-saga';
 
 const DB_EVENT_SAVE = 'db_save';
-const DB_EVENT_INIT = 'db_init';
 const DB_EVENT_CHANGED = 'db_changed';
 const DB_EVENT_GROUPS_UPDATED = 'db_groups_updated';
 const DB_EVENT_CREDENTIALS_UPDATED = 'db_creadential_updated';
@@ -47,14 +46,14 @@ function* updateCredentials(action) {
     yield put(setCredentials(action.payload));
 }
 
-function* connectToDatabase(keystore, afterDatabaseInited) {
+function* connectToDatabase() {
     const dbChannel = eventChannel((emmiter) => {
-        init(keystore, {
+        connect({
             onGoupsUpdated: (groups) => emmiter({ type: DB_EVENT_GROUPS_UPDATED, payload: groups }),
             onCredentialsUpdated: (credentials) => emmiter({ type: DB_EVENT_CREDENTIALS_UPDATED, payload: credentials }),
             onDatabaseSave: (keystore) => emmiter({ type: DB_EVENT_SAVE, payload: keystore }),
             onDatabaseChanged: () => emmiter({ type: DB_EVENT_CHANGED })
-        }).then((db) => emmiter({ type: DB_EVENT_INIT, payload: db }));
+        });
         return () => null;
     });
 
@@ -62,10 +61,7 @@ function* connectToDatabase(keystore, afterDatabaseInited) {
         while (true) {
             const action = yield take(dbChannel);
             switch (action.type) {
-                case DB_EVENT_INIT: yield call(afterDatabaseInited, action); break;
-                case DB_EVENT_SAVE: {
-                    yield put(uploadDatabase(action.payload)); break;
-                }
+                case DB_EVENT_SAVE: yield put(uploadDatabase(action.payload)); break;
                 case DB_EVENT_CHANGED: yield put(setSetSyncStatus(DIRTY)); break;
                 case DB_EVENT_GROUPS_UPDATED: yield call(updateGroups, action); break;
                 case DB_EVENT_CREDENTIALS_UPDATED: yield call(updateCredentials, action); break;
@@ -76,9 +72,9 @@ function* connectToDatabase(keystore, afterDatabaseInited) {
     }
 }
 
-export default function* (keystore, afterDatabaseInited) {
+export default function* () {
     yield takeLatest(UPLOAD_DATABASE, saveDataBase);
 
     //connect to db event;
-    yield fork(connectToDatabase, keystore, afterDatabaseInited);
+    yield fork(connectToDatabase);
 }

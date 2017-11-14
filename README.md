@@ -6,9 +6,12 @@ So for decrypting file hacker must know you master password and have acces to yo
 
 ## TODO
 
-* support dropbox
 * support github private gists
 * multiple device sync?
+
+## 1.5
+* db code refactoring
+* dropbox integration
 
 ## 1.4
 * import/export db feature
