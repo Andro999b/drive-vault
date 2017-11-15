@@ -1,7 +1,7 @@
 import { createAction } from 'redux-actions';
 
 export const SET_CREDENTIALS = 'SET_CREDENTIALS';
-export const SET_DB_INITED = 'SET_DB_INITED';
+export const SET_FILE_DECRYPTED = 'SET_FILE_DECRYPTED';
 export const SET_SECRET ='SET_SECRET';
 export const SET_FILE = 'SET_FILE';
 export const SET_NEW_FILE_NAME = 'SET_FILE_NAME';
@@ -17,7 +17,7 @@ export const SET_MASTER_PASSWORD_ERROR = 'SET_MASTER_PASSWORD_ERROR';
 export const SET_SYNC_STATUS = 'SET_SYNC_STATUS';
 
 export const setCredentials =  createAction(SET_CREDENTIALS, (items) => items);
-export const setDatabaseInited = createAction(SET_DB_INITED);
+export const setFileDecrypted = createAction(SET_FILE_DECRYPTED, (status) => status);
 export const setSecret = createAction(SET_SECRET, (secret) => secret);
 export const setFile = createAction(SET_FILE, (id, data) => ({id, data}));
 export const setFileLoading = createAction(SET_FILE_LOADING, (loading) => loading);

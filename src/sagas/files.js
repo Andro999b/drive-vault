@@ -6,7 +6,8 @@ import {
     setFileLoading, 
     setFilesListLoading, 
     setFile, 
-    setFilesList 
+    setFilesList,
+    setFileDecrypted
 } from 'actions';
 
 import { takeLatest, put, call, throttle } from 'redux-saga/effects';
@@ -24,7 +25,9 @@ function* createFile(action) {
         yield put(setFile());
         yield put(setNewFileName(name));
         yield put(setNewFileNameError(null));
-        history.push('/file/new');
+        yield put(setFileDecrypted(false));
+
+        history.push('/vault/new');
     } else {
         yield put(setNewFileNameError(result.error));
     }
@@ -33,7 +36,11 @@ function* createFile(action) {
 function* downloadFile(action) {
     const fileId = action.payload;
 
+    yield put(setFile(fileId));
     yield put(setFileLoading(true));
+    yield put(setFileDecrypted(false));
+
+    history.push('/vault/' + fileId);
 
     //todo: get file metadata
     const fileData = yield call(download, fileId);

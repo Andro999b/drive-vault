@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { createNewFile } from 'actions/sagas';
+import { createNewFile, downloadFile } from 'actions/sagas';
 import { showRemoveFileDialog } from 'actions/dialogs';
 
 import RemoveFileDialog from 'components/dialogs/RemoveFileDialog';
@@ -24,24 +24,23 @@ import { callOnEnter } from 'service/utils';
 
 @connect(
     (state) => ({
-        dbInited: state.decrypt.db,
         fileListLoading: state.files.fileListLoading,
         newFileNameError: state.files.newFileNameError,
         fileList: state.files.list
     }),
     (dispatch) => ({
         createNewFile: (name) => dispatch(createNewFile(name)),
+        downloadFile: (fileId) => dispatch(downloadFile(fileId)),
         showRemoveFileDialog: (file) => dispatch(showRemoveFileDialog(file))
     })
 )
 class FileSelectView extends Component {
     static propTypes = {
-        dbInited: PropTypes.bool,
         fileList: PropTypes.array.isRequired,
         newFileNameError: PropTypes.string,
         createNewFile: PropTypes.func.isRequired,
+        downloadFile: PropTypes.func.isRequired,
         showRemoveFileDialog: PropTypes.func.isRequired,
-        history: PropTypes.object.isRequired,
         fileListLoading: PropTypes.bool,
     }
 
@@ -52,14 +51,8 @@ class FileSelectView extends Component {
         };
     }
 
-    componentWillMount() {
-        const { dbInited, history } = this.props;
-        if (dbInited) history.push('/list');
-    }
-
-    decriptFile(file) {
-        const { history } = this.props;
-        history.push('/file/' + file.id);
+    downloadFile(file) {
+        this.props.downloadFile(file.id);
     }
 
     createNewFile() {
@@ -76,27 +69,35 @@ class FileSelectView extends Component {
     }
 
     render() {
-        const { fileName } = this.state;
-        const { fileList, newFileNameError, showRemoveFileDialog, fileListLoading } = this.props;
-        const subHeadStyle = { paddingLeft: 0, textAlign: 'center' };
+        const { fileListLoading } = this.props;
+        
         return (
             <div>
                 {fileListLoading && <Loader />}
-                {!fileListLoading &&
-                    <div className="files-list">
-                        <List>
-                            {fileList.length > 0 &&
-                                <div>
-                                    <Subheader style={subHeadStyle}>Select vault</Subheader>
-                                    {fileList.map((file) => this.renderItem(file, showRemoveFileDialog))}
-                                    <Subheader style={subHeadStyle}>Or</Subheader>
-                                </div>
-                            }
-                            {this.renderNewFileImput(fileName, newFileNameError)}
-                        </List >
-                        <RemoveFileDialog />
-                    </div>
-                }
+                {!fileListLoading && this.renderContent()}
+            </div>
+        );
+    }
+
+    renderContent() {
+        const { fileName } = this.state;
+        const { fileList, newFileNameError, showRemoveFileDialog } = this.props;
+
+        const subHeadStyle = { paddingLeft: 0, textAlign: 'center' };
+
+        return (
+            <div className="files-list">
+                <List>
+                    {fileList.length > 0 &&
+                        <div>
+                            <Subheader style={subHeadStyle}>Select vault</Subheader>
+                            {fileList.map((file) => this.renderItem(file, showRemoveFileDialog))}
+                            <Subheader style={subHeadStyle}>Or</Subheader>
+                        </div>
+                    }
+                    {this.renderNewFileImput(fileName, newFileNameError)}
+                </List >
+                <RemoveFileDialog />
             </div>
         );
     }
@@ -123,7 +124,7 @@ class FileSelectView extends Component {
     renderItem(file, showRemoveFileDialog) { //can be moved to components
         return (
             <ListItem
-                onTouchTap={() => this.decriptFile(file)}
+                onTouchTap={() => this.downloadFile(file)}
                 key={file.id}
                 leftAvatar={<Avatar icon={<FileIcon />} backgroundColor={grey500} />}
                 rightIconButton={

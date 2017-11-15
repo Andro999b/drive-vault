@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import history from './service/history';
 import { Router, Switch, Route, Redirect} from 'react-router-dom';
 
-import ListView from './views/ListView';
-import DecryptView from './views/DecryptView';
+import VaultView from './views/VaultView';
+import CreateNewView from './views/CreateNewView';
 import FileSelectView from './views/FileSelectView';
 
 class AppRouter extends Component {
@@ -13,9 +13,8 @@ class AppRouter extends Component {
             <Router history={history}>
                 <Switch>
                     <Route exact path="/" component={FileSelectView}/> 
-                    <Route exact path="/file/new" component={DecryptView} />
-                    <Route path="/file/:fileId" component={DecryptView} />
-                    <Route path="/list" component={ListView} />
+                    <Route exact path="/vault/new" component={CreateNewView} />
+                    <Route path="/vault/:fileId" component={VaultView} />
                     <Redirect from="*" to="/" />
                 </Switch>
             </Router>

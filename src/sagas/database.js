@@ -1,4 +1,10 @@
-import { setFile, setGroups, setCredentials, setSetSyncStatus } from 'actions';
+import { 
+    setFile, 
+    setGroups, 
+    setCredentials, 
+    setSetSyncStatus,
+    setFileLoading
+} from 'actions';
 import { UPLOAD_DATABASE, uploadDatabase } from 'actions/sagas';
 import { showToast } from 'actions/toast';
 
@@ -10,6 +16,8 @@ import { upload } from 'service/fs';
 
 import { put, select, take, takeLatest, call, fork } from 'redux-saga/effects';
 import { eventChannel } from 'redux-saga';
+
+import history from 'service/history';
 
 const DB_EVENT_SAVE = 'db_save';
 const DB_EVENT_CHANGED = 'db_changed';
@@ -27,6 +35,12 @@ function* saveDataBase(action) {
         // do file upload
         const file = yield call(upload, { fileId, fileName, body: encrypt(keystore, secret) });
         yield put(setFile(file.id));
+
+        if(!fileId) { //new file created
+            yield put(setFileLoading(false));
+            history.push('/vault/' + file.id);
+        }
+
         yield put(showToast('Database synchronized'));
 
         // set sync as finished

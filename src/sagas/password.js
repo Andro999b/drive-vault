@@ -1,5 +1,10 @@
-import { setMasterPasswordError, setSecret, setDatabaseInited} from 'actions';
-import { SET_MASTER_PASSWORD, UPDATE_MASTER_PASSWORD, selectGroup, } from 'actions/sagas';
+import {
+    setMasterPasswordError, 
+    setSecret, 
+    setFileDecrypted,
+    setFileLoading
+} from 'actions';
+import { SET_MASTER_PASSWORD, UPDATE_MASTER_PASSWORD, selectGroup } from 'actions/sagas';
 
 import { 
     save as saveDatabase,
@@ -13,8 +18,6 @@ import { SELECTED_GROUP_KEY, getSetting } from 'service/settings';
 
 import { put, takeLatest, select, call } from 'redux-saga/effects';
 
-import history from 'service/history';
-
 import { 
     ERROR_CANT_BE_EMPTY, 
     ERROR_WRONG_PASSWORD,
@@ -22,10 +25,8 @@ import {
 } from 'service/validations';
 
 function* afterDatabaseInited() {
-    yield put(setDatabaseInited());//TODO remove
+    yield put(setFileDecrypted(true));
     yield call(restoreLatestSelectGroup);
-    
-    history.push('/list');
 }
 
 function* restoreLatestSelectGroup() {
@@ -41,8 +42,6 @@ function* restoreLatestSelectGroup() {
 function* setMasterPassword(action) {
     const password = action.payload;
     let { secret, fileData, salt } = (yield select()).decrypt;
-
-    if (secret) return;
 
     if (!password) {
         yield put(setMasterPasswordError(ERROR_CANT_BE_EMPTY));
@@ -70,6 +69,7 @@ function* setMasterPassword(action) {
         }
 
         yield put(setSecret(secret));
+        yield put(setFileLoading(true));
         yield call(deserializeDatabase, null);
         yield call(afterDatabaseInited);
     }
