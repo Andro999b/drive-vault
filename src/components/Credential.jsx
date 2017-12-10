@@ -21,20 +21,29 @@ import {
     TYPE_SITE_CREDENTIALS, 
     TYPE_LOGIN_PASSWORD
 } from 'service/credentials';
-import { showSaveCredentialDialog, showRemoveCredentialDialog } from 'actions/dialogs';
+import { 
+    showSaveCredentialDialog, 
+    showRemoveCredentialDialog,
+    showCopyCredentialDialog,
+    showCreateSimilarCredentialDialog
+ } from 'actions/dialogs';
 
 @connect(
     null,
     (dispatch) => ({
         showEditDialog: (credential) => dispatch(showSaveCredentialDialog(credential)),
-        showRemoveDialog: (credential) => dispatch(showRemoveCredentialDialog(credential))
+        showRemoveDialog: (credential) => dispatch(showRemoveCredentialDialog(credential)),
+        showCopyDialog: (credential) => dispatch(showCopyCredentialDialog(credential)),
+        showCreateSimilarDialog: (credential) => dispatch(showCreateSimilarCredentialDialog(credential)),
     })
 )
 class Credential extends Component {
     static propTypes = {
         credential: PropTypes.object.isRequired,
         showEditDialog: PropTypes.func.isRequired,
-        showRemoveDialog: PropTypes.func.isRequired
+        showRemoveDialog: PropTypes.func.isRequired,
+        showCopyDialog: PropTypes.func.isRequired,
+        showCreateSimilarDialog: PropTypes.func.isRequired
     };
 
     getIcon(type) {
@@ -47,7 +56,7 @@ class Credential extends Component {
     }
 
     render() {
-        const { showEditDialog, showRemoveDialog, credential } = this.props;
+        const { showEditDialog, showRemoveDialog, showCopyDialog, showCreateSimilarDialog, credential } = this.props;
         const { type } = credential;
 
         const rightIconButton = (
@@ -58,6 +67,8 @@ class Credential extends Component {
             >
                 <MenuItem onTouchTap={() => showEditDialog(credential)}>Edit</MenuItem>
                 <MenuItem onTouchTap={() => showRemoveDialog(credential)}>Remove</MenuItem>
+                <MenuItem onTouchTap={() => showCopyDialog(credential)}>Copy</MenuItem>
+                <MenuItem onTouchTap={() => showCreateSimilarDialog(credential)}>Create similar</MenuItem>
             </IconMenu>
         );
 

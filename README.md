@@ -6,9 +6,13 @@ So for decrypting file hacker must know you master password and have acces to yo
 
 ## TODO
 
+* firefox addon
+* sorting
 * support github private gists
 * multiple device sync?
-* firefox addon
+
+## 1.5.2
+* copy and create similar
 
 ## 1.5.1
 * backward navigation

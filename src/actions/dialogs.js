@@ -14,6 +14,21 @@ export const showRemoveGroupDialog = createAction(SET_REMOVE_GROUP, (group) => g
 export const showSaveGroupDialog = createAction(SET_SAVE_GROUP, (group) => (group || {}));
 export const showRemoveCredentialDialog = createAction(SET_REMOVE_CREDENTIAL, (credential) => credential);
 export const showSaveCredentialDialog = createAction(SET_SAVE_CREDENTIAL, (credential) => (credential || {type: TYPE_SINGLE_VALUE}));
+export const showCopyCredentialDialog = createAction(SET_SAVE_CREDENTIAL, (credential) => ({
+    id: null,
+    name: credential.name + ' - copy',
+    type: credential.type,
+    values: credential.values
+}));
+export const showCreateSimilarCredentialDialog = createAction(SET_SAVE_CREDENTIAL, (credential) => ({
+    id: null,
+    name: credential.name + ' - copy',
+    type: credential.type,
+    values: credential.values.map((item) => ({
+        name: item.name,
+        value: null
+    }))
+}));
 export const hideRemoveGroupDialog = createAction(SET_REMOVE_GROUP, () => null);
 export const hideSaveGroupDialog = createAction(SET_SAVE_GROUP, () => null);
 export const hideRemoveCredentialDialog = createAction(SET_REMOVE_CREDENTIAL, () => null);
