@@ -4,11 +4,13 @@ import {
     REMOVE_CREDENTIAL,
     REMOVE_GROUP,
     SELECT_GROUP,
-    SET_NAME_FILTER
+    SET_NAME_FILTER,
+    CLOSE_VAULT,
+    closeFile
 } from 'actions/sagas';
 import { setSelectedGroup } from 'actions/';
 
-import { get as db } from 'service/db';
+import { get as db, clear as clearDatabase } from 'service/db';
 import { SELECTED_GROUP_KEY, setSetting } from 'service/settings';
 
 import { put, takeLatest, select, call } from 'redux-saga/effects';
@@ -68,6 +70,11 @@ function* setNameFilter(action) {
     yield call(() => db().setFilterName(action.payload));
 }
 
+function* closeVault() {
+    yield put(closeFile());
+    yield call(clearDatabase);
+}
+
 export default function* () {
     yield takeLatest(REMOVE_CREDENTIAL, removeCredential);
     yield takeLatest(REMOVE_GROUP, removeGroup);
@@ -75,4 +82,5 @@ export default function* () {
     yield takeLatest(SAVE_GROUP, saveGruop);
     yield takeLatest(SELECT_GROUP, selectGroup);
     yield takeLatest(SET_NAME_FILTER, setNameFilter);
+    yield takeLatest(CLOSE_VAULT, closeVault);
 }

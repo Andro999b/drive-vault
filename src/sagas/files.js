@@ -1,13 +1,18 @@
-import { CREATE_FILE, DOWNLOAD_FILE, REMOVE_FILE } from 'actions/sagas';
-import { hideRemoveFileDialog } from 'actions/dialogs';
 import { 
-    setNewFileName, 
-    setNewFileNameError, 
-    setFileLoading, 
-    setFilesListLoading, 
-    setFile, 
+    CREATE_FILE, 
+    DOWNLOAD_FILE, 
+    REMOVE_FILE, 
+    CLOSE_FILE
+} from 'actions/sagas';
+import { hideRemoveFileDialog } from 'actions/dialogs';
+import {
+    setNewFileName,
+    setNewFileNameError,
+    setFileLoading,
+    setFilesListLoading,
+    setFile,
     setFilesList,
-    setFileDecrypted
+    setFileDecrypted,
 } from 'actions';
 
 import { takeLatest, put, call, throttle } from 'redux-saga/effects';
@@ -54,10 +59,10 @@ function* removeFile(action) {
 
     yield put(setFilesListLoading(true));
     yield put(hideRemoveFileDialog());
-    
-    try{
+
+    try {
         yield call(remove, file.id);
-    } catch(e) {
+    } catch (e) {
         console.error(e);
     }
 
@@ -66,8 +71,17 @@ function* removeFile(action) {
     yield put(setFilesListLoading(false));
 }
 
+function* closeFile() {
+    yield put(setFile());
+    yield put(setNewFileNameError(null));
+    yield put(setFileDecrypted(false));
+
+    history.push('/');
+}
+
 export default function* () {
     yield throttle(2000, CREATE_FILE, createFile);
     yield takeLatest(DOWNLOAD_FILE, downloadFile);
     yield takeLatest(REMOVE_FILE, removeFile);
+    yield takeLatest(CLOSE_FILE, closeFile);
 }

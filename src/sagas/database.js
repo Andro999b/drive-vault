@@ -29,6 +29,11 @@ function* saveDataBase(action) {
         const { keystore } = action.payload;
         const { fileId, fileName, secret } = (yield select()).decrypt;
 
+        if(!fileId && !fileName) { 
+            yield put(setSetSyncStatus(SYNCRONIZED));
+            return;
+        }
+
         //set sync status in progress
         yield put(setSetSyncStatus(SYNCRONIZATION_INPROGRESS));
 
@@ -45,7 +50,9 @@ function* saveDataBase(action) {
 
         // set sync as finished
         const { syncStatus } = (yield select()).main;
-        if(syncStatus == SYNCRONIZATION_INPROGRESS) yield put(setSetSyncStatus(SYNCRONIZED));
+
+        if(syncStatus == SYNCRONIZATION_INPROGRESS) 
+            yield put(setSetSyncStatus(SYNCRONIZED));
     } catch (e) {
         console.error(e);
         showToast('Database synchronize fail');
@@ -60,7 +67,7 @@ function* updateCredentials(action) {
     yield put(setCredentials(action.payload));
 }
 
-function* connectToDatabase() {
+function* connectToDatabase() {   
     const dbChannel = eventChannel((emmiter) => {
         connect({
             onGoupsUpdated: (groups) => emmiter({ type: DB_EVENT_GROUPS_UPDATED, payload: groups }),

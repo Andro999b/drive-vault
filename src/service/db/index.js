@@ -30,6 +30,13 @@ export function deserialize(keystore) {
     return db.deserialize(keystore);
 }
 
+export function clear() {
+    if (db == null)
+        throw new Error('db not inited');
+
+    return db.deserialize('');
+}
+
 export function save() {
     if (db == null)
         throw new Error('db not inited');

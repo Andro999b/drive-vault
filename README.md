@@ -8,6 +8,10 @@ So for decrypting file hacker must know you master password and have acces to yo
 
 * support github private gists
 * multiple device sync?
+* firefox addon
+
+## 1.5.1
+* backward navigation
 
 ## 1.5
 * db code refactoring

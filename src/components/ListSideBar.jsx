@@ -14,9 +14,10 @@ import ImportDialog from 'components/dialogs/ImportDialog';
 import ActionKeyIcon from 'material-ui/svg-icons/communication/vpn-key';
 import ExportIcon from 'material-ui/svg-icons/content/unarchive';
 import ImportIcon from 'material-ui/svg-icons/content/archive';
+import BackIcon from 'material-ui/svg-icons/navigation/arrow-back';
 
 import { showChangePasswordDialog, showExportDialog, showImportDialog } from 'actions/dialogs';
-import { selectGroup } from 'actions/sagas';
+import { selectGroup, closeValut } from 'actions/sagas';
 
 @connect(
     () => ({}),
@@ -24,7 +25,8 @@ import { selectGroup } from 'actions/sagas';
         showChangePasswordDialog: () => dispatch(showChangePasswordDialog()),
         selectGroup: (group) => dispatch(selectGroup(group)),
         showExportDialog: () => dispatch(showExportDialog()),
-        showImportDialog: () => dispatch(showImportDialog())
+        showImportDialog: () => dispatch(showImportDialog()),
+        closeVault: () => dispatch(closeValut())
     })
 )
 class ListSideBar extends Component {
@@ -35,6 +37,7 @@ class ListSideBar extends Component {
         onRequestChange: PropTypes.func.isRequired,
         showExportDialog: PropTypes.func.isRequired,
         showImportDialog: PropTypes.func.isRequired,
+        closeVault: PropTypes.func.isRequired
     };
 
     onSelectGroup(group) {
@@ -50,11 +53,14 @@ class ListSideBar extends Component {
             showExportDialog, 
             showImportDialog, 
             open, 
-            onRequestChange 
+            onRequestChange,
+            closeVault
         } = this.props;
 
         return (
             <Drawer open={open} docked={false} onRequestChange={onRequestChange}>
+                <ListItem onTouchTap={() => closeVault()} leftIcon={<BackIcon />} primaryText="Close vault"/>
+                <Divider />
                 <GroupsList selectGroup={(group) => this.onSelectGroup(group)} />
                 <Divider />
                 <ListItem onTouchTap={() => showChangePasswordDialog()} leftIcon={<ActionKeyIcon />} primaryText="Change password" />
