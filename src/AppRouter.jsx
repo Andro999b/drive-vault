@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import history from './service/history';
-import { Router, Switch, Route, Redirect} from 'react-router-dom';
+import { Router, Switch, Route, Redirect } from 'react-router-dom';
 
 import VaultView from './views/VaultView';
 import CreateNewView from './views/CreateNewView';

@@ -7,8 +7,13 @@ import { setMasterPasswordError } from 'actions';
 
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import { Link } from 'react-router-dom';
+
+import BackIcon from 'material-ui/svg-icons/navigation/arrow-back';
 
 import { callOnEnter } from 'service/utils';
+
+import { grey800 as backLinkColor } from 'material-ui/styles/colors';
 
 @connect(
     (state) => ({
@@ -49,6 +54,12 @@ class DecryptView extends Component {
 
         return (
             <div className="initial-view">
+                <div className="back-to-files-link">
+                    <Link to="/">
+                        <BackIcon color={backLinkColor}/> 
+                        <span style={{color: backLinkColor}}>Back to files</span>
+                    </Link>
+                </div>
                 <TextField
                     autoFocus
                     fullWidth
