@@ -57,7 +57,7 @@ class DecryptView extends Component {
                 <div className="back-to-files-link">
                     <Link to="/">
                         <BackIcon color={backLinkColor}/> 
-                        <span style={{color: backLinkColor}}>Back to files</span>
+                        <span style={{color: backLinkColor}}>Back to vaults</span>
                     </Link>
                 </div>
                 <TextField
