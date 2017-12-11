@@ -26,6 +26,7 @@ import { grey800 as backLinkColor } from 'material-ui/styles/colors';
 )
 class DecryptView extends Component {
     static propTypes = {
+        newVault: PropTypes.bool,
         masterPasswordError: PropTypes.string,
         setMasterPassword: PropTypes.func.isRequired,
         clearPasswordError: PropTypes.func.isRequired
@@ -56,7 +57,7 @@ class DecryptView extends Component {
 
     render() {
         const { password } = this.state;
-        const { masterPasswordError } = this.props;
+        const { masterPasswordError, newVault } = this.props;
 
         return (
             <div className="initial-view">
@@ -77,7 +78,9 @@ class DecryptView extends Component {
                     errorText={masterPasswordError}
                     autoComplete="none"
                     type="password" />
-                <br />
+                <div className='password-hint' style={{ display: newVault ? 'block': 'none'}}>
+                    Password must cointain one letter in uppercase and lowercase, one number and one special symbol. Minimal length 8 characters.
+                </div>
                 <RaisedButton label="Ok" primary fullWidth onClick={() => this.decryptFile()} />
             </div>
         );

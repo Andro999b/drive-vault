@@ -31,7 +31,7 @@ class CreateNewView extends Component {
         return (
             <div>
                 {fileLoading && <Loader />}
-                {!fileLoading && <DecryptView />}
+                {!fileLoading && <DecryptView newVault/>}
             </div>
         );
     }

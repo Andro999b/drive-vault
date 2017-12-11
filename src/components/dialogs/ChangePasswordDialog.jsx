@@ -81,6 +81,9 @@ class ChangePasswordDialog extends Component {
                     type="password"
                     value={password}
                     onChange={this.onPasswordChange.bind(this)} />
+                <div className='password-hint'>
+                    Password must cointain one letter in uppercase and lowercase, one number and one special symbol. Minimal length 8 characters.
+                </div>
             </Dialog>
         );
     }
