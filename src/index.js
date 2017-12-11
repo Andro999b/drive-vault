@@ -1,5 +1,4 @@
 import 'regenerator-runtime/runtime';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import React from 'react';
 import { render } from 'react-dom';
 
@@ -12,10 +11,6 @@ import store from './store';
 import { WAIT_FOR_ACTION } from 'redux-wait-for-action';
 import { INIT, INIT_FINISH } from './actions/sagas';
 import { SYNCRONIZED } from './service/db/sync-status';
-
-// Needed for onClick
-// http://stackoverflow.com/a/34015469/988941
-injectTapEventPlugin();
 
 export function startUp() {
     store
