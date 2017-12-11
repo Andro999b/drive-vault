@@ -30,19 +30,19 @@ class Group extends Component {
         const { group, showEditDialog, showRemoveDialog, selectGroup } = this.props;
 
         const rightIconMenu = (
-            <IconMenu iconButtonElement={
+            <IconMenu useLayerForClickAway iconButtonElement={
                 <IconButton touch>
                     <MoreVertIcon />
                 </IconButton>
             }>
-                <MenuItem onTouchTap={() => showEditDialog(group)}>Edit</MenuItem>
-                <MenuItem onTouchTap={() => showRemoveDialog(group)}>Remove</MenuItem>
+                <MenuItem onClick={() => showEditDialog(group)}>Edit</MenuItem>
+                <MenuItem onClick={() => showRemoveDialog(group)}>Remove</MenuItem>
             </IconMenu>
         );
 
         return (
             <ListItem
-                onTouchTap={() => selectGroup(group)}
+                onClick={() => selectGroup(group)}
                 primaryText={group.name}
                 rightIconButton={rightIconMenu}
             />

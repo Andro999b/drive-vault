@@ -77,8 +77,8 @@ class ImporttDialog extends Component {
         const { fileName, selectedFile, password } = this.state;
 
         const actions = [
-            <FlatButton key={0} onTouchTap={() => hideDialog()} label="Cancel" primary />,
-            <FlatButton key={1} onTouchTap={this.onImport.bind(this)} label="Import" primary disabled={!selectedFile}/>,
+            <FlatButton key={0} onClick={() => hideDialog()} label="Cancel" primary />,
+            <FlatButton key={1} onClick={this.onImport.bind(this)} label="Import" primary disabled={!selectedFile}/>,
         ];
 
         return (
@@ -99,7 +99,8 @@ class ImporttDialog extends Component {
                     value={password}
                     onChange={this.onPasswordChange.bind(this)}
                     type="password"
-                    floatingLabelText="Enter pasword"
+                    floatingLabelText="Enter password"
+                    floatingLabelFixed
                     autoComplete="new-password"
                     errorText={error}
                     fullWidth />

@@ -62,8 +62,8 @@ class ExportDialog extends Component {
         const { passwordError, password } = this.state;
 
         const actions = [
-            <FlatButton key={0} onTouchTap={() => hideDialog()} label="Cancel" primary />,
-            <FlatButton key={1} onTouchTap={this.onExport.bind(this)} label="Export" primary />,
+            <FlatButton key={0} onClick={() => hideDialog()} label="Cancel" primary />,
+            <FlatButton key={1} onClick={this.onExport.bind(this)} label="Export" primary />,
         ];
 
         return (
@@ -76,7 +76,8 @@ class ExportDialog extends Component {
                     errorText={passwordError}
                     onChange={this.onPasswordChange.bind(this)}
                     type="password"
-                    floatingLabelText="Enter pasword"
+                    floatingLabelText="Enter password"
+                    floatingLabelFixed
                     autoComplete="new-password"
                     fullWidth />
             </Dialog>

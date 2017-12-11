@@ -66,6 +66,7 @@ class CredentialShemeValues extends Component {
                         fullWidth
                         multiLine
                         floatingLabelText={`Enter ${name}`}
+                        floatingLabelFixed
                         errorText={getError(name)}
                         onChange={(e) => this.onValueChange(name, e.target.value)}
                         value={value} />

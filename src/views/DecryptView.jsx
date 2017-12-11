@@ -36,6 +36,12 @@ class DecryptView extends Component {
         this.state = { password: '' };
     }
 
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.masterPasswordError) {
+            this.setState({password: ''});
+        }
+    }
+
     componentWillMount() {
         this.props.clearPasswordError();
     }
@@ -66,9 +72,10 @@ class DecryptView extends Component {
                     value={password}
                     onKeyDown={callOnEnter(this.decryptFile.bind(this))}
                     onChange={(e) => this.onChange(e)}
-                    hintText="Enter master password"
                     floatingLabelText="Enter master password"
+                    floatingLabelFixed
                     errorText={masterPasswordError}
+                    autoComplete="none"
                     type="password" />
                 <br />
                 <RaisedButton label="Ok" primary fullWidth onClick={() => this.decryptFile()} />

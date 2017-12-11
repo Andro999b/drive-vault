@@ -76,7 +76,7 @@ class CredentialMultipleValues extends Component {
                     this.renderRow(index, name, value, getError(index), isLast(index))
                 )}
                 <div className="text-right">
-                    <RaisedButton label="Add Value" onTouchTap={this.addRow.bind(this)} />
+                    <RaisedButton label="Add Value" onClick={this.addRow.bind(this)} />
                 </div>
             </div>
         );
@@ -91,6 +91,7 @@ class CredentialMultipleValues extends Component {
                         style={{ verticalAlign: 'top' }}
                         fullWidth={mobile}
                         floatingLabelText="Enter name"
+                        floatingLabelFixed
                         value={name}
                         errorText={error.nameError}
                         onChange={(e) => this.onNameChange(index, e.target.value)}
@@ -99,6 +100,7 @@ class CredentialMultipleValues extends Component {
                         style={{ verticalAlign: 'top' }}
                         fullWidth={mobile}
                         floatingLabelText="Enter value"
+                        floatingLabelFixed
                         multiLine
                         errorText={error.error}
                         onChange={(e) => this.onValueChange(index, e.target.value)}
@@ -106,7 +108,7 @@ class CredentialMultipleValues extends Component {
                 </div>
                 {!isLast &&
                     <div className="text-right">
-                        <RaisedButton label="Remove Value" onTouchTap={() => this.removeRow(index)} />
+                        <RaisedButton label="Remove Value" onClick={() => this.removeRow(index)} />
                     </div>}
             </div>
         );

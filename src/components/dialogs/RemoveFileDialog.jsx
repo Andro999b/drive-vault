@@ -30,8 +30,8 @@ class RemoveFileDialog extends Component {
         const name = file != null ? file.name : null;
 
         const actions = [
-            <FlatButton key={0} onTouchTap={hideDialog} label="Cancel" primary />,
-            <FlatButton key={1} onTouchTap={() => removeFile(file)} label="Remove" primary />,
+            <FlatButton key={0} onClick={hideDialog} label="Cancel" primary />,
+            <FlatButton key={1} onClick={() => removeFile(file)} label="Remove" primary />,
         ];
 
         return (

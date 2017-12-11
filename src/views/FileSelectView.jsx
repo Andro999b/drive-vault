@@ -111,12 +111,11 @@ class FileSelectView extends Component {
                     fullWidth
                     value={fileName}
                     errorText={newFileNameError}
-                    hintText="Enter vault name"
-                    floatingLabelText="Enter vault name" />
+                    hintText="Enter new vault name" />
                 <RaisedButton
                     label="Create new"
                     primary fullWidth
-                    onTouchTap={() => this.createNewFile()} />
+                    onClick={() => this.createNewFile()} />
             </div>
         );
     }
@@ -124,11 +123,11 @@ class FileSelectView extends Component {
     renderItem(file, showRemoveFileDialog) { //can be moved to components
         return (
             <ListItem
-                onTouchTap={() => this.downloadFile(file)}
+                onClick={() => this.downloadFile(file)}
                 key={file.id}
                 leftAvatar={<Avatar icon={<FileIcon />} backgroundColor={grey500} />}
                 rightIconButton={
-                    <IconButton onTouchTap={() => showRemoveFileDialog(file)}>
+                    <IconButton onClick={() => showRemoveFileDialog(file)}>
                         <DeleteIcon color={red700} />
                     </IconButton>
                 }

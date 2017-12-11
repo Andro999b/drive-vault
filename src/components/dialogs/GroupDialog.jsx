@@ -68,17 +68,18 @@ class GroupDialog extends Component {
         const { name } = this.state.group;
 
         const actions = [
-            <FlatButton key={0} onTouchTap={hideDialog} label="Cancel" primary />,
-            <FlatButton key={1} onTouchTap={this.onSave.bind(this)} label="Save" primary />,
+            <FlatButton key={0} onClick={hideDialog} label="Cancel" primary />,
+            <FlatButton key={1} onClick={this.onSave.bind(this)} label="Save" primary />,
         ];
 
         return (
-            <Dialog title="Group" open={group != null} actions={actions} onRequestClose={hideDialog}>
+            <Dialog title={group && group.id ? 'Edit group' : 'Create group'} open={group != null} actions={actions} onRequestClose={hideDialog}>
                 <form autoComplete="off">
                     <TextField
                         autoFocus
                         onKeyDown={callOnEnter(this.onSave.bind(this))}
                         floatingLabelText="Group name"
+                        floatingLabelFixed
                         autoComplete="new-password"
                         errorText={errors.name}
                         fullWidth

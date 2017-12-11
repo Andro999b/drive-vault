@@ -123,8 +123,8 @@ class CredentialDialog extends Component {
         const { credential, hideDialog } = this.props;
 
         const actions = [
-            <FlatButton key={0} onTouchTap={hideDialog} label="Cancel" primary />,
-            <FlatButton key={1} onTouchTap={this.save.bind(this)} label="Save" primary />,
+            <FlatButton key={0} onClick={hideDialog} label="Cancel" primary />,
+            <FlatButton key={1} onClick={this.save.bind(this)} label="Save" primary />,
         ];
 
         return (
@@ -146,6 +146,7 @@ class CredentialDialog extends Component {
             <TextField
                 autoFocus
                 floatingLabelText="Enter title"
+                floatingLabelFixed
                 autoComplete="new-password"
                 errorText={errors.name}
                 fullWidth
@@ -166,6 +167,7 @@ class CredentialDialog extends Component {
                     multiple
                     className="row-first-cell"
                     floatingLabelText="Select Group"
+                    floatingLabelFixed
                     value={groups}
                     fullWidth={mobile}
                     onChange={this.onGroupChange.bind(this)}>
@@ -180,6 +182,7 @@ class CredentialDialog extends Component {
                 <SelectField
                     fullWidth={mobile || !hasAvaliableGroups}
                     floatingLabelText="Select Type"
+                    floatingLabelFixed
                     value={type}
                     onChange={this.onTypeChange.bind(this)}>
                     {allTypes.map((item) => <MenuItem key={item} value={item} primaryText={getTypeName(item)} />)}

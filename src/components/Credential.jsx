@@ -60,15 +60,15 @@ class Credential extends Component {
         const { type } = credential;
 
         const rightIconButton = (
-            <IconMenu iconButtonElement={
+            <IconMenu useLayerForClickAway iconButtonElement={
                 <IconButton touch>
                     <MoreVertIcon />
                 </IconButton>}
             >
-                <MenuItem onTouchTap={() => showEditDialog(credential)}>Edit</MenuItem>
-                <MenuItem onTouchTap={() => showRemoveDialog(credential)}>Remove</MenuItem>
-                <MenuItem onTouchTap={() => showCopyDialog(credential)}>Copy</MenuItem>
-                <MenuItem onTouchTap={() => showCreateSimilarDialog(credential)}>Create similar</MenuItem>
+                <MenuItem onClick={() => showEditDialog(credential)}>Edit</MenuItem>
+                <MenuItem onClick={() => showRemoveDialog(credential)}>Remove</MenuItem>
+                <MenuItem onClick={() => showCopyDialog(credential)}>Copy</MenuItem>
+                <MenuItem onClick={() => showCreateSimilarDialog(credential)}>Create similar</MenuItem>
             </IconMenu>
         );
 

@@ -13,7 +13,7 @@ import { WAIT_FOR_ACTION } from 'redux-wait-for-action';
 import { INIT, INIT_FINISH } from './actions/sagas';
 import { SYNCRONIZED } from './service/db/sync-status';
 
-// Needed for onTouchTap
+// Needed for onClick
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 

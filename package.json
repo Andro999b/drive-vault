@@ -14,7 +14,7 @@
     "history": "4.7.2",
     "lockr": "^0.8.4",
     "lokijs": "^1.5.1",
-    "material-ui": "0.18.7",
+    "material-ui": "0.20",
     "react": "15.5.4",
     "react-dom": "15.5.4",
     "react-redux": "5.0.6",

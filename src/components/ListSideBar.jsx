@@ -59,16 +59,16 @@ class ListSideBar extends Component {
 
         return (
             <Drawer open={open} docked={false} onRequestChange={onRequestChange}>
-                <ListItem onTouchTap={() => closeVault()} leftIcon={<BackIcon />} primaryText="Close vault"/>
+                <ListItem onClick={() => closeVault()} leftIcon={<BackIcon />} primaryText="Close vault"/>
                 <Divider />
                 <GroupsList selectGroup={(group) => this.onSelectGroup(group)} />
                 <Divider />
-                <ListItem onTouchTap={() => showChangePasswordDialog()} leftIcon={<ActionKeyIcon />} primaryText="Change password" />
+                <ListItem onClick={() => showChangePasswordDialog()} leftIcon={<ActionKeyIcon />} primaryText="Change password" />
                 <ChangePasswordDialog />
                 <Divider />
-                <ListItem onTouchTap={() => showExportDialog()} leftIcon={<ExportIcon />} primaryText="Export" />
+                <ListItem onClick={() => showExportDialog()} leftIcon={<ExportIcon />} primaryText="Export" />
                 <ExportDailog/>
-                <ListItem onTouchTap={() => showImportDialog()} leftIcon={<ImportIcon />} primaryText="Import" />
+                <ListItem onClick={() => showImportDialog()} leftIcon={<ImportIcon />} primaryText="Import" />
                 <ImportDialog/>
             </Drawer>
         );

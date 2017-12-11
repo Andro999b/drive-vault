@@ -53,7 +53,7 @@ class Credential extends Component {
                 onMouseUp={this.hideValue}
                 onMouseLeave={this.hideValue}
                 onTouchEnd={this.hideValue}
-                onTouchTap={(e) => e.stopPropagation()}>
+                onClick={(e) => e.stopPropagation()}>
                 {showValue? <ActionVisibilityOffIcon color={grey600}/> : <ActionVisibilityIcon color={grey600}/>}
             </span>
         );
@@ -64,7 +64,7 @@ class Credential extends Component {
                 leftIcon={leftIcon}
                 primaryText={name}
                 secondaryText={showValue? value : '*'.repeat(10)}
-                onTouchTap={this.doCopyToClipboad}
+                onClick={this.doCopyToClipboad}
                 rightIconButton={rightIconButton} />
         );
     }

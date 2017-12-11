@@ -36,7 +36,7 @@ class GroupsList extends Component {
             <div>
                 <div>
                     <ListItem
-                        onTouchTap={() => selectGroup(null)}
+                        onClick={() => selectGroup(null)}
                         primaryText="All credentials"
                         leftIcon={<ActionAllIcon/>} />
                     {groups.map((group) =>
@@ -44,7 +44,7 @@ class GroupsList extends Component {
                     )}
                 </div>
                 <ListItem
-                    onTouchTap={showCreateDialog}
+                    onClick={showCreateDialog}
                     primaryText="New group"
                     leftIcon={<ContentAddCircleIcon />}
                 />

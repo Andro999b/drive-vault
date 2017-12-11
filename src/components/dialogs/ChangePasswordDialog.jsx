@@ -64,8 +64,8 @@ class ChangePasswordDialog extends Component {
         const { password, passwordError } = this.state;
 
         const actions = [
-            <FlatButton key={0} onTouchTap={hideDialog} label="Cancel" primary />,
-            <FlatButton key={1} onTouchTap={this.onSave.bind(this)} label="Save" primary />,
+            <FlatButton key={0} onClick={hideDialog} label="Cancel" primary />,
+            <FlatButton key={1} onClick={this.onSave.bind(this)} label="Save" primary />,
         ];
 
         return (
@@ -73,7 +73,8 @@ class ChangePasswordDialog extends Component {
                 <TextField
                     autoFocus
                     onKeyDown={callOnEnter(this.onSave.bind(this))}
-                    floatingLabelText="Enter master password"
+                    floatingLabelText="Enter new master password"
+                    floatingLabelFixed
                     autoComplete="new-password"
                     errorText={passwordError}
                     fullWidth

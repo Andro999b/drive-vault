@@ -24,7 +24,8 @@ class CredentialSingleValue extends Component {
         return (
             <TextField 
                 multiLine
-                floatingLabelText="Enter value" 
+                floatingLabelText="Enter value"
+                floatingLabelFixed
                 autoComplete="new-password" 
                 errorText={error}
                 fullWidth 

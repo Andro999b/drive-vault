@@ -30,8 +30,8 @@ class RemoveGroupDialog extends Component {
         const name = group != null ? group.name : null;
 
         const actions = [
-            <FlatButton key={0} onTouchTap={hideDialog} label="Cancel" primary />,
-            <FlatButton key={1} onTouchTap={() => removeGroup(group)} label="Remove" primary />,
+            <FlatButton key={0} onClick={hideDialog} label="Cancel" primary />,
+            <FlatButton key={1} onClick={() => removeGroup(group)} label="Remove" primary />,
         ];
 
         return (

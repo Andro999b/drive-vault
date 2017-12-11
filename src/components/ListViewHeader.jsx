@@ -80,10 +80,10 @@ class ListViewHeader extends Component {
 
         const rightAppBarElement = (
             <div style={{ marginRight: -8 }}>
-                <IconButton onTouchTap={() => showCreateDialog()}>
+                <IconButton onClick={() => showCreateDialog()}>
                     <ContentCreateIcon color={white} />
                 </IconButton>
-                <IconButton onTouchTap={this.enterSearchMode.bind(this)}>
+                <IconButton onClick={this.enterSearchMode.bind(this)}>
                     <ActionSearchIcon color={white} />
                 </IconButton>
             </div>
@@ -92,7 +92,7 @@ class ListViewHeader extends Component {
         const appBar = (
             <AppBar
                 title={selectedGroup == null ? 'All credentials' : selectedGroup.name}
-                onLeftIconButtonTouchTap={this.toggleSideBar.bind(this)}
+                onLeftIconButtonClick={this.toggleSideBar.bind(this)}
                 iconElementRight={rightAppBarElement}
             />
         );
@@ -100,7 +100,7 @@ class ListViewHeader extends Component {
         const searchBar = (
             <Toolbar style={{ height: 64 }}>
                 <ToolbarGroup firstChild style={{ flexGrow: 1 }}>
-                    <IconButton onTouchTap={this.leaveSearchMode.bind(this)}>
+                    <IconButton onClick={this.leaveSearchMode.bind(this)}>
                         <BackIcon color={grey500} />
                     </IconButton>
                     <TextField
@@ -114,7 +114,7 @@ class ListViewHeader extends Component {
                         underlineShow={false} />
                 </ToolbarGroup>
                 <ToolbarGroup lastChild>
-                    <IconButton onTouchTap={this.onNameFilterClear.bind(this)}>
+                    <IconButton onClick={this.onNameFilterClear.bind(this)}>
                         <ClearIcon color={grey500} />
                     </IconButton>
                 </ToolbarGroup>
