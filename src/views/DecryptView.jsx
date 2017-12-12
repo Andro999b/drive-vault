@@ -81,7 +81,7 @@ class DecryptView extends Component {
                 <div className='password-hint' style={{ display: newVault ? 'block': 'none'}}>
                     Password must cointain one letter in uppercase and lowercase, one number and one special symbol. Minimal length 8 characters.
                 </div>
-                <RaisedButton label="Ok" primary fullWidth onClick={() => this.decryptFile()} />
+                <RaisedButton label={newVault ? 'Create vault' : 'Open vault'} primary fullWidth onClick={() => this.decryptFile()} />
             </div>
         );
     }
