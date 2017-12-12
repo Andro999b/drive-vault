@@ -15,6 +15,9 @@ import { SELECTED_GROUP_KEY, setSetting } from 'service/settings';
 
 import { put, takeLatest, select, call } from 'redux-saga/effects';
 
+import { SYNCRONIZED } from 'service/db/sync-status';
+import { showToast } from 'actions/toast';
+
 import {
     hideRemoveCredentialDialog,
     hideRemoveGroupDialog,
@@ -71,6 +74,15 @@ function* setNameFilter(action) {
 }
 
 function* closeVault() {
+    yield put(showToast('Changes saved'));
+
+    // set sync as finished
+    const { syncStatus } = (yield select()).main;
+    if(syncStatus != SYNCRONIZED) {
+        yield put(showToast('Please wait while the changes are saved'));
+        return;
+    }
+
     yield put(closeFile());
     yield call(clearDatabase);
 }

@@ -37,18 +37,13 @@ class DecryptView extends Component {
         this.state = { password: '' };
     }
 
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.masterPasswordError) {
-            this.setState({password: ''});
-        }
-    }
-
     componentWillMount() {
         this.props.clearPasswordError();
     }
 
     decryptFile() {
         this.props.setMasterPassword(this.state.password);
+        this.setState({password: ''});
     }
 
     onChange(e) {

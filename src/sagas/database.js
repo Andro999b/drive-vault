@@ -46,7 +46,7 @@ function* saveDataBase(action) {
             history.push('/vault/' + file.id);
         }
 
-        yield put(showToast('Database synchronized'));
+        yield put(showToast('Changes saved'));
 
         // set sync as finished
         const { syncStatus } = (yield select()).main;
