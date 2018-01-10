@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Loader from 'components/Loader';
-import DecryptView from './DecryptView';
+import MasterPasswordView from './DecryptView';
 
 @connect(
     (state) => ({
@@ -31,7 +31,7 @@ class CreateNewView extends Component {
         return (
             <div>
                 {fileLoading && <Loader />}
-                {!fileLoading && <DecryptView newVault/>}
+                {!fileLoading && <MasterPasswordView newVault/>}
             </div>
         );
     }

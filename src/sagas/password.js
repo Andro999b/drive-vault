@@ -4,7 +4,7 @@ import {
     setFileDecrypted,
     setFileLoading
 } from 'actions';
-import { SET_MASTER_PASSWORD, UPDATE_MASTER_PASSWORD, selectGroup } from 'actions/sagas';
+import { DECRYPT_VAULT, UPDATE_MASTER_PASSWORD, selectGroup } from 'actions/sagas';
 
 import { 
     save as saveDatabase,
@@ -14,7 +14,7 @@ import {
 
 import { createSecret, decrypt } from 'service/crypt';
 import { isWeakPassword } from 'service/crypt/password';
-import { SELECTED_GROUP_KEY, getSetting } from 'service/settings';
+import { SELECTED_GROUP_KEY, getVaultSetting } from 'service/settings';
 
 import { put, takeLatest, select, call } from 'redux-saga/effects';
 
@@ -31,7 +31,8 @@ function* afterDatabaseInited() {
 
 function* restoreLatestSelectGroup() {
     const db = getDatabase();
-    const id = getSetting(SELECTED_GROUP_KEY);
+    const { fileId } = (yield select()).decrypt;
+    const id = getVaultSetting(fileId, SELECTED_GROUP_KEY);
 
     const group = db.getGroup(id);
     if (!group) return;
@@ -39,7 +40,7 @@ function* restoreLatestSelectGroup() {
     yield put(selectGroup(group));
 }
 
-function* setMasterPassword(action) {
+function* decryptVault(action) {
     const password = action.payload;
     let { secret, fileData, salt } = (yield select()).decrypt;
 
@@ -87,6 +88,6 @@ function* updateMasterPassword(action) {
 }
 
 export default function* () {
-    yield takeLatest(SET_MASTER_PASSWORD, setMasterPassword);
+    yield takeLatest(DECRYPT_VAULT, decryptVault);
     yield takeLatest(UPDATE_MASTER_PASSWORD, updateMasterPassword);
 }

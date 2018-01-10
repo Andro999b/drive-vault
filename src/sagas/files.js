@@ -77,10 +77,17 @@ function* closeFile() {
     yield put(setFileDecrypted(false));
 
     history.push('/');
+
+    yield put(setFilesListLoading(true));
+
+    const files = yield call(fileList);
+
+    yield put(setFilesList(files));
+    yield put(setFilesListLoading(false));
 }
 
 export default function* () {
-    yield throttle(2000, CREATE_FILE, createFile);
+    yield throttle(5000, CREATE_FILE, createFile);
     yield takeLatest(DOWNLOAD_FILE, downloadFile);
     yield takeLatest(REMOVE_FILE, removeFile);
     yield takeLatest(CLOSE_FILE, closeFile);

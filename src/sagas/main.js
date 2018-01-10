@@ -6,12 +6,18 @@ import {
     SELECT_GROUP,
     SET_NAME_FILTER,
     CLOSE_VAULT,
+    SET_PINCODE,
     closeFile
 } from 'actions/sagas';
 import { setSelectedGroup } from 'actions/';
 
 import { get as db, clear as clearDatabase } from 'service/db';
-import { SELECTED_GROUP_KEY, setSetting } from 'service/settings';
+import { 
+    SELECTED_GROUP_KEY, 
+    PINCODE_SALT_KEY, 
+    PINCODE_SECRET_KEY, 
+    setVaultSetting 
+} from 'service/settings';
 
 import { put, takeLatest, select, call } from 'redux-saga/effects';
 
@@ -22,8 +28,12 @@ import {
     hideRemoveCredentialDialog,
     hideRemoveGroupDialog,
     hideSaveCredentialDialog,
-    hideSaveGroupDialog
+    hideSaveGroupDialog,
+    hidePinDialog
 } from 'actions/dialogs';
+
+import uuidV4 from 'uuid/v4';
+import { createSecret, encrypt } from 'service/crypt';
 
 function* removeGroup(action) {
     const group = action.payload;
@@ -59,14 +69,29 @@ function* saveGruop(action) {
 function* selectGroup(action) {
     const group = action.payload;
 
+    const { fileId } = (yield select()).decrypt;
+
     db().setFilterGroup(group);
     yield put(setSelectedGroup(group));
 
     if (group) {
-        setSetting(SELECTED_GROUP_KEY, group.id);
+        setVaultSetting(fileId, SELECTED_GROUP_KEY, group.id);
     } else {
-        setSetting(SELECTED_GROUP_KEY, null);
+        setVaultSetting(fileId, SELECTED_GROUP_KEY, null);
     }
+}
+
+function* setPinCode(action) {
+    const pinCode = action.payload;
+    const { fileId, secret } = (yield select()).decrypt;
+    const salt = uuidV4();
+
+    const pinCodeSecret = encrypt(secret, createSecret(pinCode, salt));
+
+    setVaultSetting(fileId, PINCODE_SALT_KEY, salt);
+    setVaultSetting(fileId, PINCODE_SECRET_KEY, pinCodeSecret);
+
+    yield put(hidePinDialog());
 }
 
 function* setNameFilter(action) {
@@ -95,4 +120,5 @@ export default function* () {
     yield takeLatest(SELECT_GROUP, selectGroup);
     yield takeLatest(SET_NAME_FILTER, setNameFilter);
     yield takeLatest(CLOSE_VAULT, closeVault);
+    yield takeLatest(SET_PINCODE, setPinCode);
 }
