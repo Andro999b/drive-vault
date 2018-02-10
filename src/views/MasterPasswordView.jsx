@@ -3,38 +3,28 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { decryptVault } from 'actions/sagas';
-import { setMasterPasswordError } from 'actions';
-
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import { Link } from 'react-router-dom';
 import { callOnEnter } from 'service/utils';
-import BackNav from 'components/BackNav';
 
 @connect(
     (state) => ({
         masterPasswordError: state.decrypt.masterPasswordError
     }),
     (dispatch) => ({
-        decryptVault: (password) => dispatch(decryptVault(password)),
-        clearPasswordError: () => dispatch(setMasterPasswordError(null))
+        decryptVault: (password) => dispatch(decryptVault(password))
     })
 )
 class MasterPasswordView extends Component {
     static propTypes = {
         newVault: PropTypes.bool,
         masterPasswordError: PropTypes.string,
-        decryptVault: PropTypes.func.isRequired,
-        clearPasswordError: PropTypes.func.isRequired
+        decryptVault: PropTypes.func.isRequired
     }
 
     constructor(props, context) {
         super(props, context);
         this.state = { password: '' };
-    }
-
-    componentWillMount() {
-        this.props.clearPasswordError();
     }
 
     decryptFile() {
@@ -51,10 +41,7 @@ class MasterPasswordView extends Component {
         const { masterPasswordError, newVault } = this.props;
 
         return (
-            <div className="initial-view">
-                <Link to="/">
-                    <BackNav label="Back to vaults"/>
-                </Link>
+            <div>
                 <TextField
                     autoFocus
                     fullWidth

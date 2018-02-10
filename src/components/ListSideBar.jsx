@@ -21,6 +21,8 @@ import { showChangePasswordDialog, showPinDialog, showExportDialog, showImportDi
 import { selectGroup, closeValut } from 'actions/sagas';
 import PinDialog from 'components/dialogs/PinDialog';
 
+import { isTablet } from 'service/utils';
+
 @connect(
     () => ({}),
     (dispatch) => ({
@@ -45,26 +47,28 @@ class ListSideBar extends Component {
     };
 
     onSelectGroup(group) {
-        const {selectGroup, onRequestChange}  = this.props;
+        const { selectGroup, onRequestChange } = this.props;
 
         selectGroup(group);
         onRequestChange();
     }
 
     render() {
-        const { 
+        const {
             showSetPinDialog,
-            showChangePasswordDialog, 
-            showExportDialog, 
-            showImportDialog, 
-            open, 
+            showChangePasswordDialog,
+            showExportDialog,
+            showImportDialog,
+            open,
             onRequestChange,
             closeVault
         } = this.props;
 
+        const howPincode = isTablet();
+
         return (
             <Drawer open={open} docked={false} onRequestChange={onRequestChange}>
-                <ListItem onClick={() => closeVault()} leftIcon={<BackIcon />} primaryText="Close vault"/>
+                <ListItem onClick={() => closeVault()} leftIcon={<BackIcon />} primaryText="Close vault" />
                 <Divider />
                 <GroupsList selectGroup={(group) => this.onSelectGroup(group)} />
                 <Divider />
@@ -72,12 +76,14 @@ class ListSideBar extends Component {
                 <ChangePasswordDialog />
                 <Divider />
                 <ListItem onClick={() => showExportDialog()} leftIcon={<ExportIcon />} primaryText="Export" />
-                <ExportDailog/>
+                <ExportDailog />
                 <ListItem onClick={() => showImportDialog()} leftIcon={<ImportIcon />} primaryText="Import" />
-                <ImportDialog/>
-                <Divider />
-                <ListItem onClick={() => showSetPinDialog()} leftIcon={<DialpadIcon />} primaryText="Set Pin" />
-                <PinDialog />
+                <ImportDialog />
+                {howPincode && <div>
+                    <Divider />
+                    <ListItem onClick={() => showSetPinDialog()} leftIcon={<DialpadIcon />} primaryText="Set Pin" />
+                    <PinDialog />
+                </div>}
             </Drawer>
         );
     }

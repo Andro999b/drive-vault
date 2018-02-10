@@ -2,7 +2,8 @@ import { createAction } from 'redux-actions';
 
 export const INIT = 'init';
 export const INIT_FINISH = 'init_finish';
-export const DECRYPT_VAULT = 'set_master_password';
+export const DECRYPT_VAULT = 'decrypt_vault';
+export const DECRYPT_VAULT_BY_PIN_CODE = 'decrypt_vault_by_pin_code';
 export const UPDATE_MASTER_PASSWORD = 'update_master_password';
 export const SET_NAME_FILTER= 'set_name_filter';
 export const SELECT_GROUP = 'select_group';
@@ -21,6 +22,7 @@ export const CLOSE_VAULT = 'close_vault';
 export const SET_PINCODE = 'set_pincode';
 
 export const decryptVault = createAction(DECRYPT_VAULT, (password) => password);
+export const decryptVaultByPinCode = createAction(DECRYPT_VAULT_BY_PIN_CODE, (pinCode) => pinCode);
 export const updateMasterPassword = createAction(UPDATE_MASTER_PASSWORD, (password) => password);
 export const setNameFilter = createAction(SET_NAME_FILTER, (name) => name);
 export const selectGroup = createAction(SELECT_GROUP, (group) => group);

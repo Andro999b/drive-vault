@@ -13,6 +13,8 @@ import {
     setFile,
     setFilesList,
     setFileDecrypted,
+    setPinCodeAvaliable,
+    clearDecryptErrors
 } from 'actions';
 
 import { takeLatest, put, call, throttle } from 'redux-saga/effects';
@@ -21,9 +23,17 @@ import { validateFileName, download, remove, fileList } from 'service/fs';
 
 import history from 'service/history';
 
+import {   
+    PINCODE_SALT_KEY, 
+    PINCODE_SECRET_KEY,
+    getVaultSetting
+} from 'service/settings';
+
 function* createFile(action) {
     const name = action.payload;
 
+    yield put(clearDecryptErrors());
+    
     const result = yield call(validateFileName, name);
 
     if (result.valid) {
@@ -41,6 +51,7 @@ function* createFile(action) {
 function* downloadFile(action) {
     const fileId = action.payload;
 
+    yield put(clearDecryptErrors());
     yield put(setFile(fileId));
     yield put(setFileLoading(true));
     yield put(setFileDecrypted(false));
@@ -48,6 +59,13 @@ function* downloadFile(action) {
     history.push('/vault/' + fileId);
 
     //todo: get file metadata
+    
+    const pinCodeAvalaible = 
+        getVaultSetting(fileId, PINCODE_SALT_KEY) != null && 
+        getVaultSetting(fileId, PINCODE_SECRET_KEY) != null;
+
+    yield put(setPinCodeAvaliable(pinCodeAvalaible));
+
     const fileData = yield call(download, fileId);
 
     yield put(setFile(fileId, fileData));

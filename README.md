@@ -11,7 +11,7 @@ So for decrypting file hacker must know you master password and have acces to yo
 * support github private gists
 * multiple device sync?
 
-## 1.5.3
+## 1.6
 * pin code for mobile devices
 
 ## 1.5.2

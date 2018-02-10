@@ -1,7 +1,7 @@
 import { IMPORT_VAULT, EXPORT_VAULT, selectGroup } from 'actions/sagas';
 import { takeLatest, put, call } from 'redux-saga/effects';
 import { serialize, deserialize } from 'service/db';
-import { createSecret, decrypt, encrypt } from 'service/crypt';
+import { createSecretPassphrase, decrypt, encrypt } from 'service/crypt';
 import { hideExportDialog, hideImportDialog, showImportDialogError } from 'actions/dialogs';
 import { saveAs } from 'file-saver';
 import { readFile } from 'service/utils';
@@ -18,7 +18,7 @@ function* importVault(action) {
         return;
     }
 
-    const secret = createSecret(password, EXPORT_IMPORT_SALT);
+    const secret = createSecretPassphrase(password, EXPORT_IMPORT_SALT);
     const fileContent = yield call(readFile, file);
 
     if (!fileContent) {
@@ -41,7 +41,7 @@ function* importVault(action) {
 
 function* exportVault(action) {
     const password = action.payload;
-    const secret = createSecret(password, EXPORT_IMPORT_SALT);
+    const secret = createSecretPassphrase(password, EXPORT_IMPORT_SALT);
     const serializedDb = serialize();
     const output = encrypt(serializedDb, secret);
 

@@ -14,8 +14,12 @@ export const SET_PASSWORD_SALT = 'SET_PASSWORD_SALT';
 export const SET_INIT_ERROR = 'SET_INIT_ERROR';
 export const SET_SELECTED_GROUP = 'SET_SELECTED_GROUP';
 export const SET_MASTER_PASSWORD_ERROR = 'SET_MASTER_PASSWORD_ERROR';
+export const SET_PIN_CODE_ERROR = 'SET_PIN_CODE_ERROR';
 export const SET_SYNC_STATUS = 'SET_SYNC_STATUS';
+export const SET_PIN_CODE_AVALIABLE = 'SET_PIN_CODE_AVALIABLE';
+export const CLEAR_DECRYPT_ERRORS = 'CLEAR_DECRYPT_ERRORS';
 
+export const setPinCodeAvaliable = createAction(SET_PIN_CODE_AVALIABLE, (status) => status);
 export const setCredentials =  createAction(SET_CREDENTIALS, (items) => items);
 export const setFileDecrypted = createAction(SET_FILE_DECRYPTED, (status) => status);
 export const setSecret = createAction(SET_SECRET, (secret) => secret);
@@ -31,3 +35,5 @@ export const setPasswordSalt = createAction(SET_PASSWORD_SALT, (salt) => salt);
 export const setInitError = createAction(SET_INIT_ERROR, (result) => result);
 export const setSelectedGroup = createAction(SET_SELECTED_GROUP, (group) => group);
 export const setMasterPasswordError = createAction(SET_MASTER_PASSWORD_ERROR, (error) => error);
+export const setPinCodeError = createAction(SET_PIN_CODE_ERROR, (error) => error);
+export const clearDecryptErrors = createAction(CLEAR_DECRYPT_ERRORS);

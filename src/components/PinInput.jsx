@@ -2,18 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
-import DoneIcon from 'material-ui/svg-icons/action/done';
-import BackIcon from 'material-ui/svg-icons/navigation/arrow-back';
 import BackSpaceIcon from 'material-ui/svg-icons/content/backspace';
 
 class PinInput extends Component {
     static PIN_LENGTH = 4;
     static propTypes = {
         error: PropTypes.string,
-        onSubmit: PropTypes.func.isRequired,
-        onBack: PropTypes.func.isRequired
+        onChange: PropTypes.func.isRequired,
+        stylle: PropTypes.object,
     }
 
     constructor(props, context) {
@@ -38,6 +35,8 @@ class PinInput extends Component {
             }
 
             return { value, error: null };
+        }, () => {
+            this.props.onChange(this.state.value.join(''));
         });
     }
 
@@ -50,19 +49,13 @@ class PinInput extends Component {
             }
 
             return { value, error: null };
+        }, () => {
+            this.props.onChange(this.state.value.join(''));
         });
-    }
-
-    onSubmit() {
-        const { onSubmit } = this.props;
-        const { value } = this.state;
-
-        onSubmit(value.join(''));
     }
 
     render() {
         const { value, error } = this.state;
-        const { onBack } = this.props;
 
         return (
             <div className="pin-input">
@@ -86,9 +79,9 @@ class PinInput extends Component {
                             /* eslint-enable no-unused-vars */
                             <RaisedButton key={i} primary label={i + 1} onClick={() => this.onInput(i + 1)} />
                         )}
-                    <FlatButton icon={<BackIcon />} onClick={() => onBack()} />
+                    <div/>
                     <RaisedButton primary label="0" onClick={() => this.onInput(0)} />
-                    <FlatButton icon={<DoneIcon />} onClick={() => this.onSubmit()} disabled={value.length < PinInput.PIN_LENGTH} />
+                    <div/>
                 </div>
             </div>
         );

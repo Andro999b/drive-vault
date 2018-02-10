@@ -2,7 +2,7 @@ import AES  from 'crypto-js/aes';
 import PBKDF2 from 'crypto-js/pbkdf2';
 import Utf8 from 'crypto-js/enc-utf8';
 
-export function createSecret(password, salt) {
+export function createSecretPassphrase(password, salt) {
     if(!password)
         throw new Error('Password must by not empty or null');
 

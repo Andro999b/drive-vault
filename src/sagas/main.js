@@ -6,7 +6,6 @@ import {
     SELECT_GROUP,
     SET_NAME_FILTER,
     CLOSE_VAULT,
-    SET_PINCODE,
     closeFile
 } from 'actions/sagas';
 import { setSelectedGroup } from 'actions/';
@@ -14,8 +13,6 @@ import { setSelectedGroup } from 'actions/';
 import { get as db, clear as clearDatabase } from 'service/db';
 import { 
     SELECTED_GROUP_KEY, 
-    PINCODE_SALT_KEY, 
-    PINCODE_SECRET_KEY, 
     setVaultSetting 
 } from 'service/settings';
 
@@ -28,12 +25,8 @@ import {
     hideRemoveCredentialDialog,
     hideRemoveGroupDialog,
     hideSaveCredentialDialog,
-    hideSaveGroupDialog,
-    hidePinDialog
+    hideSaveGroupDialog
 } from 'actions/dialogs';
-
-import uuidV4 from 'uuid/v4';
-import { createSecret, encrypt } from 'service/crypt';
 
 function* removeGroup(action) {
     const group = action.payload;
@@ -81,19 +74,6 @@ function* selectGroup(action) {
     }
 }
 
-function* setPinCode(action) {
-    const pinCode = action.payload;
-    const { fileId, secret } = (yield select()).decrypt;
-    const salt = uuidV4();
-
-    const pinCodeSecret = encrypt(secret, createSecret(pinCode, salt));
-
-    setVaultSetting(fileId, PINCODE_SALT_KEY, salt);
-    setVaultSetting(fileId, PINCODE_SECRET_KEY, pinCodeSecret);
-
-    yield put(hidePinDialog());
-}
-
 function* setNameFilter(action) {
     yield call(() => db().setFilterName(action.payload));
 }
@@ -120,5 +100,4 @@ export default function* () {
     yield takeLatest(SELECT_GROUP, selectGroup);
     yield takeLatest(SET_NAME_FILTER, setNameFilter);
     yield takeLatest(CLOSE_VAULT, closeVault);
-    yield takeLatest(SET_PINCODE, setPinCode);
 }
