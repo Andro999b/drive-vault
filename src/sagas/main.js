@@ -11,7 +11,10 @@ import {
 import { setSelectedGroup } from 'actions/';
 
 import { get as db, clear as clearDatabase } from 'service/db';
-import { SELECTED_GROUP_KEY, setSetting } from 'service/settings';
+import { 
+    SELECTED_GROUP_KEY, 
+    setVaultSetting 
+} from 'service/settings';
 
 import { put, takeLatest, select, call } from 'redux-saga/effects';
 
@@ -59,13 +62,15 @@ function* saveGruop(action) {
 function* selectGroup(action) {
     const group = action.payload;
 
+    const { fileId } = (yield select()).decrypt;
+
     db().setFilterGroup(group);
     yield put(setSelectedGroup(group));
 
     if (group) {
-        setSetting(SELECTED_GROUP_KEY, group.id);
+        setVaultSetting(fileId, SELECTED_GROUP_KEY, group.id);
     } else {
-        setSetting(SELECTED_GROUP_KEY, null);
+        setVaultSetting(fileId, SELECTED_GROUP_KEY, null);
     }
 }
 

@@ -18,13 +18,17 @@ body {
 }
 
 #sign-in,
-.initial-view,
+.decrypt-view,
 .files-list {
     @include screan-center;
 }
 
-.initial-view {
+.decrypt-view {
     text-align: center;
+}
+
+.decrypt-view__header {
+    position: relative;
 }
 
 .fail-to-start {
@@ -109,11 +113,12 @@ body {
     cursor: pointer;
 }
 
-.back-to-files-link {
-    padding-bottom: 10px;
+.back-nav {
+    padding: 5px 0;
     text-align: left;
 
-    a {
+    div {
+        cursor: pointer;
         text-decoration: none;
         display: inline-block;
 
@@ -123,7 +128,51 @@ body {
     }
 }
 
+.back-nav__label {
+    padding-left: 10px;
+}
+
 .password-hint {
     font-size: 10px;
     padding-bottom: 5px;
+}
+
+.pin-input {
+    max-width: 300px;
+    margin: 0 auto;
+    padding-bottom: 5px;
+}
+
+.pin-input__dial-panel {
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: repeat(3, 1fr);
+    padding-top: 15px;
+    align-content: end;
+}
+
+.pin-input__error {
+    text-align: center;
+    color: red;
+}
+
+.pin-input__nums_error {
+    color: red !important;
+    padding-bottom: 8px !important;
+}
+
+.pin-input__nums {
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 36px;
+    text-align: center;
+    padding: 30px 20px 27px 20px;
+    position: relative;
+}
+
+.pin-input__num {
+    padding: 0 10px;
+}
+
+.pin-input__backspace {
+    position: absolute
 }

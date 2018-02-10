@@ -10,6 +10,8 @@ export const ERROR_CARD_CSV = 'Invalid csv';
 export const ERROR_URL = 'Invalid url';
 export const ERROR_PASSWORD_TOO_WEAK = 'Password too weak';
 export const ERROR_WRONG_PASSWORD = 'Wrong password';
+export const ERROR_PINCODE_PASSWORD_OUDATTED = 'Pin code password outdated';
+export const ERROR_WRONG_PINCODE = 'Wrong pin code';
 
 export function combine(...validators) {
     return function (value) {

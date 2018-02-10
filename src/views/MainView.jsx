@@ -10,7 +10,7 @@ class MainView extends Component {
             <div>
                 <ListViewHeader/>
                 <CredentialsList/>
-                <Toast/>
+                <Toast/>   
             </div>
         );
     }

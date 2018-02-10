@@ -2,81 +2,75 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { setMasterPassword } from 'actions/sagas';
-import { setMasterPasswordError } from 'actions';
+import MasterPasswordView from './MasterPasswordView';
+import PinCodeView from './PinCodeView';
 
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
+import { clearDecryptErrors } from 'actions';
+import { isTablet } from 'service/utils';
+
 import { Link } from 'react-router-dom';
+import BackNav from 'components/BackNav';
 
-import BackIcon from 'material-ui/svg-icons/navigation/arrow-back';
-
-import { callOnEnter } from 'service/utils';
-
-import { grey800 as backLinkColor } from 'material-ui/styles/colors';
+import IconButton from 'material-ui/IconButton';
+import PinIcon from 'material-ui/svg-icons/communication/dialpad';
+import PasswordIcon from 'material-ui/svg-icons/communication/vpn-key';
 
 @connect(
     (state) => ({
-        masterPasswordError: state.decrypt.masterPasswordError
+        pinCodeAvaliable: state.decrypt.pinCodeAvaliable && isTablet()
     }),
     (dispatch) => ({
-        setMasterPassword: (password) => dispatch(setMasterPassword(password)),
-        clearPasswordError: () => dispatch(setMasterPasswordError(null))
+        clearErrors: () => dispatch(clearDecryptErrors())
     })
 )
 class DecryptView extends Component {
     static propTypes = {
-        newVault: PropTypes.bool,
-        masterPasswordError: PropTypes.string,
-        setMasterPassword: PropTypes.func.isRequired,
-        clearPasswordError: PropTypes.func.isRequired
+        pinCodeAvaliable: PropTypes.bool,
+        clearErrors: PropTypes.func.isRequired
     }
 
     constructor(props, context) {
         super(props, context);
-        this.state = { password: '' };
+
+        this.state = {
+            usePinCode: props.pinCodeAvaliable
+        };
     }
 
-    componentWillMount() {
-        this.props.clearPasswordError();
+    componentWillReceiveProps(nextProps) {
+        if(!nextProps.pinCodeAvaliable)
+            this.setState({ usePinCode: false });
     }
 
-    decryptFile() {
-        this.props.setMasterPassword(this.state.password);
-        this.setState({password: ''});
-    }
-
-    onChange(e) {
-        this.setState({ password: e.target.value });
+    switchInput() {
+        this.props.clearErrors();
+        this.setState((prevState) => ({
+            usePinCode: !prevState.usePinCode
+        }));
     }
 
     render() {
-        const { password } = this.state;
-        const { masterPasswordError, newVault } = this.props;
+        const { pinCodeAvaliable } = this.props;
+        const { usePinCode } = this.state;
 
         return (
-            <div className="initial-view">
-                <div className="back-to-files-link">
+            <div className="decrypt-view">
+                <div className="decrypt-view__header">
                     <Link to="/">
-                        <BackIcon color={backLinkColor}/> 
-                        <span style={{color: backLinkColor}}>Back to vaults</span>
+                        <BackNav label="Back to vaults" />
                     </Link>
+                    {/*decript method switcher*/}
+                    {pinCodeAvaliable &&
+                        <IconButton 
+                            style={{height: 34, position: 'absolute', top: 0, right: 0, padding: 0}}
+                            onClick={this.switchInput.bind(this)}>
+                            {!usePinCode && <PinIcon />}
+                            {usePinCode && <PasswordIcon />}
+                        </IconButton>
+                    }
                 </div>
-                <TextField
-                    autoFocus
-                    fullWidth
-                    value={password}
-                    onKeyDown={callOnEnter(this.decryptFile.bind(this))}
-                    onChange={(e) => this.onChange(e)}
-                    floatingLabelText="Enter master password"
-                    floatingLabelFixed
-                    errorText={masterPasswordError}
-                    autoComplete="none"
-                    type="password" />
-                <div className='password-hint' style={{ display: newVault ? 'block': 'none'}}>
-                    Password must cointain one letter in uppercase and lowercase, one number and one special symbol. Minimal length 8 characters.
-                </div>
-                <RaisedButton label={newVault ? 'Create vault' : 'Open vault'} primary fullWidth onClick={() => this.decryptFile()} />
+                {usePinCode && <PinCodeView />}
+                {!usePinCode && <MasterPasswordView />}
             </div>
         );
     }

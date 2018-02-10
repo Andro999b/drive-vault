@@ -15,13 +15,18 @@ import ActionKeyIcon from 'material-ui/svg-icons/communication/vpn-key';
 import ExportIcon from 'material-ui/svg-icons/content/unarchive';
 import ImportIcon from 'material-ui/svg-icons/content/archive';
 import BackIcon from 'material-ui/svg-icons/navigation/arrow-back';
+import DialpadIcon from 'material-ui/svg-icons/communication/dialpad';
 
-import { showChangePasswordDialog, showExportDialog, showImportDialog } from 'actions/dialogs';
+import { showChangePasswordDialog, showPinDialog, showExportDialog, showImportDialog } from 'actions/dialogs';
 import { selectGroup, closeValut } from 'actions/sagas';
+import PinDialog from 'components/dialogs/PinDialog';
+
+import { isTablet } from 'service/utils';
 
 @connect(
     () => ({}),
     (dispatch) => ({
+        showSetPinDialog: () => dispatch(showPinDialog()),
         showChangePasswordDialog: () => dispatch(showChangePasswordDialog()),
         selectGroup: (group) => dispatch(selectGroup(group)),
         showExportDialog: () => dispatch(showExportDialog()),
@@ -31,6 +36,7 @@ import { selectGroup, closeValut } from 'actions/sagas';
 )
 class ListSideBar extends Component {
     static propTypes = {
+        showSetPinDialog: PropTypes.func.isRequired,
         showChangePasswordDialog: PropTypes.func.isRequired,
         selectGroup: PropTypes.func.isRequired,
         open: PropTypes.bool,
@@ -41,25 +47,28 @@ class ListSideBar extends Component {
     };
 
     onSelectGroup(group) {
-        const {selectGroup, onRequestChange}  = this.props;
+        const { selectGroup, onRequestChange } = this.props;
 
         selectGroup(group);
         onRequestChange();
     }
 
     render() {
-        const { 
-            showChangePasswordDialog, 
-            showExportDialog, 
-            showImportDialog, 
-            open, 
+        const {
+            showSetPinDialog,
+            showChangePasswordDialog,
+            showExportDialog,
+            showImportDialog,
+            open,
             onRequestChange,
             closeVault
         } = this.props;
 
+        const howPincode = isTablet();
+
         return (
             <Drawer open={open} docked={false} onRequestChange={onRequestChange}>
-                <ListItem onClick={() => closeVault()} leftIcon={<BackIcon />} primaryText="Close vault"/>
+                <ListItem onClick={() => closeVault()} leftIcon={<BackIcon />} primaryText="Close vault" />
                 <Divider />
                 <GroupsList selectGroup={(group) => this.onSelectGroup(group)} />
                 <Divider />
@@ -67,9 +76,14 @@ class ListSideBar extends Component {
                 <ChangePasswordDialog />
                 <Divider />
                 <ListItem onClick={() => showExportDialog()} leftIcon={<ExportIcon />} primaryText="Export" />
-                <ExportDailog/>
+                <ExportDailog />
                 <ListItem onClick={() => showImportDialog()} leftIcon={<ImportIcon />} primaryText="Import" />
-                <ImportDialog/>
+                <ImportDialog />
+                {howPincode && <div>
+                    <Divider />
+                    <ListItem onClick={() => showSetPinDialog()} leftIcon={<DialpadIcon />} primaryText="Set Pin" />
+                    <PinDialog />
+                </div>}
             </Drawer>
         );
     }

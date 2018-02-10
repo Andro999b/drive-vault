@@ -9,7 +9,8 @@ const initilaState = {
     saveCredential: null,
     changePassword: false,
     import: null,
-    export: false
+    export: false,
+    setPin: false
 };
 
 export default handleActions({
@@ -22,4 +23,5 @@ export default handleActions({
     [dialogsActions.SET_CHANGE_PASSWORD_DIALOG]: (state, action) => ({ ...state, changePassword: action.payload }),
     [dialogsActions.SET_IMPORT_DIALOG]: (state, action) => ({ ...state, import: action.payload }),
     [dialogsActions.SET_EXPORT_DIALOG]: (state, action) => ({ ...state, export: action.payload }),
+    [dialogsActions.SET_PIN_DIALOG]: (state, action) => ({ ...state, setPin: action.payload})
 }, initilaState);
