@@ -85,6 +85,7 @@ function* decryptVaultByPinCode(action) {
     try {
         const keystore = decrypt(fileData, secret);
 
+        yield put(setSecret(secret));
         yield call(deserializeDatabase, keystore);
         yield call(afterDatabaseInited);
     } catch (e) {
