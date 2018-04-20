@@ -9,6 +9,17 @@ import { setFsImpl } from 'service/fs';
 import { startUp }  from 'index';
 
 function perpereEnvAndStart() {
+    const GoogleAuth = gapi.auth2.getAuthInstance();
+
+    if(GoogleAuth.isSignedIn.get()){
+        const user = GoogleAuth.currentUser.get();
+
+        window.googleAuthUser = {
+            id: user.getId(),
+            accessToken: user.getAuthResponse().access_token
+        };
+    }
+        
     setAccountImpl(googleAccount);
     setFsImpl(driveFs);
 
@@ -16,8 +27,8 @@ function perpereEnvAndStart() {
 }
 
 // Client ID and API key from the Developer Console
-const CLIENT_ID = '865137154549-4emsm32c10m6g281epq6i7akvblj97g9.apps.googleusercontent.com';
-const API_KEY_ID = 'AIzaSyDzJSZ302P2yZfWpUedWcg3hlPudjL3SNE';
+const CLIENT_ID = '72309909723-bghquukpsgag80hbenddpdb13dko43q9.apps.googleusercontent.com';
+const API_KEY_ID = 'AIzaSyBhMwCf-69GYF0pCJLRM3Kc_a74wH72w7E';
 
 // Array of API discovery doc URLs for APIs used by the quickstart
 const DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'];

@@ -1,13 +1,11 @@
-/* global gapi */
+/* global googleAuthUser */
 
 export function getUserId() {
     return new Promise((resolve, reject) => {
-        const GoogleAuth = gapi.auth2.getAuthInstance();
-
-        if (!GoogleAuth.isSignedIn.get()) {
+        if (!googleAuthUser) {
             reject(new Error('not authorized'));
         } else {
-            resolve(GoogleAuth.currentUser.get().getId());
+            resolve(googleAuthUser.id);
         }
     });
 }

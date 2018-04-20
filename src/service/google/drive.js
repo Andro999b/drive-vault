@@ -1,4 +1,4 @@
-/* global gapi*/
+/* global gapi, googleAuthUser*/
 
 const EXT = '.vault';
 
@@ -49,9 +49,6 @@ export function download(fileId) {
 
 export function upload({fileId, fileName, body}) {
     const request = new XMLHttpRequest();
-    const GoogleAuth = gapi.auth2.getAuthInstance();
-    const currentUser = GoogleAuth.currentUser.get();
-    const authResponse = currentUser.getAuthResponse();
 
     let requestBody;
 
@@ -78,7 +75,7 @@ export function upload({fileId, fileName, body}) {
         request.open('PATCH', `https://www.googleapis.com/upload/drive/v3/files/${fileId}?uploadType=media`);
         requestBody = body;
     }
-    request.setRequestHeader('Authorization', `${authResponse.token_type} ${authResponse.access_token}`);
+    request.setRequestHeader('Authorization', `Bearer ${googleAuthUser.accessToken}`);
 
     return new Promise(function(resolve, reject) {
         //finish listener
