@@ -17,7 +17,7 @@ function htmlPlugin(htmlFileName, initScript) {
 
 const config = {
   entry: {
-    'gdrive': './src/index-gdrive',
+    'index': './src/index-gdrive',
     'firebase': './src/index-firebase',
     'dropbox': './src/index-dropbox'
   },
@@ -44,7 +44,7 @@ const config = {
   },
   plugins: [
     new webpack.NamedModulesPlugin(),
-    htmlPlugin('index.html', 'gdrive.js'),
+    htmlPlugin('index.html', 'index.js'),
     htmlPlugin('firebase.html', 'firebase.js'),
     htmlPlugin('dropbox.html', 'dropbox.js'),
     new ExtractTextPlugin('styles.css')

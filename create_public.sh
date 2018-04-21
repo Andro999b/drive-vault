@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm -rf public
+rm -rf public/$1
 
 mkdir -p public/$1/images/
 
