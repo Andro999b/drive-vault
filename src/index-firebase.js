@@ -17,7 +17,7 @@ function perpereEnvAndStart() {
 
 const SCOPE = 'https://www.googleapis.com/auth/drive';
 
-function handleClientLoad() {
+function handleLibsLoad() {
     var config = {
         apiKey: 'AIzaSyBhHWZdxD-VZUX651HlDekGTbDa2HRY4j0',
         authDomain: 'drive-vault.firebaseapp.com',
@@ -28,19 +28,29 @@ function handleClientLoad() {
     };
     firebase.initializeApp(config);
 
-    gapi.load('client:auth2:signin2', initClient);
+    gapi.load('client', () => {
+        gapi.client.load('drive', 'v3', authorize);
+    });
+
 }
 
-function initClient() {
-    firebase.auth().onAuthStateChanged((user) => {
-        if (!user) {
-            var provider = new firebase.auth.GoogleAuthProvider();
+function authorize() {
+    firebase.auth().getRedirectResult().then((result) => {
+        if (!result.user) {
+            const provider = new firebase.auth.GoogleAuthProvider();
             provider.addScope(SCOPE);
             firebase.auth().signInWithRedirect(provider);
         } else {
-            console.log(user.providerData);
-            console.log(user);
-            console.log(firebase.auth());
+            const { additionalUserInfo, credential } = result;
+            window.googleAuthUser = {
+                id: additionalUserInfo.profile.id,
+                accessToken: credential.accessToken
+            };
+
+            gapi.client.setToken({
+                'access_token': credential.accessToken
+            });
+            perpereEnvAndStart(); 
         }
     });
 }
@@ -48,4 +58,4 @@ function initClient() {
 Promise.all([
     addScript('https://www.gstatic.com/firebasejs/4.13.0/firebase.js'),
     addScript('https://apis.google.com/js/api.js')
-]).then(handleClientLoad);
+]).then(handleLibsLoad);

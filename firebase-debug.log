@@ -1,0 +1,13 @@
+[debug] [2018-04-21T08:10:36.504Z] ----------------------------------------------------------------------
+[debug] [2018-04-21T08:10:36.506Z] Command:       /usr/bin/node /usr/bin/firebase deploy
+[debug] [2018-04-21T08:10:36.506Z] CLI Version:   3.18.4
+[debug] [2018-04-21T08:10:36.506Z] Platform:      linux
+[debug] [2018-04-21T08:10:36.506Z] Node Version:  v8.11.1
+[debug] [2018-04-21T08:10:36.506Z] Time:          Sat Apr 21 2018 11:10:36 GMT+0300 (EEST)
+[debug] [2018-04-21T08:10:36.506Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-04-21T08:10:36.514Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-04-21T08:10:36.514Z] > authorizing via signed-in user
+[debug] [2018-04-21T08:10:36.516Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/drive-vault  
+  
+ Sat Apr 21 2018 11:10:36 GMT+0300 (EEST)
