@@ -4,8 +4,8 @@ node_js:
 script:
   - npm run build
 before_deploy:
-  - ./split_app.sh firebase
-  - ./split_app.sh dropbox
+  - ./create_public.sh firebase
+  - ./create_public.sh dropbox
 deploy:
 - provider: pages
   skip_cleanup: true
