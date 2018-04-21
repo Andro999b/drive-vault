@@ -7,6 +7,7 @@ script:
   - ./create_public.sh dropbox
 deploy:
   - provider: firebase
+    skip_cleanup: true
     token: "$FIREBASE_TOKEN"
   - provider: pages
     skip_cleanup: true
