@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+  - '8'
+script:
+  - npm run build
+  - ./create_public.sh firebase
+  - ./create_public.sh dropbox
+deploy:
+  - provider: firebase
+    skip_cleanup: true
+    token: "$FIREBASE_TOKEN"
+  - provider: pages
+    skip_cleanup: true
+    github_token: "$GITHUB_TOKEN"
+    on:
+      branch: master
