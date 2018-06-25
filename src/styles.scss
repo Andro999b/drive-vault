@@ -176,3 +176,14 @@ body {
 .pin-input__backspace {
     position: absolute
 }
+
+.switch-account {
+    text-align: center;
+    padding-top: 10px;
+
+    > a, > a:visited {
+        color: rgba(0, 0, 0, 0.54);
+        text-decoration: none;
+        font-size: 14px
+    }
+}

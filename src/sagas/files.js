@@ -41,6 +41,7 @@ function* createFile(action) {
         yield put(setNewFileName(name));
         yield put(setNewFileNameError(null));
         yield put(setFileDecrypted(false));
+        yield put(setPinCodeAvaliable(false));
 
         history.push('/vault/new');
     } else {

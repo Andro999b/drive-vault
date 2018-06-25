@@ -11,13 +11,18 @@ import { paramsFromUrlHash } from 'service/utils';
 
 const CLIENT_ID = '8zndpg2utacop6a';
 
-authenticate(CLIENT_ID)
-    .then(() => {
-        setAccountImpl(dropboxAccount);
-        setFsImpl(dropboxFs);
+if (location.search === '?logout') {
+    setSetting('dropbox_token', null);
+    setSetting('dropbox_csrf', null);
+} else {
+    authenticate(CLIENT_ID)
+        .then(() => {
+            setAccountImpl(dropboxAccount);
+            setFsImpl(dropboxFs);
 
-        startUp();
-    });
+            startUp();
+        });
+}
 
 function authenticate() {
     let token = getSetting('dropbox_token');
@@ -52,5 +57,5 @@ function authenticate() {
             + 'state=' + encodeURIComponent(csrfToken);
     }
 
-    return new Promise(() => {});
+    return new Promise(() => { });
 }

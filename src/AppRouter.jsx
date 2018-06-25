@@ -13,7 +13,7 @@ class AppRouter extends Component {
             <Router history={history}>
                 <Switch>
                     <Route exact path="/" component={FileSelectView}/> 
-                    <Route exact path="/vault/new" component={CreateNewView} />
+                    <Route path="/vault/new" component={CreateNewView} />
                     <Route path="/vault/:fileId" component={VaultView} />
                     <Redirect from="*" to="/" />
                 </Switch>

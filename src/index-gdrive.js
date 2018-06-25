@@ -27,8 +27,8 @@ function perpereEnvAndStart() {
 }
 
 // Client ID and API key from the Developer Console
-const CLIENT_ID = '72309909723-bghquukpsgag80hbenddpdb13dko43q9.apps.googleusercontent.com';
-const API_KEY_ID = 'AIzaSyBhMwCf-69GYF0pCJLRM3Kc_a74wH72w7E';
+const CLIENT_ID = '1087481340137-7skq9l9tepoqab7kbj62euh9bc9jfbq1.apps.googleusercontent.com';
+const API_KEY_ID = 'AIzaSyBcbb9JFfE9LcnPVn5-9EklhHjQ6H8plK4';
 
 // Array of API discovery doc URLs for APIs used by the quickstart
 const DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'];
@@ -76,7 +76,11 @@ function initClient() {
                 }
             });
         } else {
-            perpereEnvAndStart();
+            if (location.search === '?logout') {
+                GoogleAuth.signOut().then(function() { location.href = '/'; });
+            } else {
+                perpereEnvAndStart();
+            }
         }
     });
 }

@@ -97,6 +97,9 @@ class FileSelectView extends Component {
                     }
                     {this.renderNewFileImput(fileName, newFileNameError)}
                 </List >
+                <div className="switch-account">
+                    <a href="/?logout">Switch account</a>
+                </div>
                 <RemoveFileDialog />
             </div>
         );

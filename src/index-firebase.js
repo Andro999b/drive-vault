@@ -41,6 +41,11 @@ function authorize() {
             provider.addScope(SCOPE);
             firebase.auth().signInWithRedirect(provider);
         } else {
+            if (location.search === '?logout') {
+                firebase.auth().signOut().then(function() { location.href = '/'; });
+                return;
+            }
+
             const { additionalUserInfo, credential } = result;
             window.googleAuthUser = {
                 id: additionalUserInfo.profile.id,
