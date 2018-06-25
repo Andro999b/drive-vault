@@ -2,6 +2,7 @@
 
 import * as googleAccount from 'service/google/account';
 import * as driveFs from 'service/google/drive';
+import { createRootUrl } from 'service/utils';
 
 import { setAccountImpl } from 'service/account';
 import { setFsImpl } from 'service/fs';
@@ -77,7 +78,7 @@ function initClient() {
             });
         } else {
             if (location.search === '?logout') {
-                GoogleAuth.signOut().then(function() { location.href = '/'; });
+                GoogleAuth.signOut().then(function() { location.href = createRootUrl(''); });
             } else {
                 perpereEnvAndStart();
             }

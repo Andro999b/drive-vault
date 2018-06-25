@@ -58,8 +58,6 @@ function* downloadFile(action) {
     yield put(setFileDecrypted(false));
 
     history.push('/vault/' + fileId);
-
-    //todo: get file metadata
     
     const pinCodeAvalaible = 
         getVaultSetting(fileId, PINCODE_SALT_KEY) != null && 

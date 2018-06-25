@@ -20,7 +20,7 @@ import IconButton from 'material-ui/IconButton';
 
 import { red700, grey500 } from 'material-ui/styles/colors';
 
-import { callOnEnter } from 'service/utils';
+import { callOnEnter, createRootUrl } from 'service/utils';
 
 @connect(
     (state) => ({
@@ -98,7 +98,7 @@ class FileSelectView extends Component {
                     {this.renderNewFileImput(fileName, newFileNameError)}
                 </List >
                 <div className="switch-account">
-                    <a href="/?logout">Switch account</a>
+                    <a href={createRootUrl('logout')}>Switch account</a>
                 </div>
                 <RemoveFileDialog />
             </div>

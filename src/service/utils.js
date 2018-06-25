@@ -1,5 +1,5 @@
 export function isTablet() {
-    if(window.matchMedia) { 
+    if (window.matchMedia) {
         const isMobile = window.matchMedia('only screen and (max-width: 768px)');
         return isMobile.matches;
     }
@@ -8,7 +8,7 @@ export function isTablet() {
 }
 
 export function isMobile() {
-    if(window.matchMedia) { 
+    if (window.matchMedia) {
         const isMobile = window.matchMedia('only screen and (max-width: 570px)');
         return isMobile.matches;
     }
@@ -17,12 +17,12 @@ export function isMobile() {
 }
 
 export function callOnEnter(callback) {
-    return function(e) {
+    return function (e) {
         if (e.keyCode == 13) {
             callback();
         }
     };
-} 
+}
 
 export function paramsFromUrlHash() {
     return window.location.hash
@@ -42,4 +42,8 @@ export function readFile(file) {
         fileReader.onerror = reject;
         fileReader.onload = () => resolve(fileReader.result);
     });
+}
+
+export function createRootUrl(search) {
+    return location.origin + location.pathname + '?' + search;
 }

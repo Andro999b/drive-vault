@@ -19,7 +19,6 @@ if (location.search === '?logout') {
         .then(() => {
             setAccountImpl(dropboxAccount);
             setFsImpl(dropboxFs);
-
             startUp();
         });
 }
