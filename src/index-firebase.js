@@ -18,6 +18,11 @@ function perpereEnvAndStart() {
 const SCOPE = 'https://www.googleapis.com/auth/drive';
 
 function handleLibsLoad() {
+    if (location.search === '?logout') {
+        location.href = '/';
+        return;
+    }
+
     var config = {
         apiKey: 'AIzaSyBhHWZdxD-VZUX651HlDekGTbDa2HRY4j0',
         authDomain: 'drive-vault.firebaseapp.com',
@@ -41,10 +46,6 @@ function authorize() {
             provider.addScope(SCOPE);
             firebase.auth().signInWithRedirect(provider);
         } else {
-            if (location.search === '?logout') {
-                firebase.auth().signOut().then(function() { location.href = '/'; });
-                return;
-            }
 
             const { additionalUserInfo, credential } = result;
             window.googleAuthUser = {

@@ -18,7 +18,7 @@ function htmlPlugin(htmlFileName, initScript) {
 const config = {
   entry: {
     'index': './src/index-gdrive',
-    'firebase': './src/index-firebase',
+    'firebase': './src/index-gdrive',//'./src/index-firebase',
     'dropbox': './src/index-dropbox'
   },
   output: {
