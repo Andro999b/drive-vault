@@ -1,0 +1,40 @@
+{
+  "icons": [
+    {
+      "src": "icon_512x512.ed6211d212bcafeaf43a95739393519c.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icon_384x384.94a9ff9f7fd72273f01908a9e19ef934.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "icon_256x256.20bc3defb44a04c2b85d6d72184846ae.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "icon_192x192.e9994cc3101a02a6240c67e1f0865d70.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon_128x128.6b3f21b881cdde619112e603795c4355.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "icon_96x96.687dbba6f054098af92ba66bbce4d4ad.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    }
+  ],
+  "name": "Drive Vault",
+  "short_name": "Drive Vault",
+  "orientation": "portrait",
+  "display": "standalone",
+  "start_url": ".",
+  "background_color": "#ffffff"
+}

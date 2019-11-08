@@ -28,8 +28,8 @@ function perpereEnvAndStart() {
 }
 
 // Client ID and API key from the Developer Console
-const CLIENT_ID = '1087481340137-7skq9l9tepoqab7kbj62euh9bc9jfbq1.apps.googleusercontent.com';
-const API_KEY_ID = 'AIzaSyBcbb9JFfE9LcnPVn5-9EklhHjQ6H8plK4';
+const CLIENT_ID = '146787925503-s18ukvko41u6c6k6goev9l6pn26g7avg.apps.googleusercontent.com';
+const API_KEY_ID = 'AIzaSyBxd_lYXrcLpU2tf_pJxN-lQM4BP6NIk6E';
 
 // Array of API discovery doc URLs for APIs used by the quickstart
 const DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'];

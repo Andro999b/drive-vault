@@ -78,18 +78,21 @@
         }
 
         @-webkit-keyframes sk-foldCubeAngle {
+
             0%,
             10% {
                 -webkit-transform: perspective(140px) rotateX(-180deg);
                 transform: perspective(140px) rotateX(-180deg);
                 opacity: 0;
             }
+
             25%,
             75% {
                 -webkit-transform: perspective(140px) rotateX(0deg);
                 transform: perspective(140px) rotateX(0deg);
                 opacity: 1;
             }
+
             90%,
             100% {
                 -webkit-transform: perspective(140px) rotateY(180deg);
@@ -99,18 +102,21 @@
         }
 
         @keyframes sk-foldCubeAngle {
+
             0%,
             10% {
                 -webkit-transform: perspective(140px) rotateX(-180deg);
                 transform: perspective(140px) rotateX(-180deg);
                 opacity: 0;
             }
+
             25%,
             75% {
                 -webkit-transform: perspective(140px) rotateX(0deg);
                 transform: perspective(140px) rotateX(0deg);
                 opacity: 1;
             }
+
             90%,
             100% {
                 -webkit-transform: perspective(140px) rotateY(180deg);
@@ -119,7 +125,7 @@
             }
         }
     </style>
-</head>
+<link rel="manifest" href="manifest.b54376ce78667d08c405b5014a5c0619.json" crossorigin="use-credentials" /></head>
 
 <body>
     <div id="root">
@@ -132,6 +138,15 @@
         <div id="sign-in"></div>
     </div>
     <script type="text/javascript">
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js', {scope: '/'});
+                addScript('dropbox.js')
+            });
+        } else {
+            addScript('dropbox.js')
+        }
+
         function addScript(src) {
             var script = document.createElement('script');
             script.src = src;
@@ -144,7 +159,7 @@
                 script.onerror = reject;
             })
         }
-        addScript('dropbox.js')
+        
     </script>
 </body>
 
