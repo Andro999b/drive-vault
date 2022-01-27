@@ -96,6 +96,10 @@ class LokiDBImpl {
         this.onGoupsUpdated(groupsView.data());
     }
 
+    getAllCredentials() {
+        return this.credentialsCollection.find();
+    }
+
     saveCredential(credential) {
         if (credential.id) {
             this.credentialsCollection.update(credential);

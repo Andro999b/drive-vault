@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { exportJsonVault } from 'actions/sagas';
 
 import Divider from 'material-ui/Divider';
 import Drawer from 'material-ui/Drawer';
@@ -31,7 +32,8 @@ import { isTablet } from 'service/utils';
         selectGroup: (group) => dispatch(selectGroup(group)),
         showExportDialog: () => dispatch(showExportDialog()),
         showImportDialog: () => dispatch(showImportDialog()),
-        closeVault: () => dispatch(closeValut())
+        closeVault: () => dispatch(closeValut()),
+        exportJsonVault: () => dispatch(exportJsonVault())
     })
 )
 class ListSideBar extends Component {
@@ -43,7 +45,8 @@ class ListSideBar extends Component {
         onRequestChange: PropTypes.func.isRequired,
         showExportDialog: PropTypes.func.isRequired,
         showImportDialog: PropTypes.func.isRequired,
-        closeVault: PropTypes.func.isRequired
+        closeVault: PropTypes.func.isRequired,
+        exportJsonVault: PropTypes.func.isRequired
     };
 
     onSelectGroup(group) {
@@ -61,10 +64,11 @@ class ListSideBar extends Component {
             showImportDialog,
             open,
             onRequestChange,
-            closeVault
+            closeVault,
+            exportJsonVault
         } = this.props;
 
-        const howPincode = isTablet();
+        const showPincode = isTablet();
 
         return (
             <Drawer open={open} docked={false} onRequestChange={onRequestChange}>
@@ -77,9 +81,10 @@ class ListSideBar extends Component {
                 <Divider />
                 <ListItem onClick={() => showExportDialog()} leftIcon={<ExportIcon />} primaryText="Export" />
                 <ExportDailog />
+                <ListItem leftIcon={<ExportIcon />} onClick={() => exportJsonVault()} primaryText="Export JSON"/>
                 <ListItem onClick={() => showImportDialog()} leftIcon={<ImportIcon />} primaryText="Import" />
                 <ImportDialog />
-                {howPincode && <div>
+                {showPincode && <div>
                     <Divider />
                     <ListItem onClick={() => showSetPinDialog()} leftIcon={<DialpadIcon />} primaryText="Set Pin" />
                     <PinDialog />

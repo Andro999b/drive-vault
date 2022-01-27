@@ -1,6 +1,6 @@
-import { IMPORT_VAULT, EXPORT_VAULT, selectGroup } from 'actions/sagas';
+import { IMPORT_VAULT, EXPORT_VAULT, selectGroup, EXPORT_JSON_VAULT as EXPORT_JSON_VAULT } from 'actions/sagas';
 import { takeLatest, put, call } from 'redux-saga/effects';
-import { serialize, deserialize } from 'service/db';
+import { get, serialize, deserialize } from 'service/db';
 import { createSecretPassphrase, decrypt, encrypt } from 'service/crypt';
 import { hideExportDialog, hideImportDialog, showImportDialogError } from 'actions/dialogs';
 import { saveAs } from 'file-saver';
@@ -46,12 +46,24 @@ function* exportVault(action) {
     const output = encrypt(serializedDb, secret);
 
     var blob = new Blob([output], {type: 'text/plain;charset=utf-8'});
-    saveAs(blob, 'vault.backup');
+    yield call(saveAs, blob, 'vault.backup');
 
     yield put(hideExportDialog());
+}
+
+function* exportJsonVault() {
+    const db = get();
+    const credentials = db.getAllCredentials()
+        .map(({name, values, groups}) => ({name, values, groups}));
+
+    const output = JSON.stringify(credentials, null, 4);
+
+    var blob = new Blob([output], {type: 'text/plain;charset=utf-8'});
+    yield call(saveAs, blob, 'vault.json');
 }
 
 export default function* () {
     yield takeLatest(IMPORT_VAULT, importVault);
     yield takeLatest(EXPORT_VAULT, exportVault);
+    yield takeLatest(EXPORT_JSON_VAULT, exportJsonVault);
 }

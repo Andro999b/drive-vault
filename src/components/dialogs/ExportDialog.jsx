@@ -18,7 +18,7 @@ import { callOnEnter } from 'service/utils';
     }),
     (dispatch) => ({
         hideDialog: () => dispatch(hideExportDialog()),
-        exportVault: (password) => dispatch(exportVault(password))
+        exportVault: (password) => dispatch(exportVault(password)),
     })
 )
 class ExportDialog extends Component {
